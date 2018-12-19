@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp2", "WindowsFormsApp2\WindowsFormsApp2.csproj", "{E022A43E-0E85-4D09-B380-E94EA312FD86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperADD", "SuperADD\SuperADD.csproj", "{E022A43E-0E85-4D09-B380-E94EA312FD86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
