@@ -4,6 +4,7 @@ namespace SuperADD
 {
     class Config
     {
+        public static XElement Current = null;
         public static void GenerateConfig()
         {
             new XDocument(new XElement("SuperADD",
@@ -32,16 +33,7 @@ namespace SuperADD
         }
         public static void ReadConfig()
         {
-            /*
-            XElement root = XDocument.Load("SuperCAL.xml").Root;
-            Wipe.EGatewayURL = root.Element("EGatewayURL").Value;
-            Wipe.EGatewayHost = root.Element("EGatewayHostName").Value;
-            DomainJoin.DomainName = root.Element("DomainJoinDomain").Value;
-            DomainJoin.OU = root.Element("DomainJoinOU").Value;
-            Misc.AutoLogonUserName = root.Element("AutoLogonUserName").Value;
-            Misc.AutoLogonPassword = root.Element("AutoLogonPassword").Value;
-            Misc.AutoLogonADDomain = root.Element("AutoLogonADDomain").Value;
-            */
+            Current = XDocument.Load("SuperADD.xml").Root;
         }
     }
 }
