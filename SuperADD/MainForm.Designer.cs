@@ -1,6 +1,6 @@
 ﻿namespace SuperADD
 {
-    partial class MainForm
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -28,71 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("CP-PC-1135");
-            this.tempDebugLog = new System.Windows.Forms.RichTextBox();
-            this.tempExit = new System.Windows.Forms.Button();
-            this.TitleText = new System.Windows.Forms.Label();
+            this.titleText = new System.Windows.Forms.Label();
             this.OUList = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.CatType = new System.Windows.Forms.ListBox();
-            this.CatName = new System.Windows.Forms.ListBox();
+            this.OUBox = new System.Windows.Forms.GroupBox();
+            this.saveNextBtn = new System.Windows.Forms.Button();
+            this.findOldNameBtn = new System.Windows.Forms.Button();
+            this.flowPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.computerObjectBox = new System.Windows.Forms.GroupBox();
+            this.descTextBox = new System.Windows.Forms.TextBox();
             this.descLbl = new System.Windows.Forms.Label();
             this.nameLbl = new System.Windows.Forms.Label();
-            this.computerNameTBox = new System.Windows.Forms.TextBox();
-            this.ComputerName = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.ComputerList = new System.Windows.Forms.ListView();
-            this.ComputerNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Descriptions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.spookyBoi = new System.Windows.Forms.PictureBox();
-            this.SaveNextBtn = new System.Windows.Forms.Button();
-            this.findOldNameBtn = new System.Windows.Forms.Button();
-            this.refreshBtn = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.UsernameLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spookyBoi)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            this.nameTextBox = new System.Windows.Forms.TextBox();
+            this.tablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.tempExit = new System.Windows.Forms.Button();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.compNameTab = new System.Windows.Forms.TabPage();
+            this.compSearchPage = new System.Windows.Forms.TabPage();
+            this.dirlookOUList = new System.Windows.Forms.ListBox();
+            this.computerLookList = new System.Windows.Forms.ListView();
+            this.compColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.descColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OUChangeDL = new System.ComponentModel.BackgroundWorker();
+            this.directorySearchTb = new System.Windows.Forms.TextBox();
+            this.OUBox.SuspendLayout();
+            this.flowPanel.SuspendLayout();
+            this.computerObjectBox.SuspendLayout();
+            this.tablePanel.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.compNameTab.SuspendLayout();
+            this.compSearchPage.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tempDebugLog
+            // titleText
             // 
-            this.tempDebugLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tempDebugLog.Location = new System.Drawing.Point(123, 74);
-            this.tempDebugLog.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tempDebugLog.Name = "tempDebugLog";
-            this.tempDebugLog.Size = new System.Drawing.Size(554, 284);
-            this.tempDebugLog.TabIndex = 0;
-            this.tempDebugLog.Text = "";
-            // 
-            // tempExit
-            // 
-            this.tempExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tempExit.Location = new System.Drawing.Point(871, 0);
-            this.tempExit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tempExit.Name = "tempExit";
-            this.tempExit.Size = new System.Drawing.Size(20, 19);
-            this.tempExit.TabIndex = 1;
-            this.tempExit.UseVisualStyleBackColor = true;
-            this.tempExit.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // TitleText
-            // 
-            this.TitleText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TitleText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleText.Location = new System.Drawing.Point(0, 0);
-            this.TitleText.Name = "TitleText";
-            this.TitleText.Size = new System.Drawing.Size(891, 35);
-            this.TitleText.TabIndex = 2;
-            this.TitleText.Text = "Active Directory Join";
-            this.TitleText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.TitleText.Click += new System.EventHandler(this.TitleText_Click);
+            this.titleText.Dock = System.Windows.Forms.DockStyle.Top;
+            this.titleText.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleText.Location = new System.Drawing.Point(0, 0);
+            this.titleText.Name = "titleText";
+            this.titleText.Size = new System.Drawing.Size(1225, 56);
+            this.titleText.TabIndex = 2;
+            this.titleText.Text = "Active Directory Join";
+            this.titleText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.titleText.Click += new System.EventHandler(this.TitleText_Click);
             // 
             // OUList
             // 
@@ -100,294 +77,281 @@
             this.OUList.FormattingEnabled = true;
             this.OUList.IntegralHeight = false;
             this.OUList.ItemHeight = 17;
-            this.OUList.Items.AddRange(new object[] {
-            "CF Laptop",
-            "CF Desktop",
-            "CP Laptop",
-            "CP Desktop",
-            "CP GateCentral"});
-            this.OUList.Location = new System.Drawing.Point(5, 23);
+            this.OUList.Location = new System.Drawing.Point(10, 28);
             this.OUList.Name = "OUList";
-            this.OUList.Size = new System.Drawing.Size(166, 339);
+            this.OUList.Size = new System.Drawing.Size(280, 162);
             this.OUList.TabIndex = 3;
+            this.OUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
             // 
-            // groupBox1
+            // OUBox
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox1.Controls.Add(this.descLbl);
-            this.groupBox1.Controls.Add(this.nameLbl);
-            this.groupBox1.Controls.Add(this.computerNameTBox);
-            this.groupBox1.Controls.Add(this.ComputerName);
-            this.groupBox1.Location = new System.Drawing.Point(12, 26);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(1);
-            this.groupBox1.Size = new System.Drawing.Size(867, 132);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Computer Object";
+            this.OUBox.Controls.Add(this.OUList);
+            this.OUBox.Location = new System.Drawing.Point(340, 20);
+            this.OUBox.Margin = new System.Windows.Forms.Padding(10);
+            this.OUBox.Name = "OUBox";
+            this.OUBox.Padding = new System.Windows.Forms.Padding(10);
+            this.OUBox.Size = new System.Drawing.Size(300, 200);
+            this.OUBox.TabIndex = 7;
+            this.OUBox.TabStop = false;
+            this.OUBox.Text = "Organizational Unit";
             // 
-            // tableLayoutPanel1
+            // saveNextBtn
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.CatType, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.CatName, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 19);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(357, 112);
-            this.tableLayoutPanel1.TabIndex = 11;
-            // 
-            // CatType
-            // 
-            this.CatType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CatType.FormattingEnabled = true;
-            this.CatType.IntegralHeight = false;
-            this.CatType.ItemHeight = 17;
-            this.CatType.Location = new System.Drawing.Point(5, 5);
-            this.CatType.Margin = new System.Windows.Forms.Padding(5);
-            this.CatType.Name = "CatType";
-            this.CatType.Size = new System.Drawing.Size(168, 102);
-            this.CatType.TabIndex = 7;
-            this.CatType.SelectedIndexChanged += new System.EventHandler(this.CatType_SelectedIndexChanged);
-            // 
-            // CatName
-            // 
-            this.CatName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CatName.FormattingEnabled = true;
-            this.CatName.IntegralHeight = false;
-            this.CatName.ItemHeight = 17;
-            this.CatName.Location = new System.Drawing.Point(183, 5);
-            this.CatName.Margin = new System.Windows.Forms.Padding(5);
-            this.CatName.Name = "CatName";
-            this.CatName.Size = new System.Drawing.Size(169, 102);
-            this.CatName.TabIndex = 6;
-            // 
-            // descLbl
-            // 
-            this.descLbl.AutoSize = true;
-            this.descLbl.Location = new System.Drawing.Point(359, 78);
-            this.descLbl.Name = "descLbl";
-            this.descLbl.Size = new System.Drawing.Size(74, 17);
-            this.descLbl.TabIndex = 10;
-            this.descLbl.Text = "Description";
-            // 
-            // nameLbl
-            // 
-            this.nameLbl.AutoSize = true;
-            this.nameLbl.Location = new System.Drawing.Point(358, 22);
-            this.nameLbl.Name = "nameLbl";
-            this.nameLbl.Size = new System.Drawing.Size(43, 17);
-            this.nameLbl.TabIndex = 9;
-            this.nameLbl.Text = "Name";
-            // 
-            // computerNameTBox
-            // 
-            this.computerNameTBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.computerNameTBox.Location = new System.Drawing.Point(361, 45);
-            this.computerNameTBox.Name = "computerNameTBox";
-            this.computerNameTBox.Size = new System.Drawing.Size(501, 25);
-            this.computerNameTBox.TabIndex = 8;
-            // 
-            // ComputerName
-            // 
-            this.ComputerName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ComputerName.Location = new System.Drawing.Point(361, 102);
-            this.ComputerName.Name = "ComputerName";
-            this.ComputerName.Size = new System.Drawing.Size(501, 25);
-            this.ComputerName.TabIndex = 5;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox2.Controls.Add(this.OUList);
-            this.groupBox2.Location = new System.Drawing.Point(12, 164);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(176, 367);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Organizational Unit";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.tempDebugLog);
-            this.groupBox3.Controls.Add(this.ComputerList);
-            this.groupBox3.Controls.Add(this.spookyBoi);
-            this.groupBox3.Location = new System.Drawing.Point(194, 164);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox3.Size = new System.Drawing.Size(685, 367);
-            this.groupBox3.TabIndex = 8;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Computers";
-            // 
-            // ComputerList
-            // 
-            this.ComputerList.AllowColumnReorder = true;
-            this.ComputerList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ComputerNames,
-            this.Descriptions});
-            this.ComputerList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ComputerList.FullRowSelect = true;
-            this.ComputerList.HideSelection = false;
-            this.ComputerList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
-            this.ComputerList.Location = new System.Drawing.Point(5, 23);
-            this.ComputerList.MultiSelect = false;
-            this.ComputerList.Name = "ComputerList";
-            this.ComputerList.Size = new System.Drawing.Size(675, 339);
-            this.ComputerList.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.ComputerList.TabIndex = 5;
-            this.ComputerList.UseCompatibleStateImageBehavior = false;
-            this.ComputerList.View = System.Windows.Forms.View.Details;
-            // 
-            // ComputerNames
-            // 
-            this.ComputerNames.Text = "Names";
-            this.ComputerNames.Width = 106;
-            // 
-            // Descriptions
-            // 
-            this.Descriptions.Text = "Descriptions";
-            this.Descriptions.Width = 366;
-            // 
-            // spookyBoi
-            // 
-            this.spookyBoi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.spookyBoi.BackColor = System.Drawing.Color.White;
-            this.spookyBoi.Enabled = false;
-            this.spookyBoi.Image = global::SuperADD.Properties.Resources.ezgif_1_e366c6e037a7;
-            this.spookyBoi.Location = new System.Drawing.Point(477, 159);
-            this.spookyBoi.Name = "spookyBoi";
-            this.spookyBoi.Size = new System.Drawing.Size(200, 200);
-            this.spookyBoi.TabIndex = 12;
-            this.spookyBoi.TabStop = false;
-            // 
-            // SaveNextBtn
-            // 
-            this.SaveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveNextBtn.Location = new System.Drawing.Point(791, 535);
-            this.SaveNextBtn.Name = "SaveNextBtn";
-            this.SaveNextBtn.Size = new System.Drawing.Size(89, 29);
-            this.SaveNextBtn.TabIndex = 9;
-            this.SaveNextBtn.Text = "Save";
-            this.SaveNextBtn.UseVisualStyleBackColor = true;
+            this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveNextBtn.Location = new System.Drawing.Point(1125, 477);
+            this.saveNextBtn.Name = "saveNextBtn";
+            this.saveNextBtn.Size = new System.Drawing.Size(89, 29);
+            this.saveNextBtn.TabIndex = 9;
+            this.saveNextBtn.Text = "Save";
+            this.saveNextBtn.UseVisualStyleBackColor = true;
             // 
             // findOldNameBtn
             // 
-            this.findOldNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.findOldNameBtn.Location = new System.Drawing.Point(99, 535);
+            this.findOldNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.findOldNameBtn.Location = new System.Drawing.Point(1004, 477);
             this.findOldNameBtn.Name = "findOldNameBtn";
             this.findOldNameBtn.Size = new System.Drawing.Size(115, 29);
             this.findOldNameBtn.TabIndex = 10;
             this.findOldNameBtn.Text = "Find old name...";
             this.findOldNameBtn.UseVisualStyleBackColor = true;
             // 
-            // refreshBtn
+            // flowPanel
             // 
-            this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.refreshBtn.Location = new System.Drawing.Point(11, 535);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(82, 29);
-            this.refreshBtn.TabIndex = 11;
-            this.refreshBtn.Text = "Refresh...";
-            this.refreshBtn.UseVisualStyleBackColor = true;
+            this.flowPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.flowPanel.AutoSize = true;
+            this.flowPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowPanel.Controls.Add(this.computerObjectBox);
+            this.flowPanel.Controls.Add(this.OUBox);
+            this.flowPanel.Location = new System.Drawing.Point(268, 3);
+            this.flowPanel.Name = "flowPanel";
+            this.flowPanel.Padding = new System.Windows.Forms.Padding(10);
+            this.flowPanel.Size = new System.Drawing.Size(660, 240);
+            this.flowPanel.TabIndex = 13;
             // 
-            // statusStrip1
+            // computerObjectBox
             // 
-            this.statusStrip1.GripMargin = new System.Windows.Forms.Padding(0);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.UsernameLbl,
-            this.ProgressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 570);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(891, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 12;
-            this.statusStrip1.Text = "statusStrip1";
+            this.computerObjectBox.Controls.Add(this.descTextBox);
+            this.computerObjectBox.Controls.Add(this.descLbl);
+            this.computerObjectBox.Controls.Add(this.nameLbl);
+            this.computerObjectBox.Controls.Add(this.nameTextBox);
+            this.computerObjectBox.Location = new System.Drawing.Point(20, 20);
+            this.computerObjectBox.Margin = new System.Windows.Forms.Padding(10);
+            this.computerObjectBox.Name = "computerObjectBox";
+            this.computerObjectBox.Padding = new System.Windows.Forms.Padding(10);
+            this.computerObjectBox.Size = new System.Drawing.Size(300, 200);
+            this.computerObjectBox.TabIndex = 16;
+            this.computerObjectBox.TabStop = false;
+            this.computerObjectBox.Text = "Computer Object";
             // 
-            // UsernameLbl
+            // descTextBox
             // 
-            this.UsernameLbl.Name = "UsernameLbl";
-            this.UsernameLbl.Size = new System.Drawing.Size(74, 17);
-            this.UsernameLbl.Text = "Please wait...";
+            this.descTextBox.Location = new System.Drawing.Point(10, 115);
+            this.descTextBox.Name = "descTextBox";
+            this.descTextBox.Size = new System.Drawing.Size(280, 25);
+            this.descTextBox.TabIndex = 4;
             // 
-            // ProgressBar
+            // descLbl
             // 
-            this.ProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.descLbl.AutoSize = true;
+            this.descLbl.Location = new System.Drawing.Point(7, 92);
+            this.descLbl.Name = "descLbl";
+            this.descLbl.Size = new System.Drawing.Size(74, 17);
+            this.descLbl.TabIndex = 3;
+            this.descLbl.Text = "Description";
             // 
-            // MainForm
+            // nameLbl
+            // 
+            this.nameLbl.AutoSize = true;
+            this.nameLbl.Location = new System.Drawing.Point(7, 32);
+            this.nameLbl.Name = "nameLbl";
+            this.nameLbl.Size = new System.Drawing.Size(43, 17);
+            this.nameLbl.TabIndex = 2;
+            this.nameLbl.Text = "Name";
+            // 
+            // nameTextBox
+            // 
+            this.nameTextBox.Location = new System.Drawing.Point(10, 55);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.Size = new System.Drawing.Size(280, 25);
+            this.nameTextBox.TabIndex = 1;
+            // 
+            // tablePanel
+            // 
+            this.tablePanel.AutoScroll = true;
+            this.tablePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tablePanel.ColumnCount = 1;
+            this.tablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tablePanel.Controls.Add(this.flowPanel, 0, 0);
+            this.tablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tablePanel.Location = new System.Drawing.Point(3, 3);
+            this.tablePanel.Name = "tablePanel";
+            this.tablePanel.RowCount = 2;
+            this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
+            this.tablePanel.Size = new System.Drawing.Size(1197, 383);
+            this.tablePanel.TabIndex = 15;
+            // 
+            // tempExit
+            // 
+            this.tempExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tempExit.Location = new System.Drawing.Point(1205, 0);
+            this.tempExit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tempExit.Name = "tempExit";
+            this.tempExit.Size = new System.Drawing.Size(20, 19);
+            this.tempExit.TabIndex = 1;
+            this.tempExit.UseVisualStyleBackColor = true;
+            this.tempExit.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tabControl
+            // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Controls.Add(this.compNameTab);
+            this.tabControl.Controls.Add(this.compSearchPage);
+            this.tabControl.Location = new System.Drawing.Point(6, 52);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1211, 419);
+            this.tabControl.TabIndex = 16;
+            // 
+            // compNameTab
+            // 
+            this.compNameTab.Controls.Add(this.tablePanel);
+            this.compNameTab.Location = new System.Drawing.Point(4, 26);
+            this.compNameTab.Name = "compNameTab";
+            this.compNameTab.Padding = new System.Windows.Forms.Padding(3);
+            this.compNameTab.Size = new System.Drawing.Size(1203, 389);
+            this.compNameTab.TabIndex = 0;
+            this.compNameTab.Text = "Computer Name";
+            this.compNameTab.UseVisualStyleBackColor = true;
+            // 
+            // compSearchPage
+            // 
+            this.compSearchPage.Controls.Add(this.directorySearchTb);
+            this.compSearchPage.Controls.Add(this.dirlookOUList);
+            this.compSearchPage.Controls.Add(this.computerLookList);
+            this.compSearchPage.Location = new System.Drawing.Point(4, 26);
+            this.compSearchPage.Name = "compSearchPage";
+            this.compSearchPage.Padding = new System.Windows.Forms.Padding(3);
+            this.compSearchPage.Size = new System.Drawing.Size(1203, 389);
+            this.compSearchPage.TabIndex = 1;
+            this.compSearchPage.Text = "Directory Lookup";
+            this.compSearchPage.UseVisualStyleBackColor = true;
+            // 
+            // dirlookOUList
+            // 
+            this.dirlookOUList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dirlookOUList.FormattingEnabled = true;
+            this.dirlookOUList.IntegralHeight = false;
+            this.dirlookOUList.ItemHeight = 17;
+            this.dirlookOUList.Location = new System.Drawing.Point(0, 2);
+            this.dirlookOUList.Name = "dirlookOUList";
+            this.dirlookOUList.Size = new System.Drawing.Size(197, 391);
+            this.dirlookOUList.TabIndex = 2;
+            this.dirlookOUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
+            // 
+            // computerLookList
+            // 
+            this.computerLookList.AllowColumnReorder = true;
+            this.computerLookList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.computerLookList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.compColumn,
+            this.descColumn});
+            this.computerLookList.FullRowSelect = true;
+            this.computerLookList.Location = new System.Drawing.Point(200, 30);
+            this.computerLookList.MultiSelect = false;
+            this.computerLookList.Name = "computerLookList";
+            this.computerLookList.Size = new System.Drawing.Size(1004, 363);
+            this.computerLookList.TabIndex = 1;
+            this.computerLookList.UseCompatibleStateImageBehavior = false;
+            this.computerLookList.View = System.Windows.Forms.View.Details;
+            // 
+            // compColumn
+            // 
+            this.compColumn.Text = "Computer Name";
+            this.compColumn.Width = 117;
+            // 
+            // descColumn
+            // 
+            this.descColumn.Text = "Description";
+            this.descColumn.Width = 289;
+            // 
+            // OUChangeDL
+            // 
+            this.OUChangeDL.WorkerSupportsCancellation = true;
+            this.OUChangeDL.DoWork += new System.ComponentModel.DoWorkEventHandler(this.OUChangeDL_DoWork);
+            this.OUChangeDL.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.OUChangeDL_RunWorkerCompleted);
+            // 
+            // directorySearchTb
+            // 
+            this.directorySearchTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.directorySearchTb.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.directorySearchTb.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.RecentlyUsedList;
+            this.directorySearchTb.Location = new System.Drawing.Point(200, 2);
+            this.directorySearchTb.Name = "directorySearchTb";
+            this.directorySearchTb.Size = new System.Drawing.Size(1004, 25);
+            this.directorySearchTb.TabIndex = 3;
+            this.directorySearchTb.TextChanged += new System.EventHandler(this.directorySearchTb_TextChanged);
+            // 
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(891, 592);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.refreshBtn);
+            this.ClientSize = new System.Drawing.Size(1225, 513);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.findOldNameBtn);
-            this.Controls.Add(this.SaveNextBtn);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.saveNextBtn);
             this.Controls.Add(this.tempExit);
-            this.Controls.Add(this.TitleText);
+            this.Controls.Add(this.titleText);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(695, 477);
-            this.Name = "MainForm";
+            this.Name = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.spookyBoi)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.OUBox.ResumeLayout(false);
+            this.flowPanel.ResumeLayout(false);
+            this.computerObjectBox.ResumeLayout(false);
+            this.computerObjectBox.PerformLayout();
+            this.tablePanel.ResumeLayout(false);
+            this.tablePanel.PerformLayout();
+            this.tabControl.ResumeLayout(false);
+            this.compNameTab.ResumeLayout(false);
+            this.compSearchPage.ResumeLayout(false);
+            this.compSearchPage.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox tempDebugLog;
-        private System.Windows.Forms.Button tempExit;
-        private System.Windows.Forms.Label TitleText;
+        private System.Windows.Forms.Label titleText;
         private System.Windows.Forms.ListBox OUList;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button SaveNextBtn;
+        private System.Windows.Forms.GroupBox OUBox;
+        private System.Windows.Forms.Button saveNextBtn;
         private System.Windows.Forms.Button findOldNameBtn;
-        private System.Windows.Forms.Button refreshBtn;
-        private System.Windows.Forms.ListView ComputerList;
-        private System.Windows.Forms.ColumnHeader ComputerNames;
-        private System.Windows.Forms.ColumnHeader Descriptions;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel UsernameLbl;
-        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ListBox CatType;
-        private System.Windows.Forms.ListBox CatName;
-        private System.Windows.Forms.Label descLbl;
+        private System.Windows.Forms.FlowLayoutPanel flowPanel;
+        private System.Windows.Forms.GroupBox descListItem;
+        private System.Windows.Forms.ListBox listBoxList;
+        private System.Windows.Forms.TableLayoutPanel tablePanel;
+        private System.Windows.Forms.GroupBox computerObjectBox;
+        private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Label nameLbl;
-        private System.Windows.Forms.TextBox computerNameTBox;
-        private System.Windows.Forms.TextBox ComputerName;
-        private System.Windows.Forms.PictureBox spookyBoi;
+        private System.Windows.Forms.TextBox descTextBox;
+        private System.Windows.Forms.Label descLbl;
+        private System.Windows.Forms.Button tempExit;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage compNameTab;
+        private System.Windows.Forms.TabPage compSearchPage;
+        private System.Windows.Forms.ListView computerLookList;
+        private System.Windows.Forms.ColumnHeader compColumn;
+        private System.Windows.Forms.ColumnHeader descColumn;
+        private System.Windows.Forms.ListBox dirlookOUList;
+        private System.ComponentModel.BackgroundWorker OUChangeDL;
+        private System.Windows.Forms.TextBox directorySearchTb;
     }
 }
 
