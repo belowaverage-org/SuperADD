@@ -12,7 +12,7 @@ namespace SuperADD
         public DescriptListItem(string title)
         {
             groupBox.Controls.Add(listBox);
-            groupBox.Margin = new Padding(10);
+            groupBox.Margin = new Padding(10, 0, 10, 10);
             groupBox.Name = "groupBox";
             groupBox.Padding = new Padding(10);
             groupBox.Size = new System.Drawing.Size(300, 200);
@@ -20,6 +20,7 @@ namespace SuperADD
             groupBox.Text = title;
             listBox.Dock = DockStyle.Fill;
             listBox.FormattingEnabled = true;
+            listBox.IntegralHeight = false;
             listBox.ItemHeight = 17;
             listBox.Name = "listBox";
             listBox.Size = new System.Drawing.Size(280, 162);

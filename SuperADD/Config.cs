@@ -10,8 +10,9 @@ namespace SuperADD
             new XDocument(new XElement("SuperADD",
                 new XElement("OrganizationalUnits",
                     new XElement("OrganizationalUnit",
-                        new XElement("Name", "Domain Controllers"),
-                        new XElement("DistinguishedName", "OU=Domain Controllers,DC=ad,DC=contoso,DC=com")
+                        new XElement("Name", "Computers"),
+                        new XElement("DistinguishedName", "CN=Computers,DC=ad,DC=contoso,DC=com"),
+                        new XElement("AutoName", "CONTOSOPC####")
                     )
                 ),
                 new XElement("DescriptionItems",

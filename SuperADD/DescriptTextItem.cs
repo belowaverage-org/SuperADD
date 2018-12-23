@@ -12,7 +12,7 @@ namespace SuperADD
         public DescriptTextItem(string title)
         {
             groupBox.Controls.Add(textBox);
-            groupBox.Margin = new Padding(10);
+            groupBox.Margin = new Padding(10, 0, 10, 10);
             groupBox.Name = "groupBox";
             groupBox.Padding = new Padding(10);
             groupBox.Size = new System.Drawing.Size(300, 200);
