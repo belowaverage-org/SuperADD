@@ -54,6 +54,7 @@
             this.msgPanel = new System.Windows.Forms.Panel();
             this.msgLbl = new System.Windows.Forms.Label();
             this.msgPic = new System.Windows.Forms.PictureBox();
+            this.msgShadow = new System.Windows.Forms.Panel();
             this.OUBox.SuspendLayout();
             this.flowPanel.SuspendLayout();
             this.computerObjectBox.SuspendLayout();
@@ -68,6 +69,7 @@
             // titleText
             // 
             this.titleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.titleText.Enabled = false;
             this.titleText.Location = new System.Drawing.Point(586, 9);
             this.titleText.Margin = new System.Windows.Forms.Padding(0);
             this.titleText.Name = "titleText";
@@ -245,7 +247,7 @@
             this.compSearchPage.Location = new System.Drawing.Point(4, 25);
             this.compSearchPage.Name = "compSearchPage";
             this.compSearchPage.Padding = new System.Windows.Forms.Padding(3);
-            this.compSearchPage.Size = new System.Drawing.Size(651, 389);
+            this.compSearchPage.Size = new System.Drawing.Size(667, 428);
             this.compSearchPage.TabIndex = 1;
             this.compSearchPage.Text = "Directory Lookup";
             this.compSearchPage.UseVisualStyleBackColor = true;
@@ -257,7 +259,7 @@
             this.directorySearchTb.Location = new System.Drawing.Point(201, 4);
             this.directorySearchTb.Multiline = true;
             this.directorySearchTb.Name = "directorySearchTb";
-            this.directorySearchTb.Size = new System.Drawing.Size(454, 25);
+            this.directorySearchTb.Size = new System.Drawing.Size(464, 25);
             this.directorySearchTb.TabIndex = 3;
             this.directorySearchTb.TextChanged += new System.EventHandler(this.directorySearchTb_TextChanged);
             // 
@@ -270,7 +272,7 @@
             this.dirlookOUList.ItemHeight = 16;
             this.dirlookOUList.Location = new System.Drawing.Point(2, 4);
             this.dirlookOUList.Name = "dirlookOUList";
-            this.dirlookOUList.Size = new System.Drawing.Size(195, 349);
+            this.dirlookOUList.Size = new System.Drawing.Size(195, 422);
             this.dirlookOUList.TabIndex = 2;
             this.dirlookOUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
             // 
@@ -288,7 +290,7 @@
             this.computerLookList.Location = new System.Drawing.Point(201, 34);
             this.computerLookList.MultiSelect = false;
             this.computerLookList.Name = "computerLookList";
-            this.computerLookList.Size = new System.Drawing.Size(454, 319);
+            this.computerLookList.Size = new System.Drawing.Size(464, 392);
             this.computerLookList.TabIndex = 1;
             this.computerLookList.UseCompatibleStateImageBehavior = false;
             this.computerLookList.View = System.Windows.Forms.View.Details;
@@ -314,6 +316,7 @@
             // 
             this.CreateComputer.WorkerSupportsCancellation = true;
             this.CreateComputer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CreateComputer_DoWork);
+            this.CreateComputer.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CreateComputer_RunWorkerCompleted);
             // 
             // msgPanel
             // 
@@ -322,29 +325,43 @@
             this.msgPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.msgPanel.Controls.Add(this.msgLbl);
             this.msgPanel.Controls.Add(this.msgPic);
+            this.msgPanel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.msgPanel.Location = new System.Drawing.Point(171, 157);
             this.msgPanel.Name = "msgPanel";
-            this.msgPanel.Size = new System.Drawing.Size(351, 61);
+            this.msgPanel.Size = new System.Drawing.Size(351, 63);
             this.msgPanel.TabIndex = 17;
+            this.msgPanel.Click += new System.EventHandler(this.msgPanel_Click);
             // 
             // msgLbl
             // 
             this.msgLbl.AutoEllipsis = true;
-            this.msgLbl.Dock = System.Windows.Forms.DockStyle.Right;
+            this.msgLbl.Cursor = System.Windows.Forms.Cursors.Hand;
             this.msgLbl.Location = new System.Drawing.Point(62, 0);
             this.msgLbl.Name = "msgLbl";
             this.msgLbl.Size = new System.Drawing.Size(287, 59);
             this.msgLbl.TabIndex = 1;
             this.msgLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.msgLbl.Click += new System.EventHandler(this.msgPanel_Click);
             // 
             // msgPic
             // 
+            this.msgPic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.msgPic.Enabled = false;
             this.msgPic.Location = new System.Drawing.Point(15, 14);
             this.msgPic.Name = "msgPic";
             this.msgPic.Size = new System.Drawing.Size(32, 32);
             this.msgPic.TabIndex = 0;
             this.msgPic.TabStop = false;
+            this.msgPic.Click += new System.EventHandler(this.msgPanel_Click);
+            // 
+            // msgShadow
+            // 
+            this.msgShadow.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.msgShadow.BackColor = System.Drawing.Color.Gainsboro;
+            this.msgShadow.Location = new System.Drawing.Point(175, 161);
+            this.msgShadow.Name = "msgShadow";
+            this.msgShadow.Size = new System.Drawing.Size(351, 63);
+            this.msgShadow.TabIndex = 18;
             // 
             // Main
             // 
@@ -355,6 +372,7 @@
             this.Controls.Add(this.titleText);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.msgPanel);
+            this.Controls.Add(this.msgShadow);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(695, 477);
@@ -408,6 +426,7 @@
         private System.Windows.Forms.Panel msgPanel;
         private System.Windows.Forms.PictureBox msgPic;
         private System.Windows.Forms.Label msgLbl;
+        private System.Windows.Forms.Panel msgShadow;
     }
 }
 

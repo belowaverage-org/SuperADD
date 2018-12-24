@@ -18,11 +18,13 @@ namespace SuperADD
         public static TextBox pubDescTextBox = null;
 
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
-
         
 
         private static Dictionary<string, string> dirList = new Dictionary<string, string>();
         private static string currentOU = "";
+        private static bool msgDismissable = false;
+        private static Image loadImg = Properties.Resources.loading;
+        private static Image warnImg = Properties.Resources.warning.ToBitmap();
 
         public Main()
         {
@@ -137,17 +139,26 @@ namespace SuperADD
         private void OUChangeDL_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             dirList.Clear();
+            showMsg("Retrieving a list of computer objects in this Organizational Unit...", loadImg, dismissable: false);
             DirectoryEntry de = new DirectoryEntry("LDAP://" + adDomain + "/" + currentOU, adUser, adPass);
             DirectorySearcher ds = new DirectorySearcher(de);
             ds.Filter = "objectClass=computer";
-            foreach (SearchResult computer in ds.FindAll())
+            try
             {
-                string desc = "";
-                if (computer.Properties["description"].Count != 0)
+                foreach (SearchResult computer in ds.FindAll())
                 {
-                    desc = computer.Properties["description"][0].ToString();
+                    string desc = "";
+                    if (computer.Properties["description"].Count != 0)
+                    {
+                        desc = computer.Properties["description"][0].ToString();
+                    }
+                    dirList.Add(computer.Properties["CN"][0].ToString(), desc);
                 }
-                dirList.Add(computer.Properties["CN"][0].ToString(), desc);
+                e.Result = "success";
+            }
+            catch(Exception exc)
+            {
+                e.Result = exc.Message;
             }
         }
 
@@ -215,7 +226,17 @@ namespace SuperADD
         }
         private void OUChangeDL_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            dirListUpdated();
+            if((string)e.Result == "success")
+            {
+                hideMsg();
+                dirListUpdated();
+            }
+            else
+            {
+                showMsg("Could not retrieve a list of computer objects in this Organizational Unit: " + e.Result, warnImg);
+                dirlookOUList.Enabled = true;
+                OUList.Enabled = true;
+            }
         }
 
         private void directorySearchTb_TextChanged(object sender, EventArgs e)
@@ -234,60 +255,121 @@ namespace SuperADD
         private void CreateComputer_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             DirectoryEntry de = new DirectoryEntry("LDAP://" + adDomain + "/" + currentOU, adUser, adPass);
+            showMsg("Checking if computer object already exists...", loadImg, dismissable: false);
             DirectorySearcher ds = new DirectorySearcher(de, "(&(objectClass=computer)(CN=" + nameTextBox.Text + "))");
-            SearchResult sr = ds.FindOne();
-            if (sr == null)
+            SearchResult sr = null;
+            try
             {
-                DirectoryEntry computer = de.Children.Add("CN=" + nameTextBox.Text, "computer");
-                if (descTextBox.Text != "")
-                {
-                    computer.Properties["description"].Value = descTextBox.Text;
-                }
-                computer.CommitChanges();
+                sr = ds.FindOne();
             }
-            else
+            catch(Exception exc)
             {
-                Console.WriteLine(sr.Path);
-                de.Path = sr.Path;
-                if(descTextBox.Text == "")
+                e.Result = exc.Message;
+                return;
+            }
+            showMsg("Saving changes to Active Directory...", loadImg, dismissable: false);
+            try
+            {
+                if (sr == null)
                 {
-                    de.Properties["description"].Value = null;
+                    DirectoryEntry computer = de.Children.Add("CN=" + nameTextBox.Text, "computer");
+                    if (descTextBox.Text != "")
+                    {
+                        computer.Properties["description"].Value = descTextBox.Text;
+                    }
+                    computer.CommitChanges();
                 }
                 else
                 {
-                    de.Properties["description"].Value = descTextBox.Text;
+                    Console.WriteLine(sr.Path);
+                    de.Path = sr.Path;
+                    if (descTextBox.Text == "")
+                    {
+                        de.Properties["description"].Value = null;
+                    }
+                    else
+                    {
+                        de.Properties["description"].Value = descTextBox.Text;
+                    }
+                    de.CommitChanges();
                 }
-                de.CommitChanges();
+                e.Result = "success";
+            }
+            catch(UnauthorizedAccessException exc)
+            {
+                e.Result = exc.Message;
             }
         }
 
-        private void showMsg(string message = "Loading...", Image image = null)
+        private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
         {
-            if(image == null)
-            {
-                image = Properties.Resources.loading;
-            }
-            msgPanel.BringToFront();
-            msgLbl.Text = message;
-            msgPic.Enabled = true;
-            msgPic.Image = image;
+            msgDismissable = dismissable;
+            Invoke(new MethodInvoker(delegate {
+                if(disableForm)
+                {
+                    tabControl.Enabled = false;
+                }
+                else
+                {
+                    tabControl.Enabled = true;
+                }
+                msgShadow.BringToFront();
+                msgPanel.BringToFront();
+                msgLbl.Text = message;
+                msgPic.Enabled = true;
+                msgPic.Image = image;
+            }));
         }
 
         private void hideMsg()
         {
+            tabControl.Enabled = true;
             msgPanel.SendToBack();
+            msgShadow.SendToBack();
             msgPic.Enabled = false;
         }
 
         private void saveNextBtn_Click(object sender, EventArgs e)
         {
-            CreateComputer.RunWorkerAsync();
+            if (nameTextBox.Text == "")
+            {
+                showMsg("Computer Name is empty.", warnImg);
+                return;
+            }
+            if (OUList.SelectedItem == null)
+            {
+                showMsg("No Organizational Unit is selected.", warnImg);
+                return;
+            }
+            if (!CreateComputer.IsBusy)
+            {
+                CreateComputer.RunWorkerAsync();
+            }
         }
 
         private void findOldNameBtn_Click(object sender, EventArgs e)
         {
-            showMsg("You are about to overwrite another computer object! Press save again to continue...", Properties.Resources.warning.ToBitmap());
+            showMsg("You are about to overwrite another computer object! Press save again to continue...", warnImg);
+        }
 
+        private void msgPanel_Click(object sender, EventArgs e)
+        {
+            if(msgDismissable)
+            {
+                hideMsg();
+            }
+        }
+
+        private void CreateComputer_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if((string)e.Result == "success")
+            {
+                hideMsg();
+            }
+            else
+            {
+                showMsg("Failed to commit to Active Directory. Message: " + e.Result, warnImg);
+            }
         }
     }
 }
