@@ -32,7 +32,6 @@
             this.OUList = new System.Windows.Forms.ListBox();
             this.OUBox = new System.Windows.Forms.GroupBox();
             this.saveNextBtn = new System.Windows.Forms.Button();
-            this.findOldNameBtn = new System.Windows.Forms.Button();
             this.flowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.computerObjectBox = new System.Windows.Forms.GroupBox();
             this.descTextBox = new System.Windows.Forms.TextBox();
@@ -114,17 +113,6 @@
             this.saveNextBtn.UseVisualStyleBackColor = true;
             this.saveNextBtn.Click += new System.EventHandler(this.saveNextBtn_Click);
             // 
-            // findOldNameBtn
-            // 
-            this.findOldNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.findOldNameBtn.Location = new System.Drawing.Point(5, 394);
-            this.findOldNameBtn.Name = "findOldNameBtn";
-            this.findOldNameBtn.Size = new System.Drawing.Size(143, 29);
-            this.findOldNameBtn.TabIndex = 10;
-            this.findOldNameBtn.Text = "Find old name...";
-            this.findOldNameBtn.UseVisualStyleBackColor = true;
-            this.findOldNameBtn.Click += new System.EventHandler(this.findOldNameBtn_Click);
-            // 
             // flowPanel
             // 
             this.flowPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -175,6 +163,7 @@
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(280, 22);
             this.nameTextBox.TabIndex = 1;
+            this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
             // 
             // nameLbl
             // 
@@ -230,7 +219,6 @@
             // 
             this.compNameTab.Controls.Add(this.tablePanel);
             this.compNameTab.Controls.Add(this.saveNextBtn);
-            this.compNameTab.Controls.Add(this.findOldNameBtn);
             this.compNameTab.Location = new System.Drawing.Point(4, 25);
             this.compNameTab.Name = "compNameTab";
             this.compNameTab.Padding = new System.Windows.Forms.Padding(3, 20, 3, 3);
@@ -402,7 +390,6 @@
         private System.Windows.Forms.ListBox OUList;
         private System.Windows.Forms.GroupBox OUBox;
         private System.Windows.Forms.Button saveNextBtn;
-        private System.Windows.Forms.Button findOldNameBtn;
         private System.Windows.Forms.FlowLayoutPanel flowPanel;
         private System.Windows.Forms.GroupBox descListItem;
         private System.Windows.Forms.ListBox listBoxList;

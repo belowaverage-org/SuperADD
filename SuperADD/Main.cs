@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Windows.Forms;
-using System.DirectoryServices.ActiveDirectory;
 using System.DirectoryServices;
 using System.IO;
 using System.Drawing;
-using System.Threading.Tasks;
-
 
 namespace SuperADD
 {
@@ -18,6 +15,7 @@ namespace SuperADD
         public static TextBox pubDescTextBox = null;
 
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
+
         
 
         private static Dictionary<string, string> dirList = new Dictionary<string, string>();
@@ -25,6 +23,7 @@ namespace SuperADD
         private static bool msgDismissable = false;
         private static Image loadImg = Properties.Resources.loading;
         private static Image warnImg = Properties.Resources.warning.ToBitmap();
+        private static bool computerOverwriteConfirmed = false;
 
         public Main()
         {
@@ -48,7 +47,7 @@ namespace SuperADD
             foreach (XElement descItem in Config.Current.Element("DescriptionItems").Elements("DescriptionItem"))
             {
                 descriptions.Add(descItem.Element("Name").Value, null);
-                if(descItem.Element("Type").Value == "List")
+                if (descItem.Element("Type").Value == "List")
                 {
                     DescriptListItem listUnit = new DescriptListItem(descItem.Element("Name").Value);
                     foreach (XElement listItem in descItem.Element("ListItems").Elements("ListItem"))
@@ -56,18 +55,11 @@ namespace SuperADD
                         listUnit.listBox.Items.Add(listItem.Value);
                     }
                 }
-                else if(descItem.Element("Type").Value == "Text")
+                else if (descItem.Element("Type").Value == "Text")
                 {
                     DescriptTextItem listUnit = new DescriptTextItem(descItem.Element("Name").Value);
                 }
             }
-
-            /*new Interop.TsProgressUI.ProgressUI().CloseProgressDialog();
-            Microsoft.BDD.TaskSequenceModule.TSEnvironment env = new Microsoft.BDD.TaskSequenceModule.TSEnvironment();
-            foreach(string key in env.Variables)
-            {
-                richTextBox1.AppendText("Key: " + key + " Value: " + env[key] + "\n\r");
-            }*/
         }
 
         public static void updateDescription()
@@ -249,6 +241,7 @@ namespace SuperADD
             OUList.SelectedIndex = dirlookOUList.SelectedIndex;
             nameTextBox.Text = computerLookList.SelectedItems[0].Text;
             descTextBox.Text = computerLookList.SelectedItems[0].SubItems[1].Text;
+            computerOverwriteConfirmed = true;
             tabControl.SelectedTab = compNameTab;
         }
 
@@ -270,6 +263,7 @@ namespace SuperADD
             showMsg("Saving changes to Active Directory...", loadImg, dismissable: false);
             try
             {
+                e.Result = "success";
                 if (sr == null)
                 {
                     DirectoryEntry computer = de.Children.Add("CN=" + nameTextBox.Text, "computer");
@@ -279,9 +273,8 @@ namespace SuperADD
                     }
                     computer.CommitChanges();
                 }
-                else
+                else if(computerOverwriteConfirmed)
                 {
-                    Console.WriteLine(sr.Path);
                     de.Path = sr.Path;
                     if (descTextBox.Text == "")
                     {
@@ -293,7 +286,10 @@ namespace SuperADD
                     }
                     de.CommitChanges();
                 }
-                e.Result = "success";
+                else
+                {
+                    e.Result = "overwrite";
+                }
             }
             catch(UnauthorizedAccessException exc)
             {
@@ -347,11 +343,6 @@ namespace SuperADD
             }
         }
 
-        private void findOldNameBtn_Click(object sender, EventArgs e)
-        {
-            showMsg("You are about to overwrite another computer object! Press save again to continue...", warnImg);
-        }
-
         private void msgPanel_Click(object sender, EventArgs e)
         {
             if(msgDismissable)
@@ -366,10 +357,20 @@ namespace SuperADD
             {
                 hideMsg();
             }
+            else if((string)e.Result == "overwrite")
+            {
+                showMsg("You are about to overwrite this computer object! Press \"Save\" again to continue...", warnImg, disableForm: false);
+                computerOverwriteConfirmed = true;
+            }
             else
             {
                 showMsg("Failed to commit to Active Directory. Message: " + e.Result, warnImg);
             }
+        }
+
+        private void nameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            computerOverwriteConfirmed = false;
         }
     }
 }
