@@ -48,7 +48,6 @@
             this.computerLookList = new System.Windows.Forms.ListView();
             this.compColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.descColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.OUChangeDL = new System.ComponentModel.BackgroundWorker();
             this.CreateComputer = new System.ComponentModel.BackgroundWorker();
             this.msgPanel = new System.Windows.Forms.Panel();
             this.msgLbl = new System.Windows.Forms.Label();
@@ -196,7 +195,7 @@
             // tempExit
             // 
             this.tempExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tempExit.Location = new System.Drawing.Point(673, 458);
+            this.tempExit.Location = new System.Drawing.Point(675, 458);
             this.tempExit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tempExit.Name = "tempExit";
             this.tempExit.Size = new System.Drawing.Size(20, 19);
@@ -294,12 +293,6 @@
             this.descColumn.Text = "Description";
             this.descColumn.Width = 289;
             // 
-            // OUChangeDL
-            // 
-            this.OUChangeDL.WorkerSupportsCancellation = true;
-            this.OUChangeDL.DoWork += new System.ComponentModel.DoWorkEventHandler(this.OUChangeDL_DoWork);
-            this.OUChangeDL.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.OUChangeDL_RunWorkerCompleted);
-            // 
             // CreateComputer
             // 
             this.CreateComputer.WorkerSupportsCancellation = true;
@@ -362,6 +355,7 @@
             this.Controls.Add(this.msgPanel);
             this.Controls.Add(this.msgShadow);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(695, 477);
             this.Name = "Main";
@@ -407,7 +401,6 @@
         private System.Windows.Forms.ColumnHeader compColumn;
         private System.Windows.Forms.ColumnHeader descColumn;
         private System.Windows.Forms.ListBox dirlookOUList;
-        private System.ComponentModel.BackgroundWorker OUChangeDL;
         private System.Windows.Forms.TextBox directorySearchTb;
         private System.ComponentModel.BackgroundWorker CreateComputer;
         private System.Windows.Forms.Panel msgPanel;

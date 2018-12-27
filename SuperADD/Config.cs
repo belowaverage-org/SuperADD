@@ -8,6 +8,7 @@ namespace SuperADD
         public static void GenerateConfig()
         {
             new XDocument(new XElement("SuperADD",
+                new XElement("SuperADDServer", "http://superadd.ad.contoso.com"),
                 new XElement("OrganizationalUnits",
                     new XElement("OrganizationalUnit",
                         new XElement("Name", "Computers"),

@@ -5,6 +5,9 @@ using System.Windows.Forms;
 using System.DirectoryServices;
 using System.IO;
 using System.Drawing;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Xml;
 
 namespace SuperADD
 {
@@ -28,12 +31,19 @@ namespace SuperADD
         public Main()
         {
             InitializeComponent();
-            if(!File.Exists("SuperADD.xml"))
+            if (!File.Exists("SuperADD.xml"))
             {
                 Config.GenerateConfig();
             }
-            Config.ReadConfig();
-
+            try
+            {
+                Config.ReadConfig();
+            }
+            catch (XmlException e)
+            {
+                showMsg("SSuperADD.xml: " + e.Message, warnImg);
+                return;
+            }
 
             pubFlowLayout = flowPanel;
             pubDescTextBox = descTextBox;
@@ -68,7 +78,8 @@ namespace SuperADD
             int index = 0;
             foreach (KeyValuePair<string, string> desc in descriptions)
             {
-                if (desc.Value != null && desc.Value != "") {
+                if (desc.Value != null && desc.Value != "")
+                {
                     if (index++ == description.Length)
                     {
                         description = description + desc.Value;
@@ -85,14 +96,14 @@ namespace SuperADD
         private void button1_Click(object sender, EventArgs e)
         {
             Close();
-            
+
         }
 
         private int spookyCount = 20;
 
         private void TitleText_Click(object sender, EventArgs e)
         {
-            if(--spookyCount == 0)
+            if (--spookyCount == 0)
             {
                 //spookyBoi.BringToFront();
                 //spookyBoi.Enabled = true;
@@ -102,56 +113,68 @@ namespace SuperADD
         private void OUList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lv = (ListBox)sender;
-            foreach(XElement elm in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
+            foreach (XElement elm in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
             {
-                if(elm.Element("Name").Value == (string)lv.SelectedItem)
+                if (elm.Element("Name").Value == (string)lv.SelectedItem)
                 {
                     currentOU = elm.Element("DistinguishedName").Value;
                     break;
                 }
             }
-            if(lv == OUList && tabControl.SelectedTab == compNameTab)
+            if ((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirlookOUList)
             {
-                if (!OUChangeDL.IsBusy)
-                {
-                    lv.Enabled = false;
-                    OUChangeDL.RunWorkerAsync();
-                }
-            }
-            else if(lv == dirlookOUList)
-            {
-                if(!OUChangeDL.IsBusy)
-                {
-                    lv.Enabled = false;
-                    OUChangeDL.RunWorkerAsync();
-                }
+                lv.Enabled = false;
+                RetrieveOUList();
             }
         }
 
-        private void OUChangeDL_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private async void RetrieveOUList()
         {
-            dirList.Clear();
-            showMsg("Retrieving a list of computer objects in this Organizational Unit...", loadImg, dismissable: false);
-            DirectoryEntry de = new DirectoryEntry("LDAP://" + adDomain + "/" + currentOU, adUser, adPass);
-            DirectorySearcher ds = new DirectorySearcher(de);
-            ds.Filter = "objectClass=computer";
+            string rawResults = "";
             try
             {
-                foreach (SearchResult computer in ds.FindAll())
+                dirList.Clear();
+                showMsg("Retrieving a list of computer objects in this Organizational Unit...", loadImg, dismissable: false);
+                HttpClient client = new HttpClient();
+                if (Config.Current.Element("SuperADDServer") != null)
                 {
-                    string desc = "";
-                    if (computer.Properties["description"].Count != 0)
+                    client.BaseAddress = new Uri(Config.Current.Element("SuperADDServer").Value);
+                    List<KeyValuePair<string, string>> rawContent = new List<KeyValuePair<string, string>>();
+                    rawContent.Add(new KeyValuePair<string, string>("domain", adDomain));
+                    rawContent.Add(new KeyValuePair<string, string>("basedn", currentOU));
+                    rawContent.Add(new KeyValuePair<string, string>("username", adUser));
+                    rawContent.Add(new KeyValuePair<string, string>("password", adPass));
+                    rawContent.Add(new KeyValuePair<string, string>("function", "list"));
+                    rawContent.Add(new KeyValuePair<string, string>("filter", "objectClass=computer"));
+                    rawContent.Add(new KeyValuePair<string, string>("function", "list"));
+                    FormUrlEncodedContent encodedContent = new FormUrlEncodedContent(rawContent);
+                    HttpResponseMessage message = await client.PostAsync("", encodedContent);
+                    rawResults = await message.Content.ReadAsStringAsync();
+                    var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
+                    foreach (Dictionary<string, string> computer in results)
                     {
-                        desc = computer.Properties["description"][0].ToString();
+                        dirList.Add(computer["cn"], computer["description"]);
                     }
-                    dirList.Add(computer.Properties["CN"][0].ToString(), desc);
+                    hideMsg();
                 }
-                e.Result = "success";
+                else
+                {
+                    showMsg("SuperADDServer Element missing in SuperADD.xml", warnImg);
+                }
             }
-            catch(Exception exc)
+            catch (HttpRequestException e)
             {
-                e.Result = exc.Message;
+                showMsg(e.Message + ": " + e.InnerException.Message, warnImg);
             }
+            catch (JsonReaderException)
+            {
+                showMsg("API Response Invalid: " + rawResults, warnImg);
+            }
+            catch (Exception e)
+            {
+                showMsg(e.Message, warnImg);
+            }
+            dirListUpdated();
         }
 
         private void dirListUpdated()
@@ -172,7 +195,7 @@ namespace SuperADD
                 computerLookList.EndUpdate();
                 dirlookOUList.Enabled = true;
             }
-            else if(tabControl.SelectedTab == compNameTab)
+            else if (tabControl.SelectedTab == compNameTab)
             {
                 FindNextName();
                 OUList.Enabled = true;
@@ -205,30 +228,16 @@ namespace SuperADD
 
             foreach (KeyValuePair<string, string> comp in dirList)
             {
-                if(comp.Key.ToLower().StartsWith(prefix.ToLower()))
+                if (comp.Key.ToLower().StartsWith(prefix.ToLower()))
                 {
                     int number = int.Parse(comp.Key.ToLower().Replace(prefix.ToLower(), ""));
-                    if(number >= count)
+                    if (number >= count)
                     {
                         count = number + 1;
                     }
                 }
             }
             nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0");
-        }
-        private void OUChangeDL_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            if((string)e.Result == "success")
-            {
-                hideMsg();
-                dirListUpdated();
-            }
-            else
-            {
-                showMsg("Could not retrieve a list of computer objects in this Organizational Unit: " + e.Result, warnImg);
-                dirlookOUList.Enabled = true;
-                OUList.Enabled = true;
-            }
         }
 
         private void directorySearchTb_TextChanged(object sender, EventArgs e)
@@ -255,7 +264,7 @@ namespace SuperADD
             {
                 sr = ds.FindOne();
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 e.Result = exc.Message;
                 return;
@@ -273,7 +282,7 @@ namespace SuperADD
                     }
                     computer.CommitChanges();
                 }
-                else if(computerOverwriteConfirmed)
+                else if (computerOverwriteConfirmed)
                 {
                     de.Path = sr.Path;
                     if (descTextBox.Text == "")
@@ -291,7 +300,7 @@ namespace SuperADD
                     e.Result = "overwrite";
                 }
             }
-            catch(UnauthorizedAccessException exc)
+            catch (UnauthorizedAccessException exc)
             {
                 e.Result = exc.Message;
             }
@@ -299,9 +308,9 @@ namespace SuperADD
 
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
         {
-            msgDismissable = dismissable;
-            Invoke(new MethodInvoker(delegate {
-                if(disableForm)
+            void sMsg()
+            {
+                if (disableForm)
                 {
                     tabControl.Enabled = false;
                 }
@@ -314,7 +323,18 @@ namespace SuperADD
                 msgLbl.Text = message;
                 msgPic.Enabled = true;
                 msgPic.Image = image;
-            }));
+            }
+            msgDismissable = dismissable;
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate {
+                    sMsg();
+                }));
+            }
+            else
+            {
+                sMsg();
+            }
         }
 
         private void hideMsg()
@@ -345,7 +365,7 @@ namespace SuperADD
 
         private void msgPanel_Click(object sender, EventArgs e)
         {
-            if(msgDismissable)
+            if (msgDismissable)
             {
                 hideMsg();
             }
@@ -353,11 +373,11 @@ namespace SuperADD
 
         private void CreateComputer_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            if((string)e.Result == "success")
+            if ((string)e.Result == "success")
             {
                 hideMsg();
             }
-            else if((string)e.Result == "overwrite")
+            else if ((string)e.Result == "overwrite")
             {
                 showMsg("You are about to overwrite this computer object! Press \"Save\" again to continue...", warnImg, disableForm: false);
                 computerOverwriteConfirmed = true;
