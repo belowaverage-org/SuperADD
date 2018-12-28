@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using System;
 
 namespace SuperADD
 {
@@ -36,6 +37,10 @@ namespace SuperADD
         public static void ReadConfig()
         {
             Current = XDocument.Load("SuperADD.xml").Root;
+            if (Current.Element("SuperADDServer") == null)
+            {
+                throw new Exception("SuperADDServer missing from XML.");
+            }
         }
     }
 }

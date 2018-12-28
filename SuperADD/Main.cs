@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Windows.Forms;
-using System.DirectoryServices;
 using System.IO;
 using System.Drawing;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Xml;
 
 namespace SuperADD
 {
@@ -19,7 +17,9 @@ namespace SuperADD
 
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
 
-        
+        private static string adDomain = "";
+        private static string adUser = "";
+        private static string adPass = "";
 
         private static Dictionary<string, string> dirList = new Dictionary<string, string>();
         private static string currentOU = "";
@@ -31,6 +31,20 @@ namespace SuperADD
         public Main()
         {
             InitializeComponent();
+
+            try
+            {
+                new Interop.TsProgressUI.ProgressUI().CloseProgressDialog();
+                Microsoft.BDD.TaskSequenceModule.TSEnvironment env = new Microsoft.BDD.TaskSequenceModule.TSEnvironment();
+                //env.Variables
+            }
+            catch(System.Runtime.InteropServices.COMException e)
+            {
+                WindowState = FormWindowState.Normal;
+                FormBorderStyle = FormBorderStyle.Sizable;
+                showMsg("SuperADD was not launched by a task sequence!", warnImg);
+            }
+
             if (!File.Exists("SuperADD.xml"))
             {
                 Config.GenerateConfig();
@@ -39,7 +53,7 @@ namespace SuperADD
             {
                 Config.ReadConfig();
             }
-            catch (XmlException e)
+            catch (Exception e)
             {
                 showMsg("SSuperADD.xml: " + e.Message, warnImg);
                 return;
@@ -96,17 +110,16 @@ namespace SuperADD
         private void button1_Click(object sender, EventArgs e)
         {
             Close();
-
         }
 
-        private int spookyCount = 20;
+        private int spookyCount = 5;
 
         private void TitleText_Click(object sender, EventArgs e)
         {
             if (--spookyCount == 0)
             {
-                //spookyBoi.BringToFront();
-                //spookyBoi.Enabled = true;
+                spookyBoi.BringToFront();
+                spookyBoi.Enabled = true;
             }
         }
 
@@ -135,32 +148,20 @@ namespace SuperADD
             {
                 dirList.Clear();
                 showMsg("Retrieving a list of computer objects in this Organizational Unit...", loadImg, dismissable: false);
-                HttpClient client = new HttpClient();
-                if (Config.Current.Element("SuperADDServer") != null)
+                Dictionary<string, string> postData = new Dictionary<string, string>();
+                postData.Add("domain", adDomain);
+                postData.Add("basedn", currentOU);
+                postData.Add("username", adUser);
+                postData.Add("password", adPass);
+                postData.Add("function", "list");
+                postData.Add("filter", "objectClass=computer");
+                rawResults = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
+                var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
+                foreach (Dictionary<string, string> computer in results)
                 {
-                    client.BaseAddress = new Uri(Config.Current.Element("SuperADDServer").Value);
-                    List<KeyValuePair<string, string>> rawContent = new List<KeyValuePair<string, string>>();
-                    rawContent.Add(new KeyValuePair<string, string>("domain", adDomain));
-                    rawContent.Add(new KeyValuePair<string, string>("basedn", currentOU));
-                    rawContent.Add(new KeyValuePair<string, string>("username", adUser));
-                    rawContent.Add(new KeyValuePair<string, string>("password", adPass));
-                    rawContent.Add(new KeyValuePair<string, string>("function", "list"));
-                    rawContent.Add(new KeyValuePair<string, string>("filter", "objectClass=computer"));
-                    rawContent.Add(new KeyValuePair<string, string>("function", "list"));
-                    FormUrlEncodedContent encodedContent = new FormUrlEncodedContent(rawContent);
-                    HttpResponseMessage message = await client.PostAsync("", encodedContent);
-                    rawResults = await message.Content.ReadAsStringAsync();
-                    var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
-                    foreach (Dictionary<string, string> computer in results)
-                    {
-                        dirList.Add(computer["cn"], computer["description"]);
-                    }
-                    hideMsg();
+                    dirList.Add(computer["cn"], computer["description"]);
                 }
-                else
-                {
-                    showMsg("SuperADDServer Element missing in SuperADD.xml", warnImg);
-                }
+                hideMsg();
             }
             catch (HttpRequestException e)
             {
@@ -254,58 +255,6 @@ namespace SuperADD
             tabControl.SelectedTab = compNameTab;
         }
 
-        private void CreateComputer_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            DirectoryEntry de = new DirectoryEntry("LDAP://" + adDomain + "/" + currentOU, adUser, adPass);
-            showMsg("Checking if computer object already exists...", loadImg, dismissable: false);
-            DirectorySearcher ds = new DirectorySearcher(de, "(&(objectClass=computer)(CN=" + nameTextBox.Text + "))");
-            SearchResult sr = null;
-            try
-            {
-                sr = ds.FindOne();
-            }
-            catch (Exception exc)
-            {
-                e.Result = exc.Message;
-                return;
-            }
-            showMsg("Saving changes to Active Directory...", loadImg, dismissable: false);
-            try
-            {
-                e.Result = "success";
-                if (sr == null)
-                {
-                    DirectoryEntry computer = de.Children.Add("CN=" + nameTextBox.Text, "computer");
-                    if (descTextBox.Text != "")
-                    {
-                        computer.Properties["description"].Value = descTextBox.Text;
-                    }
-                    computer.CommitChanges();
-                }
-                else if (computerOverwriteConfirmed)
-                {
-                    de.Path = sr.Path;
-                    if (descTextBox.Text == "")
-                    {
-                        de.Properties["description"].Value = null;
-                    }
-                    else
-                    {
-                        de.Properties["description"].Value = descTextBox.Text;
-                    }
-                    de.CommitChanges();
-                }
-                else
-                {
-                    e.Result = "overwrite";
-                }
-            }
-            catch (UnauthorizedAccessException exc)
-            {
-                e.Result = exc.Message;
-            }
-        }
-
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
         {
             void sMsg()
@@ -347,6 +296,11 @@ namespace SuperADD
 
         private void saveNextBtn_Click(object sender, EventArgs e)
         {
+            createComputer();
+        }
+
+        private async void createComputer()
+        {
             if (nameTextBox.Text == "")
             {
                 showMsg("Computer Name is empty.", warnImg);
@@ -357,9 +311,46 @@ namespace SuperADD
                 showMsg("No Organizational Unit is selected.", warnImg);
                 return;
             }
-            if (!CreateComputer.IsBusy)
+            showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);
+            Dictionary<string, string> postData = new Dictionary<string, string>();
+            postData.Add("domain", adDomain);
+            postData.Add("basedn", currentOU);
+            postData.Add("username", adUser);
+            postData.Add("password", adPass);
+            postData.Add("function", "update");
+            postData.Add("cn", nameTextBox.Text);
+            postData.Add("description", descTextBox.Text);
+            if(computerOverwriteConfirmed)
             {
-                CreateComputer.RunWorkerAsync();
+                postData.Add("confirm", "");
+            }
+            try
+            {
+                string error = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
+                if (error != "")
+                {
+                    if (error == "confirm")
+                    {
+                        showMsg("This computer object already exists!\nPress \"Save\" again to confirm.", warnImg, disableForm: false);
+                        computerOverwriteConfirmed = true;
+                    }
+                    else
+                    {
+                        showMsg("API Error: " + error, warnImg);
+                    }
+                }
+                else
+                {
+                    hideMsg();
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                showMsg(e.Message + ": " + e.InnerException.Message, warnImg);
+            }
+            catch (Exception e)
+            {
+                showMsg(e.Message, warnImg);
             }
         }
 
@@ -371,26 +362,16 @@ namespace SuperADD
             }
         }
 
-        private void CreateComputer_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            if ((string)e.Result == "success")
-            {
-                hideMsg();
-            }
-            else if ((string)e.Result == "overwrite")
-            {
-                showMsg("You are about to overwrite this computer object! Press \"Save\" again to continue...", warnImg, disableForm: false);
-                computerOverwriteConfirmed = true;
-            }
-            else
-            {
-                showMsg("Failed to commit to Active Directory. Message: " + e.Result, warnImg);
-            }
-        }
-
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
             computerOverwriteConfirmed = false;
+        }
+
+        private void spookyBoi_Click(object sender, EventArgs e)
+        {
+            spookyBoi.SendToBack();
+            spookyBoi.Enabled = false;
+            spookyCount = 5;
         }
     }
 }

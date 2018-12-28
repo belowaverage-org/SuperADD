@@ -42,13 +42,13 @@
             this.tempExit = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.compNameTab = new System.Windows.Forms.TabPage();
+            this.spookyBoi = new System.Windows.Forms.PictureBox();
             this.compSearchPage = new System.Windows.Forms.TabPage();
             this.directorySearchTb = new System.Windows.Forms.TextBox();
             this.dirlookOUList = new System.Windows.Forms.ListBox();
             this.computerLookList = new System.Windows.Forms.ListView();
             this.compColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.descColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CreateComputer = new System.ComponentModel.BackgroundWorker();
             this.msgPanel = new System.Windows.Forms.Panel();
             this.msgLbl = new System.Windows.Forms.Label();
             this.msgPic = new System.Windows.Forms.PictureBox();
@@ -59,6 +59,7 @@
             this.tablePanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.compNameTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spookyBoi)).BeginInit();
             this.compSearchPage.SuspendLayout();
             this.msgPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).BeginInit();
@@ -68,14 +69,15 @@
             // 
             this.titleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.titleText.Enabled = false;
-            this.titleText.Location = new System.Drawing.Point(586, 9);
+            this.titleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleText.Location = new System.Drawing.Point(567, 1);
             this.titleText.Margin = new System.Windows.Forms.Padding(0);
             this.titleText.Name = "titleText";
-            this.titleText.Size = new System.Drawing.Size(99, 16);
+            this.titleText.Size = new System.Drawing.Size(118, 31);
             this.titleText.TabIndex = 2;
             this.titleText.Text = "SuperADD";
             this.titleText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.titleText.Click += new System.EventHandler(this.TitleText_Click);
+            this.titleText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleText_Click);
             // 
             // OUList
             // 
@@ -155,6 +157,7 @@
             this.descLbl.Size = new System.Drawing.Size(76, 16);
             this.descLbl.TabIndex = 3;
             this.descLbl.Text = "Description";
+            this.descLbl.Click += new System.EventHandler(this.TitleText_Click);
             // 
             // nameTextBox
             // 
@@ -218,6 +221,7 @@
             // 
             this.compNameTab.Controls.Add(this.tablePanel);
             this.compNameTab.Controls.Add(this.saveNextBtn);
+            this.compNameTab.Controls.Add(this.spookyBoi);
             this.compNameTab.Location = new System.Drawing.Point(4, 25);
             this.compNameTab.Name = "compNameTab";
             this.compNameTab.Padding = new System.Windows.Forms.Padding(3, 20, 3, 3);
@@ -225,6 +229,17 @@
             this.compNameTab.TabIndex = 0;
             this.compNameTab.Text = "Computer Name";
             this.compNameTab.UseVisualStyleBackColor = true;
+            // 
+            // spookyBoi
+            // 
+            this.spookyBoi.Enabled = false;
+            this.spookyBoi.Image = global::SuperADD.Properties.Resources.spooky;
+            this.spookyBoi.Location = new System.Drawing.Point(6, 7);
+            this.spookyBoi.Name = "spookyBoi";
+            this.spookyBoi.Size = new System.Drawing.Size(200, 200);
+            this.spookyBoi.TabIndex = 16;
+            this.spookyBoi.TabStop = false;
+            this.spookyBoi.Click += new System.EventHandler(this.spookyBoi_Click);
             // 
             // compSearchPage
             // 
@@ -293,12 +308,6 @@
             this.descColumn.Text = "Description";
             this.descColumn.Width = 289;
             // 
-            // CreateComputer
-            // 
-            this.CreateComputer.WorkerSupportsCancellation = true;
-            this.CreateComputer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CreateComputer_DoWork);
-            this.CreateComputer.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CreateComputer_RunWorkerCompleted);
-            // 
             // msgPanel
             // 
             this.msgPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -349,8 +358,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(695, 477);
-            this.Controls.Add(this.tempExit);
             this.Controls.Add(this.titleText);
+            this.Controls.Add(this.tempExit);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.msgPanel);
             this.Controls.Add(this.msgShadow);
@@ -371,6 +380,7 @@
             this.tablePanel.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.compNameTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spookyBoi)).EndInit();
             this.compSearchPage.ResumeLayout(false);
             this.compSearchPage.PerformLayout();
             this.msgPanel.ResumeLayout(false);
@@ -402,11 +412,11 @@
         private System.Windows.Forms.ColumnHeader descColumn;
         private System.Windows.Forms.ListBox dirlookOUList;
         private System.Windows.Forms.TextBox directorySearchTb;
-        private System.ComponentModel.BackgroundWorker CreateComputer;
         private System.Windows.Forms.Panel msgPanel;
         private System.Windows.Forms.PictureBox msgPic;
         private System.Windows.Forms.Label msgLbl;
         private System.Windows.Forms.Panel msgShadow;
+        private System.Windows.Forms.PictureBox spookyBoi;
     }
 }
 
