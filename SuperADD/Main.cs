@@ -130,11 +130,6 @@ namespace SuperADD
             pubDescTextBox.Text = description;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private int spookyCount = 5;
 
         private void TitleText_Click(object sender, EventArgs e)

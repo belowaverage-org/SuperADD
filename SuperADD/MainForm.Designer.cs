@@ -39,7 +39,6 @@
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.nameLbl = new System.Windows.Forms.Label();
             this.tablePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.tempExit = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.compNameTab = new System.Windows.Forms.TabPage();
             this.skipJoinBtn = new System.Windows.Forms.Button();
@@ -195,17 +194,6 @@
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
             this.tablePanel.Size = new System.Drawing.Size(661, 364);
             this.tablePanel.TabIndex = 15;
-            // 
-            // tempExit
-            // 
-            this.tempExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tempExit.Location = new System.Drawing.Point(675, 458);
-            this.tempExit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tempExit.Name = "tempExit";
-            this.tempExit.Size = new System.Drawing.Size(20, 19);
-            this.tempExit.TabIndex = 1;
-            this.tempExit.UseVisualStyleBackColor = true;
-            this.tempExit.Click += new System.EventHandler(this.button1_Click);
             // 
             // tabControl
             // 
@@ -373,7 +361,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(695, 477);
             this.Controls.Add(this.titleText);
-            this.Controls.Add(this.tempExit);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.msgPanel);
             this.Controls.Add(this.msgShadow);
@@ -417,7 +404,6 @@
         private System.Windows.Forms.Label nameLbl;
         private System.Windows.Forms.TextBox descTextBox;
         private System.Windows.Forms.Label descLbl;
-        private System.Windows.Forms.Button tempExit;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage compNameTab;
         private System.Windows.Forms.TabPage compSearchPage;
