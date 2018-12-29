@@ -392,6 +392,7 @@ namespace SuperADD
                 {
                     if (joinDomain)
                     {
+                        env["OSDCOMPUTERNAME"] = nameTextBox.Text;
                         env["DOMAINADMIN"] = env["USERID"];
                         env["DOMAINADMINDOMAIN"] = env["USERDOMAIN"];
                         env["DOMAINADMINPASSWORD"] = env["USERPASSWORD"];
@@ -402,6 +403,7 @@ namespace SuperADD
                     }
                     else
                     {
+                        env["OSDCOMPUTERNAME"] = nameTextBox.Text;
                         env["JOINWORKGROUP"] = "WORKGROUP";
                         env["OSDNETWORKJOINTYPE"] = "1";
                     }
