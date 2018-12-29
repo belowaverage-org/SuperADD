@@ -42,6 +42,7 @@
             this.tempExit = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.compNameTab = new System.Windows.Forms.TabPage();
+            this.skipJoinBtn = new System.Windows.Forms.Button();
             this.spookyBoi = new System.Windows.Forms.PictureBox();
             this.compSearchPage = new System.Windows.Forms.TabPage();
             this.directorySearchTb = new System.Windows.Forms.TextBox();
@@ -70,10 +71,10 @@
             this.titleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.titleText.Enabled = false;
             this.titleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleText.Location = new System.Drawing.Point(567, 1);
+            this.titleText.Location = new System.Drawing.Point(587, 1);
             this.titleText.Margin = new System.Windows.Forms.Padding(0);
             this.titleText.Name = "titleText";
-            this.titleText.Size = new System.Drawing.Size(118, 31);
+            this.titleText.Size = new System.Drawing.Size(98, 31);
             this.titleText.TabIndex = 2;
             this.titleText.Text = "SuperADD";
             this.titleText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -219,6 +220,7 @@
             // 
             // compNameTab
             // 
+            this.compNameTab.Controls.Add(this.skipJoinBtn);
             this.compNameTab.Controls.Add(this.tablePanel);
             this.compNameTab.Controls.Add(this.saveNextBtn);
             this.compNameTab.Controls.Add(this.spookyBoi);
@@ -229,6 +231,18 @@
             this.compNameTab.TabIndex = 0;
             this.compNameTab.Text = "Computer Name";
             this.compNameTab.UseVisualStyleBackColor = true;
+            // 
+            // skipJoinBtn
+            // 
+            this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.skipJoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skipJoinBtn.Location = new System.Drawing.Point(5, 394);
+            this.skipJoinBtn.Name = "skipJoinBtn";
+            this.skipJoinBtn.Size = new System.Drawing.Size(131, 29);
+            this.skipJoinBtn.TabIndex = 17;
+            this.skipJoinBtn.Text = "Join WORKGROUP";
+            this.skipJoinBtn.UseVisualStyleBackColor = true;
+            this.skipJoinBtn.Click += new System.EventHandler(this.skipJoinBtn_Click);
             // 
             // spookyBoi
             // 
@@ -417,6 +431,7 @@
         private System.Windows.Forms.Label msgLbl;
         private System.Windows.Forms.Panel msgShadow;
         private System.Windows.Forms.PictureBox spookyBoi;
+        private System.Windows.Forms.Button skipJoinBtn;
     }
 }
 

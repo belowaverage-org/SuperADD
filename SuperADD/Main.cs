@@ -6,6 +6,10 @@ using System.IO;
 using System.Drawing;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Text;
+using Microsoft.BDD.TaskSequenceModule;
+using Interop.TsProgressUI;
+using System.Runtime.InteropServices;
 
 namespace SuperADD
 {
@@ -27,19 +31,38 @@ namespace SuperADD
         private static Image loadImg = Properties.Resources.loading;
         private static Image warnImg = Properties.Resources.warning.ToBitmap();
         private static bool computerOverwriteConfirmed = false;
+        private static TSEnvironment env = null;
+        private static bool desktopMode = false;
 
         public Main()
         {
             InitializeComponent();
-
             try
             {
-                new Interop.TsProgressUI.ProgressUI().CloseProgressDialog();
-                Microsoft.BDD.TaskSequenceModule.TSEnvironment env = new Microsoft.BDD.TaskSequenceModule.TSEnvironment();
-                //env.Variables
+                new ProgressUI().CloseProgressDialog();
+                env = new TSEnvironment();
+                foreach(string key in env.Variables)
+                {
+                    if (key == "USERDOMAIN")
+                    {
+                        byte[] var = Convert.FromBase64String(env[key]);
+                        adDomain = Encoding.UTF8.GetString(var);
+                    }
+                    if (key == "USERID")
+                    {
+                        byte[] var = Convert.FromBase64String(env[key]);
+                        adUser = Encoding.UTF8.GetString(var);
+                    }
+                    if (key == "USERPASSWORD")
+                    {
+                        byte[] var = Convert.FromBase64String(env[key]);
+                        adPass = Encoding.UTF8.GetString(var);
+                    }
+                }
             }
-            catch(System.Runtime.InteropServices.COMException e)
+            catch(COMException)
             {
+                desktopMode = true;
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.Sizable;
                 showMsg("SuperADD was not launched by a task sequence!", warnImg);
@@ -341,7 +364,14 @@ namespace SuperADD
                 }
                 else
                 {
-                    hideMsg();
+                    if(desktopMode)
+                    {
+                        hideMsg();
+                    }
+                    else
+                    {
+                        setTSVariables();
+                    }
                 }
             }
             catch (HttpRequestException e)
@@ -351,6 +381,39 @@ namespace SuperADD
             catch (Exception e)
             {
                 showMsg(e.Message, warnImg);
+            }
+        }
+
+        private void setTSVariables(bool joinDomain = true, bool exitSuperADD = true)
+        {
+            if (!desktopMode)
+            {
+                try
+                {
+                    if (joinDomain)
+                    {
+                        env["DOMAINADMIN"] = env["USERID"];
+                        env["DOMAINADMINDOMAIN"] = env["USERDOMAIN"];
+                        env["DOMAINADMINPASSWORD"] = env["USERPASSWORD"];
+                        env["JOINDOMAIN"] = adDomain;
+                        env["OSDDOMAINNAME"] = adDomain;
+                        env["MACHINEOBJECTOU"] = currentOU;
+                        env["OSDNETWORKJOINTYPE"] = "0";
+                    }
+                    else
+                    {
+                        env["JOINWORKGROUP"] = "WORKGROUP";
+                        env["OSDNETWORKJOINTYPE"] = "1";
+                    }
+                    if (exitSuperADD)
+                    {
+                        Application.Exit();
+                    }
+                }
+                catch(Exception e)
+                {
+                    showMsg("Error setting TS Variables: " + e.Message, warnImg);
+                }
             }
         }
 
@@ -372,6 +435,11 @@ namespace SuperADD
             spookyBoi.SendToBack();
             spookyBoi.Enabled = false;
             spookyCount = 5;
+        }
+
+        private void skipJoinBtn_Click(object sender, EventArgs e)
+        {
+            setTSVariables(false);
         }
     }
 }
