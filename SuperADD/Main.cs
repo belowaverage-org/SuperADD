@@ -16,47 +16,51 @@ namespace SuperADD
     public partial class Main : Form
     {
         public static FlowLayoutPanel pubFlowLayout = null;
-
         public static TextBox pubDescTextBox = null;
-
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
 
-        private static string adDomain = "";
-        private static string adUser = "";
-        private static string adPass = "";
+        private string adDomainName = "";
+        private string adUserName = "";
+        private string adPassword = "";
 
-        private static Dictionary<string, string> dirList = new Dictionary<string, string>();
-        private static string currentOU = "";
-        private static bool msgDismissable = false;
-        private static Image loadImg = Properties.Resources.loading;
-        private static Image warnImg = Properties.Resources.warning.ToBitmap();
-        private static bool computerOverwriteConfirmed = false;
-        private static TSEnvironment env = null;
-        private static bool desktopMode = false;
+        private Dictionary<string, string> currentlySelectedOUList = new Dictionary<string, string>();
+        private string currentlySelectedOU = "";
+        private bool msgDismissable = false;
+        private Image loadImg = Properties.Resources.loading;
+        private Image warnImg = Properties.Resources.warning.ToBitmap();
+        private bool computerOverwriteConfirmed = false;
+        private TSEnvironment tsEnv = null;
+        private bool desktopMode = false;
+        private int spookyCount = 5;
+        private int autoRunIndex = -1;
 
-        public Main()
+        List<char> invalidNameCharacters = new List<char> {
+            ' ', '{', '|', '}', '~', '[', '\\', ']', '^', '\'', ':', ';', '<', '=', '>',
+            '?', '@', '!', '"', '#', '$', '%', '`', '(', ')', '+', '/', '.', ',', '*', '&'
+        };
+
+        public Main(int autoIndex = -1)
         {
             InitializeComponent();
             try
             {
                 new ProgressUI().CloseProgressDialog();
-                env = new TSEnvironment();
-                foreach(string key in env.Variables)
+                tsEnv = new TSEnvironment();
+                foreach(string key in tsEnv.Variables)
                 {
-                    if (key == "USERDOMAIN")
+                    if (key == "JOINDOMAIN")
                     {
-                        byte[] var = Convert.FromBase64String(env[key]);
-                        adDomain = Encoding.UTF8.GetString(var);
+                        adDomainName = tsEnv[key];
                     }
                     if (key == "USERID")
                     {
-                        byte[] var = Convert.FromBase64String(env[key]);
-                        adUser = Encoding.UTF8.GetString(var);
+                        byte[] var = Convert.FromBase64String(tsEnv[key]);
+                        adUserName = Encoding.UTF8.GetString(var);
                     }
                     if (key == "USERPASSWORD")
                     {
-                        byte[] var = Convert.FromBase64String(env[key]);
-                        adPass = Encoding.UTF8.GetString(var);
+                        byte[] var = Convert.FromBase64String(tsEnv[key]);
+                        adPassword = Encoding.UTF8.GetString(var);
                     }
                 }
             }
@@ -65,7 +69,11 @@ namespace SuperADD
                 desktopMode = true;
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.Sizable;
-                showMsg("SuperADD was not launched by a task sequence!", warnImg);
+                tabControl.Enabled = false;
+                saveNextBtn.Text = "Save";
+                skipJoinBtn.Hide();
+                promptShadowPanel.BringToFront();
+                promptPanel.BringToFront();
             }
 
             if (!File.Exists("SuperADD.xml"))
@@ -78,10 +86,11 @@ namespace SuperADD
             }
             catch (Exception e)
             {
-                showMsg("SSuperADD.xml: " + e.Message, warnImg);
+                showMsg("SuperADD.xml: " + e.Message, warnImg);
                 return;
             }
 
+            autoRunIndex = autoIndex;
             pubFlowLayout = flowPanel;
             pubDescTextBox = descTextBox;
 
@@ -130,54 +139,25 @@ namespace SuperADD
             pubDescTextBox.Text = description;
         }
 
-        private int spookyCount = 5;
-
-        private void TitleText_Click(object sender, EventArgs e)
-        {
-            if (--spookyCount == 0)
-            {
-                spookyBoi.BringToFront();
-                spookyBoi.Enabled = true;
-            }
-        }
-
-        private void OUList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ListBox lv = (ListBox)sender;
-            foreach (XElement elm in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
-            {
-                if (elm.Element("Name").Value == (string)lv.SelectedItem)
-                {
-                    currentOU = elm.Element("DistinguishedName").Value;
-                    break;
-                }
-            }
-            if ((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirlookOUList)
-            {
-                lv.Enabled = false;
-                RetrieveOUList();
-            }
-        }
-
-        private async void RetrieveOUList()
+        private async void retrieveCurrentlySelectedOUList()
         {
             string rawResults = "";
             try
             {
-                dirList.Clear();
+                currentlySelectedOUList.Clear();
                 showMsg("Retrieving a list of computer objects in this Organizational Unit...", loadImg, dismissable: false);
                 Dictionary<string, string> postData = new Dictionary<string, string>();
-                postData.Add("domain", adDomain);
-                postData.Add("basedn", currentOU);
-                postData.Add("username", adUser);
-                postData.Add("password", adPass);
+                postData.Add("domain", adDomainName);
+                postData.Add("basedn", currentlySelectedOU);
+                postData.Add("username", adUserName);
+                postData.Add("password", adPassword);
                 postData.Add("function", "list");
                 postData.Add("filter", "objectClass=computer");
                 rawResults = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
                 var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
                 foreach (Dictionary<string, string> computer in results)
                 {
-                    dirList.Add(computer["cn"], computer["description"]);
+                    currentlySelectedOUList.Add(computer["cn"], computer["description"]);
                 }
                 hideMsg();
             }
@@ -193,17 +173,17 @@ namespace SuperADD
             {
                 showMsg(e.Message, warnImg);
             }
-            dirListUpdated();
+            currentlySelectedOUListUpdated();
         }
 
-        private void dirListUpdated()
+        private void currentlySelectedOUListUpdated()
         {
             if (tabControl.SelectedTab == compSearchPage)
             {
                 string filter = directorySearchTb.Text;
                 computerLookList.BeginUpdate();
                 computerLookList.Items.Clear();
-                foreach (KeyValuePair<string, string> result in dirList)
+                foreach (KeyValuePair<string, string> result in currentlySelectedOUList)
                 {
                     if (filter == "" || result.Key.ToLower().Contains(filter.ToLower()) || result.Value.ToLower().Contains(filter.ToLower()))
                     {
@@ -216,12 +196,12 @@ namespace SuperADD
             }
             else if (tabControl.SelectedTab == compNameTab)
             {
-                FindNextName();
+                findNextComputerName();
                 OUList.Enabled = true;
             }
         }
 
-        private void FindNextName()
+        private void findNextComputerName()
         {
             string AutoName = "";
             foreach (XElement element in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
@@ -245,7 +225,7 @@ namespace SuperADD
 
             int count = 0;
 
-            foreach (KeyValuePair<string, string> comp in dirList)
+            foreach (KeyValuePair<string, string> comp in currentlySelectedOUList)
             {
                 if (comp.Key.ToLower().StartsWith(prefix.ToLower()))
                 {
@@ -257,20 +237,6 @@ namespace SuperADD
                 }
             }
             nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0");
-        }
-
-        private void directorySearchTb_TextChanged(object sender, EventArgs e)
-        {
-            dirListUpdated();
-        }
-
-        private void computerLookList_DoubleClick(object sender, EventArgs e)
-        {
-            OUList.SelectedIndex = dirlookOUList.SelectedIndex;
-            nameTextBox.Text = computerLookList.SelectedItems[0].Text;
-            descTextBox.Text = computerLookList.SelectedItems[0].SubItems[1].Text;
-            computerOverwriteConfirmed = true;
-            tabControl.SelectedTab = compNameTab;
         }
 
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
@@ -312,11 +278,6 @@ namespace SuperADD
             msgPic.Enabled = false;
         }
 
-        private void saveNextBtn_Click(object sender, EventArgs e)
-        {
-            createComputer();
-        }
-
         private async void createComputer()
         {
             if (nameTextBox.Text == "")
@@ -331,10 +292,10 @@ namespace SuperADD
             }
             showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);
             Dictionary<string, string> postData = new Dictionary<string, string>();
-            postData.Add("domain", adDomain);
-            postData.Add("basedn", currentOU);
-            postData.Add("username", adUser);
-            postData.Add("password", adPass);
+            postData.Add("domain", adDomainName);
+            postData.Add("basedn", currentlySelectedOU);
+            postData.Add("username", adUserName);
+            postData.Add("password", adPassword);
             postData.Add("function", "update");
             postData.Add("cn", nameTextBox.Text);
             postData.Add("description", descTextBox.Text);
@@ -387,20 +348,18 @@ namespace SuperADD
                 {
                     if (joinDomain)
                     {
-                        env["OSDCOMPUTERNAME"] = nameTextBox.Text;
-                        env["DOMAINADMIN"] = env["USERID"];
-                        env["DOMAINADMINDOMAIN"] = env["USERDOMAIN"];
-                        env["DOMAINADMINPASSWORD"] = env["USERPASSWORD"];
-                        env["JOINDOMAIN"] = adDomain;
-                        env["OSDDOMAINNAME"] = adDomain;
-                        env["MACHINEOBJECTOU"] = currentOU;
-                        env["OSDNETWORKJOINTYPE"] = "0";
+                        tsEnv["OSDCOMPUTERNAME"] = nameTextBox.Text;
+                        tsEnv["DOMAINADMIN"] = tsEnv["USERID"];
+                        tsEnv["DOMAINADMINDOMAIN"] = tsEnv["USERDOMAIN"];
+                        tsEnv["DOMAINADMINPASSWORD"] = tsEnv["USERPASSWORD"];
+                        tsEnv["MACHINEOBJECTOU"] = currentlySelectedOU;
+                        tsEnv["JOINWORKGROUP"] = "";
                     }
                     else
                     {
-                        env["OSDCOMPUTERNAME"] = nameTextBox.Text;
-                        env["JOINWORKGROUP"] = "WORKGROUP";
-                        env["OSDNETWORKJOINTYPE"] = "1";
+                        tsEnv["OSDCOMPUTERNAME"] = nameTextBox.Text;
+                        tsEnv["JOINDOMAIN"] = "";
+                        tsEnv["OSDNETWORKJOINTYPE"] = "1";
                     }
                     if (exitSuperADD)
                     {
@@ -414,6 +373,20 @@ namespace SuperADD
             }
         }
 
+        private void directorySearchTb_TextChanged(object sender, EventArgs e)
+        {
+            currentlySelectedOUListUpdated();
+        }
+
+        private void computerLookList_DoubleClick(object sender, EventArgs e)
+        {
+            OUList.SelectedIndex = dirlookOUList.SelectedIndex;
+            nameTextBox.Text = computerLookList.SelectedItems[0].Text;
+            descTextBox.Text = computerLookList.SelectedItems[0].SubItems[1].Text;
+            computerOverwriteConfirmed = true;
+            tabControl.SelectedTab = compNameTab;
+        }
+
         private void msgPanel_Click(object sender, EventArgs e)
         {
             if (msgDismissable)
@@ -422,8 +395,52 @@ namespace SuperADD
             }
         }
 
+        private void TitleText_Click(object sender, EventArgs e)
+        {
+            if (--spookyCount == 0)
+            {
+                spookyBoi.BringToFront();
+                spookyBoi.Enabled = true;
+            }
+        }
+
+        private void OUList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox lv = (ListBox)sender;
+            foreach (XElement elm in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
+            {
+                if (elm.Element("Name").Value == (string)lv.SelectedItem)
+                {
+                    currentlySelectedOU = elm.Element("DistinguishedName").Value;
+                    break;
+                }
+            }
+            if ((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirlookOUList)
+            {
+                lv.Enabled = false;
+                retrieveCurrentlySelectedOUList();
+            }
+        }
+
+        private void saveNextBtn_Click(object sender, EventArgs e)
+        {
+            createComputer();
+        }
+
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
+            foreach(char character in invalidNameCharacters)
+            {
+                nameTextBox.Text = nameTextBox.Text.Replace(character, '\0');
+            }
+            if(nameTextBox.Text.Length > 15)
+            {
+                nameTextBox.Text = nameTextBox.Text.Substring(0, 15);
+            }
+            if(autoRunIndex == -2)
+            {
+                saveNextBtn.PerformClick();
+            }
             computerOverwriteConfirmed = false;
         }
 
@@ -437,6 +454,25 @@ namespace SuperADD
         private void skipJoinBtn_Click(object sender, EventArgs e)
         {
             setTSVariables(false);
+        }
+
+        private void promptSubmitBtn_Click(object sender, EventArgs e)
+        {
+            adUserName = promptUsrTxt.Text;
+            adPassword = promptPasTxt.Text;
+            adDomainName = promptDomTxt.Text;
+            promptShadowPanel.SendToBack();
+            promptPanel.SendToBack();
+            tabControl.Enabled = true;
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            if(autoRunIndex > -1 && autoRunIndex < OUList.Items.Count)
+            {
+                OUList.SelectedIndex = autoRunIndex;
+                autoRunIndex = -2;
+            }
         }
     }
 }

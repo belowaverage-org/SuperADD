@@ -53,6 +53,15 @@
             this.msgLbl = new System.Windows.Forms.Label();
             this.msgPic = new System.Windows.Forms.PictureBox();
             this.msgShadow = new System.Windows.Forms.Panel();
+            this.promptPanel = new System.Windows.Forms.Panel();
+            this.promptLbl3 = new System.Windows.Forms.Label();
+            this.promptLbl2 = new System.Windows.Forms.Label();
+            this.promptLbl1 = new System.Windows.Forms.Label();
+            this.promptSubmitBtn = new System.Windows.Forms.Button();
+            this.promptUsrTxt = new System.Windows.Forms.TextBox();
+            this.promptPasTxt = new System.Windows.Forms.TextBox();
+            this.promptDomTxt = new System.Windows.Forms.TextBox();
+            this.promptShadowPanel = new System.Windows.Forms.Panel();
             this.OUBox.SuspendLayout();
             this.flowPanel.SuspendLayout();
             this.computerObjectBox.SuspendLayout();
@@ -63,6 +72,7 @@
             this.compSearchPage.SuspendLayout();
             this.msgPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).BeginInit();
+            this.promptPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // titleText
@@ -106,11 +116,12 @@
             // saveNextBtn
             // 
             this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveNextBtn.Location = new System.Drawing.Point(573, 394);
+            this.saveNextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveNextBtn.Location = new System.Drawing.Point(541, 389);
             this.saveNextBtn.Name = "saveNextBtn";
-            this.saveNextBtn.Size = new System.Drawing.Size(89, 29);
+            this.saveNextBtn.Size = new System.Drawing.Size(121, 34);
             this.saveNextBtn.TabIndex = 9;
-            this.saveNextBtn.Text = "Save";
+            this.saveNextBtn.Text = "Join DOMAIN";
             this.saveNextBtn.UseVisualStyleBackColor = true;
             this.saveNextBtn.Click += new System.EventHandler(this.saveNextBtn_Click);
             // 
@@ -224,9 +235,9 @@
             // 
             this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skipJoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skipJoinBtn.Location = new System.Drawing.Point(5, 394);
+            this.skipJoinBtn.Location = new System.Drawing.Point(5, 389);
             this.skipJoinBtn.Name = "skipJoinBtn";
-            this.skipJoinBtn.Size = new System.Drawing.Size(131, 29);
+            this.skipJoinBtn.Size = new System.Drawing.Size(121, 34);
             this.skipJoinBtn.TabIndex = 17;
             this.skipJoinBtn.Text = "Join WORKGROUP";
             this.skipJoinBtn.UseVisualStyleBackColor = true;
@@ -355,6 +366,90 @@
             this.msgShadow.Size = new System.Drawing.Size(351, 63);
             this.msgShadow.TabIndex = 18;
             // 
+            // promptPanel
+            // 
+            this.promptPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.promptPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.promptPanel.Controls.Add(this.promptLbl3);
+            this.promptPanel.Controls.Add(this.promptLbl2);
+            this.promptPanel.Controls.Add(this.promptLbl1);
+            this.promptPanel.Controls.Add(this.promptSubmitBtn);
+            this.promptPanel.Controls.Add(this.promptUsrTxt);
+            this.promptPanel.Controls.Add(this.promptPasTxt);
+            this.promptPanel.Controls.Add(this.promptDomTxt);
+            this.promptPanel.Location = new System.Drawing.Point(185, 122);
+            this.promptPanel.Name = "promptPanel";
+            this.promptPanel.Size = new System.Drawing.Size(324, 147);
+            this.promptPanel.TabIndex = 19;
+            // 
+            // promptLbl3
+            // 
+            this.promptLbl3.AutoSize = true;
+            this.promptLbl3.Location = new System.Drawing.Point(41, 77);
+            this.promptLbl3.Name = "promptLbl3";
+            this.promptLbl3.Size = new System.Drawing.Size(46, 16);
+            this.promptLbl3.TabIndex = 6;
+            this.promptLbl3.Text = "FQDN";
+            // 
+            // promptLbl2
+            // 
+            this.promptLbl2.AutoSize = true;
+            this.promptLbl2.Location = new System.Drawing.Point(19, 50);
+            this.promptLbl2.Name = "promptLbl2";
+            this.promptLbl2.Size = new System.Drawing.Size(68, 16);
+            this.promptLbl2.TabIndex = 5;
+            this.promptLbl2.Text = "Password";
+            // 
+            // promptLbl1
+            // 
+            this.promptLbl1.AutoSize = true;
+            this.promptLbl1.Location = new System.Drawing.Point(10, 21);
+            this.promptLbl1.Name = "promptLbl1";
+            this.promptLbl1.Size = new System.Drawing.Size(77, 16);
+            this.promptLbl1.TabIndex = 4;
+            this.promptLbl1.Text = "User Name";
+            // 
+            // promptSubmitBtn
+            // 
+            this.promptSubmitBtn.Location = new System.Drawing.Point(231, 110);
+            this.promptSubmitBtn.Name = "promptSubmitBtn";
+            this.promptSubmitBtn.Size = new System.Drawing.Size(75, 23);
+            this.promptSubmitBtn.TabIndex = 4;
+            this.promptSubmitBtn.Text = "Save";
+            this.promptSubmitBtn.UseVisualStyleBackColor = false;
+            this.promptSubmitBtn.Click += new System.EventHandler(this.promptSubmitBtn_Click);
+            // 
+            // promptUsrTxt
+            // 
+            this.promptUsrTxt.Location = new System.Drawing.Point(104, 18);
+            this.promptUsrTxt.Name = "promptUsrTxt";
+            this.promptUsrTxt.Size = new System.Drawing.Size(202, 22);
+            this.promptUsrTxt.TabIndex = 1;
+            // 
+            // promptPasTxt
+            // 
+            this.promptPasTxt.Location = new System.Drawing.Point(104, 46);
+            this.promptPasTxt.Name = "promptPasTxt";
+            this.promptPasTxt.Size = new System.Drawing.Size(202, 22);
+            this.promptPasTxt.TabIndex = 2;
+            this.promptPasTxt.UseSystemPasswordChar = true;
+            // 
+            // promptDomTxt
+            // 
+            this.promptDomTxt.Location = new System.Drawing.Point(104, 74);
+            this.promptDomTxt.Name = "promptDomTxt";
+            this.promptDomTxt.Size = new System.Drawing.Size(202, 22);
+            this.promptDomTxt.TabIndex = 3;
+            // 
+            // promptShadowPanel
+            // 
+            this.promptShadowPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.promptShadowPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.promptShadowPanel.Location = new System.Drawing.Point(189, 127);
+            this.promptShadowPanel.Name = "promptShadowPanel";
+            this.promptShadowPanel.Size = new System.Drawing.Size(324, 147);
+            this.promptShadowPanel.TabIndex = 20;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -364,6 +459,8 @@
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.msgPanel);
             this.Controls.Add(this.msgShadow);
+            this.Controls.Add(this.promptPanel);
+            this.Controls.Add(this.promptShadowPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -373,6 +470,7 @@
             this.ShowIcon = false;
             this.Text = "SuperADD";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.OUBox.ResumeLayout(false);
             this.flowPanel.ResumeLayout(false);
             this.computerObjectBox.ResumeLayout(false);
@@ -386,6 +484,8 @@
             this.compSearchPage.PerformLayout();
             this.msgPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).EndInit();
+            this.promptPanel.ResumeLayout(false);
+            this.promptPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -418,6 +518,15 @@
         private System.Windows.Forms.Panel msgShadow;
         private System.Windows.Forms.PictureBox spookyBoi;
         private System.Windows.Forms.Button skipJoinBtn;
+        private System.Windows.Forms.Panel promptPanel;
+        private System.Windows.Forms.Label promptLbl3;
+        private System.Windows.Forms.Label promptLbl2;
+        private System.Windows.Forms.Label promptLbl1;
+        private System.Windows.Forms.Button promptSubmitBtn;
+        private System.Windows.Forms.TextBox promptUsrTxt;
+        private System.Windows.Forms.TextBox promptPasTxt;
+        private System.Windows.Forms.TextBox promptDomTxt;
+        private System.Windows.Forms.Panel promptShadowPanel;
     }
 }
 

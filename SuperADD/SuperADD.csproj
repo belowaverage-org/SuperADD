@@ -40,6 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=3.2.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.3.2.1\lib\net40\Costura.dll</HintPath>
@@ -61,6 +64,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +76,12 @@
     <Compile Include="Config.cs" />
     <Compile Include="DescriptTextItem.cs" />
     <Compile Include="DescriptListItem.cs" />
+    <Compile Include="Help.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Help.Designer.cs">
+      <DependentUpon>Help.cs</DependentUpon>
+    </Compile>
     <Compile Include="HTTP.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -81,6 +91,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Help.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,7 +129,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)* Y:\DYLANTEST\*</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)* Y:\SuperADD\*</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.3.3.4\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.4\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

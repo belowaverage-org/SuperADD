@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SuperADD
@@ -11,12 +8,43 @@ namespace SuperADD
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            if(args.Length > 0)
+            {
+                foreach(string arg in args)
+                {
+                    if (arg.StartsWith("-?") || arg.StartsWith("/?"))
+                    {
+                        Application.Run(new Help(0));
+                    }
+                    if (arg.StartsWith("-autorunindex:") || arg.StartsWith("/autorunindex:"))
+                    {
+                        int index = 0;
+                        if (arg.StartsWith("-"))
+                        {
+                            index = int.Parse(arg.Replace("-autorunindex:", ""));
+                        }
+                        if(arg.StartsWith("/"))
+                        {
+                            index = int.Parse(arg.Replace("/autorunindex:", ""));
+                        }
+                        Application.Run(new Main(index));
+                    }
+                    if (arg.StartsWith("-dump") || arg.StartsWith("/dump"))
+                    {
+                        Application.Run(new Help(1));
+                    }
+                }
+            }
+            else
+            {
+                Application.Run(new Main());
+            }
         }
     }
 }
