@@ -42,6 +42,7 @@
             "-/autorunindex:[OU Index (num)]   |  Auto creates the computer and continues. (OU" +
                 " Index is the zero based index from which the computer will be created from out " +
                 "of the OU list in the SuperADD.xml)",
+            "-/autoselectindex:[OU Index (num)]   |  Auto selects the computer OU at startup.",
             "-/dump  |  Dumps all MDT variables into a window."});
             this.commandList.Location = new System.Drawing.Point(0, 0);
             this.commandList.Name = "commandList";

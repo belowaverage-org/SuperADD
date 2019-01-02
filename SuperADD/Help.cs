@@ -8,6 +8,7 @@ namespace SuperADD
         public Help(int task = 0)
         {
             InitializeComponent();
+            Icon = Properties.Resources.winicon;
             if (task == 1)
             {
                 Text = "SuperADD: MDT Variables Dump";

@@ -306,6 +306,7 @@
             this.computerLookList.MultiSelect = false;
             this.computerLookList.Name = "computerLookList";
             this.computerLookList.Size = new System.Drawing.Size(464, 392);
+            this.computerLookList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.computerLookList.TabIndex = 1;
             this.computerLookList.UseCompatibleStateImageBehavior = false;
             this.computerLookList.View = System.Windows.Forms.View.Details;

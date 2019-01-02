@@ -33,13 +33,14 @@ namespace SuperADD
         private bool desktopMode = false;
         private int spookyCount = 5;
         private int autoRunIndex = -1;
+        private bool autoRunContinue = false;
 
         List<char> invalidNameCharacters = new List<char> {
             ' ', '{', '|', '}', '~', '[', '\\', ']', '^', '\'', ':', ';', '<', '=', '>',
             '?', '@', '!', '"', '#', '$', '%', '`', '(', ')', '+', '/', '.', ',', '*', '&'
         };
 
-        public Main(int autoIndex = -1)
+        public Main(int autoIndex = -1, bool autoContinue = false)
         {
             InitializeComponent();
             try
@@ -90,7 +91,10 @@ namespace SuperADD
                 return;
             }
 
+            Icon = Properties.Resources.winicon;
+
             autoRunIndex = autoIndex;
+            autoRunContinue = autoContinue;
             pubFlowLayout = flowPanel;
             pubDescTextBox = descTextBox;
 
@@ -229,10 +233,14 @@ namespace SuperADD
             {
                 if (comp.Key.ToLower().StartsWith(prefix.ToLower()))
                 {
-                    int number = int.Parse(comp.Key.ToLower().Replace(prefix.ToLower(), ""));
-                    if (number >= count)
+                    int number = 0;
+                    string suffix = comp.Key.ToLower().Replace(prefix.ToLower(), "");
+                    if (int.TryParse(suffix, out number))
                     {
-                        count = number + 1;
+                        if (number >= count)
+                        {
+                            count = number + 1;
+                        }
                     }
                 }
             }
@@ -471,7 +479,14 @@ namespace SuperADD
             if(autoRunIndex > -1 && autoRunIndex < OUList.Items.Count)
             {
                 OUList.SelectedIndex = autoRunIndex;
-                autoRunIndex = -2;
+                if (autoRunContinue)
+                {
+                    autoRunIndex = -2;
+                }
+                else
+                {
+                    autoRunIndex = -1;
+                }
             }
         }
     }

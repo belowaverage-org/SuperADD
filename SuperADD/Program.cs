@@ -29,11 +29,24 @@ namespace SuperADD
                         {
                             index = int.Parse(arg.Replace("-autorunindex:", ""));
                         }
-                        if(arg.StartsWith("/"))
+                        if (arg.StartsWith("/"))
                         {
                             index = int.Parse(arg.Replace("/autorunindex:", ""));
                         }
-                        Application.Run(new Main(index));
+                        Application.Run(new Main(index, true));
+                    }
+                    if (arg.StartsWith("-autoselectindex:") || arg.StartsWith("/autoselectindex:"))
+                    {
+                        int index = 0;
+                        if (arg.StartsWith("-"))
+                        {
+                            index = int.Parse(arg.Replace("-autoselectindex:", ""));
+                        }
+                        if (arg.StartsWith("/"))
+                        {
+                            index = int.Parse(arg.Replace("/autoselectindex:", ""));
+                        }
+                        Application.Run(new Main(index, false));
                     }
                     if (arg.StartsWith("-dump") || arg.StartsWith("/dump"))
                     {
