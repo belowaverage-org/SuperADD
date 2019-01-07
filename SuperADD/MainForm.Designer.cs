@@ -116,6 +116,7 @@
             // saveNextBtn
             // 
             this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.saveNextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveNextBtn.Location = new System.Drawing.Point(541, 389);
             this.saveNextBtn.Name = "saveNextBtn";
@@ -234,6 +235,7 @@
             // skipJoinBtn
             // 
             this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.skipJoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.skipJoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.skipJoinBtn.Location = new System.Drawing.Point(5, 389);
             this.skipJoinBtn.Name = "skipJoinBtn";
@@ -412,6 +414,7 @@
             // 
             // promptSubmitBtn
             // 
+            this.promptSubmitBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.promptSubmitBtn.Location = new System.Drawing.Point(231, 110);
             this.promptSubmitBtn.Name = "promptSubmitBtn";
             this.promptSubmitBtn.Size = new System.Drawing.Size(75, 23);
