@@ -118,7 +118,7 @@
             this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.saveNextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveNextBtn.Location = new System.Drawing.Point(541, 389);
+            this.saveNextBtn.Location = new System.Drawing.Point(541, 386);
             this.saveNextBtn.Name = "saveNextBtn";
             this.saveNextBtn.Size = new System.Drawing.Size(121, 34);
             this.saveNextBtn.TabIndex = 9;
@@ -204,7 +204,7 @@
             this.tablePanel.RowCount = 2;
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tablePanel.Size = new System.Drawing.Size(661, 364);
+            this.tablePanel.Size = new System.Drawing.Size(661, 361);
             this.tablePanel.TabIndex = 15;
             // 
             // tabControl
@@ -237,7 +237,7 @@
             this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skipJoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.skipJoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skipJoinBtn.Location = new System.Drawing.Point(5, 389);
+            this.skipJoinBtn.Location = new System.Drawing.Point(5, 386);
             this.skipJoinBtn.Name = "skipJoinBtn";
             this.skipJoinBtn.Size = new System.Drawing.Size(121, 34);
             this.skipJoinBtn.TabIndex = 17;
@@ -340,22 +340,29 @@
             // 
             // msgLbl
             // 
+            this.msgLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.msgLbl.AutoEllipsis = true;
             this.msgLbl.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.msgLbl.Location = new System.Drawing.Point(62, 0);
+            this.msgLbl.Location = new System.Drawing.Point(64, 0);
             this.msgLbl.Name = "msgLbl";
-            this.msgLbl.Size = new System.Drawing.Size(287, 59);
+            this.msgLbl.Size = new System.Drawing.Size(285, 61);
             this.msgLbl.TabIndex = 1;
             this.msgLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.msgLbl.Click += new System.EventHandler(this.msgPanel_Click);
             // 
             // msgPic
             // 
+            this.msgPic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.msgPic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.msgPic.Enabled = false;
-            this.msgPic.Location = new System.Drawing.Point(15, 14);
+            this.msgPic.Location = new System.Drawing.Point(15, 15);
             this.msgPic.Name = "msgPic";
             this.msgPic.Size = new System.Drawing.Size(32, 32);
+            this.msgPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.msgPic.TabIndex = 0;
             this.msgPic.TabStop = false;
             this.msgPic.Click += new System.EventHandler(this.msgPanel_Click);
@@ -461,10 +468,10 @@
             this.ClientSize = new System.Drawing.Size(695, 477);
             this.Controls.Add(this.titleText);
             this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.msgPanel);
             this.Controls.Add(this.msgShadow);
             this.Controls.Add(this.promptPanel);
             this.Controls.Add(this.promptShadowPanel);
+            this.Controls.Add(this.msgPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

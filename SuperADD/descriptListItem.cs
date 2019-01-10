@@ -26,6 +26,7 @@ namespace SuperADD
             listBox.Size = new System.Drawing.Size(280, 162);
             listBox.SelectedIndexChanged += ListBox_SelectedIndexChanged;
             Main.pubFlowLayout.Controls.Add(groupBox);
+            groupBox.Scale(Main.pubAutoScaleFactor);
         }
 
         private void ListBox_SelectedIndexChanged(object sender, EventArgs e)

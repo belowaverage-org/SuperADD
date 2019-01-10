@@ -18,6 +18,7 @@ namespace SuperADD
         public static FlowLayoutPanel pubFlowLayout = null;
         public static TextBox pubDescTextBox = null;
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
+        public static SizeF pubAutoScaleFactor;
 
         private string adDomainName = "";
         private string adUserName = "";
@@ -98,6 +99,11 @@ namespace SuperADD
             pubFlowLayout = flowPanel;
             pubDescTextBox = descTextBox;
 
+            pubAutoScaleFactor = new SizeF(
+                CurrentAutoScaleDimensions.Width / 96,
+                CurrentAutoScaleDimensions.Height / 96
+            );
+
             foreach (XElement ou in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
             {
                 OUList.Items.Add(ou.Element("Name").Value);
@@ -146,6 +152,14 @@ namespace SuperADD
         private async void retrieveCurrentlySelectedOUList()
         {
             string rawResults = "";
+            if (adDomainName == "" || adUserName == "" || adPassword == "")
+            {
+                promptShadowPanel.BringToFront();
+                promptPanel.BringToFront();
+                tabControl.Enabled = false;
+                currentlySelectedOUListUpdated();
+                return;
+            }
             try
             {
                 currentlySelectedOUList.Clear();
@@ -296,6 +310,13 @@ namespace SuperADD
             if (OUList.SelectedItem == null)
             {
                 showMsg("No Organizational Unit is selected.", warnImg);
+                return;
+            }
+            if(adDomainName == "" || adUserName == "" || adPassword == "")
+            {
+                promptShadowPanel.BringToFront();
+                promptPanel.BringToFront();
+                tabControl.Enabled = false;
                 return;
             }
             showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);

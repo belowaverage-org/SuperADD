@@ -24,6 +24,7 @@ namespace SuperADD
             textBox.Size = new System.Drawing.Size(280, 162);
             textBox.TextChanged += TextBox_TextChanged;
             Main.pubFlowLayout.Controls.Add(groupBox);
+            groupBox.Scale(Main.pubAutoScaleFactor);
         }
 
         private void TextBox_TextChanged(object sender, EventArgs e)
