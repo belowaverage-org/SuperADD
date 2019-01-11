@@ -43,9 +43,9 @@
             this.compNameTab = new System.Windows.Forms.TabPage();
             this.skipJoinBtn = new System.Windows.Forms.Button();
             this.spookyBoi = new System.Windows.Forms.PictureBox();
-            this.compSearchPage = new System.Windows.Forms.TabPage();
+            this.dirLookTab = new System.Windows.Forms.TabPage();
             this.directorySearchTb = new System.Windows.Forms.TextBox();
-            this.dirlookOUList = new System.Windows.Forms.ListBox();
+            this.dirLookOUList = new System.Windows.Forms.ListBox();
             this.computerLookList = new System.Windows.Forms.ListView();
             this.compColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.descColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -69,7 +69,7 @@
             this.tabControl.SuspendLayout();
             this.compNameTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spookyBoi)).BeginInit();
-            this.compSearchPage.SuspendLayout();
+            this.dirLookTab.SuspendLayout();
             this.msgPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).BeginInit();
             this.promptPanel.SuspendLayout();
@@ -210,7 +210,7 @@
             // tabControl
             // 
             this.tabControl.Controls.Add(this.compNameTab);
-            this.tabControl.Controls.Add(this.compSearchPage);
+            this.tabControl.Controls.Add(this.dirLookTab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(10, 10);
             this.tabControl.Name = "tabControl";
@@ -258,16 +258,16 @@
             // 
             // compSearchPage
             // 
-            this.compSearchPage.Controls.Add(this.directorySearchTb);
-            this.compSearchPage.Controls.Add(this.dirlookOUList);
-            this.compSearchPage.Controls.Add(this.computerLookList);
-            this.compSearchPage.Location = new System.Drawing.Point(4, 25);
-            this.compSearchPage.Name = "compSearchPage";
-            this.compSearchPage.Padding = new System.Windows.Forms.Padding(3);
-            this.compSearchPage.Size = new System.Drawing.Size(667, 428);
-            this.compSearchPage.TabIndex = 1;
-            this.compSearchPage.Text = "Directory Lookup";
-            this.compSearchPage.UseVisualStyleBackColor = true;
+            this.dirLookTab.Controls.Add(this.directorySearchTb);
+            this.dirLookTab.Controls.Add(this.dirLookOUList);
+            this.dirLookTab.Controls.Add(this.computerLookList);
+            this.dirLookTab.Location = new System.Drawing.Point(4, 25);
+            this.dirLookTab.Name = "compSearchPage";
+            this.dirLookTab.Padding = new System.Windows.Forms.Padding(3);
+            this.dirLookTab.Size = new System.Drawing.Size(667, 428);
+            this.dirLookTab.TabIndex = 1;
+            this.dirLookTab.Text = "Directory Lookup";
+            this.dirLookTab.UseVisualStyleBackColor = true;
             // 
             // directorySearchTb
             // 
@@ -282,16 +282,16 @@
             // 
             // dirlookOUList
             // 
-            this.dirlookOUList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dirLookOUList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.dirlookOUList.FormattingEnabled = true;
-            this.dirlookOUList.IntegralHeight = false;
-            this.dirlookOUList.ItemHeight = 16;
-            this.dirlookOUList.Location = new System.Drawing.Point(2, 4);
-            this.dirlookOUList.Name = "dirlookOUList";
-            this.dirlookOUList.Size = new System.Drawing.Size(195, 422);
-            this.dirlookOUList.TabIndex = 2;
-            this.dirlookOUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
+            this.dirLookOUList.FormattingEnabled = true;
+            this.dirLookOUList.IntegralHeight = false;
+            this.dirLookOUList.ItemHeight = 16;
+            this.dirLookOUList.Location = new System.Drawing.Point(2, 4);
+            this.dirLookOUList.Name = "dirlookOUList";
+            this.dirLookOUList.Size = new System.Drawing.Size(195, 422);
+            this.dirLookOUList.TabIndex = 2;
+            this.dirLookOUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
             // 
             // computerLookList
             // 
@@ -491,8 +491,8 @@
             this.tabControl.ResumeLayout(false);
             this.compNameTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spookyBoi)).EndInit();
-            this.compSearchPage.ResumeLayout(false);
-            this.compSearchPage.PerformLayout();
+            this.dirLookTab.ResumeLayout(false);
+            this.dirLookTab.PerformLayout();
             this.msgPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).EndInit();
             this.promptPanel.ResumeLayout(false);
@@ -517,11 +517,11 @@
         private System.Windows.Forms.Label descLbl;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage compNameTab;
-        private System.Windows.Forms.TabPage compSearchPage;
+        private System.Windows.Forms.TabPage dirLookTab;
         private System.Windows.Forms.ListView computerLookList;
         private System.Windows.Forms.ColumnHeader compColumn;
         private System.Windows.Forms.ColumnHeader descColumn;
-        private System.Windows.Forms.ListBox dirlookOUList;
+        private System.Windows.Forms.ListBox dirLookOUList;
         private System.Windows.Forms.TextBox directorySearchTb;
         private System.Windows.Forms.Panel msgPanel;
         private System.Windows.Forms.PictureBox msgPic;

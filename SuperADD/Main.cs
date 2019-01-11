@@ -35,6 +35,7 @@ namespace SuperADD
         private int spookyCount = 5;
         private int autoRunIndex = -1;
         private bool autoRunContinue = false;
+        private string currentCreateSelectedOU = "";
 
         List<char> invalidNameCharacters = new List<char> {
             ' ', '{', '|', '}', '~', '[', '\\', ']', '^', '\'', ':', ';', '<', '=', '>',
@@ -107,7 +108,7 @@ namespace SuperADD
             foreach (XElement ou in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
             {
                 OUList.Items.Add(ou.Element("Name").Value);
-                dirlookOUList.Items.Add(ou.Element("Name").Value);
+                dirLookOUList.Items.Add(ou.Element("Name").Value);
             }
 
             foreach (XElement descItem in Config.Current.Element("DescriptionItems").Elements("DescriptionItem"))
@@ -196,7 +197,7 @@ namespace SuperADD
 
         private void currentlySelectedOUListUpdated()
         {
-            if (tabControl.SelectedTab == compSearchPage)
+            if (tabControl.SelectedTab == dirLookTab)
             {
                 string filter = directorySearchTb.Text;
                 computerLookList.BeginUpdate();
@@ -210,7 +211,7 @@ namespace SuperADD
                 }
                 computerLookList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                 computerLookList.EndUpdate();
-                dirlookOUList.Enabled = true;
+                dirLookOUList.Enabled = true;
             }
             else if (tabControl.SelectedTab == compNameTab)
             {
@@ -322,7 +323,7 @@ namespace SuperADD
             showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);
             Dictionary<string, string> postData = new Dictionary<string, string>();
             postData.Add("domain", adDomainName);
-            postData.Add("basedn", currentlySelectedOU);
+            postData.Add("basedn", currentCreateSelectedOU);
             postData.Add("username", adUserName);
             postData.Add("password", adPassword);
             postData.Add("function", "update");
@@ -381,7 +382,7 @@ namespace SuperADD
                         tsEnv["DOMAINADMIN"] = tsEnv["USERID"];
                         tsEnv["DOMAINADMINDOMAIN"] = tsEnv["USERDOMAIN"];
                         tsEnv["DOMAINADMINPASSWORD"] = tsEnv["USERPASSWORD"];
-                        tsEnv["MACHINEOBJECTOU"] = currentlySelectedOU;
+                        tsEnv["MACHINEOBJECTOU"] = currentCreateSelectedOU;
                         tsEnv["JOINWORKGROUP"] = "";
                     }
                     else
@@ -409,7 +410,7 @@ namespace SuperADD
 
         private void computerLookList_DoubleClick(object sender, EventArgs e)
         {
-            OUList.SelectedIndex = dirlookOUList.SelectedIndex;
+            OUList.SelectedIndex = dirLookOUList.SelectedIndex;
             nameTextBox.Text = computerLookList.SelectedItems[0].Text;
             descTextBox.Text = computerLookList.SelectedItems[0].SubItems[1].Text;
             computerOverwriteConfirmed = true;
@@ -441,10 +442,14 @@ namespace SuperADD
                 if (elm.Element("Name").Value == (string)lv.SelectedItem)
                 {
                     currentlySelectedOU = elm.Element("DistinguishedName").Value;
+                    if(lv == OUList)
+                    {
+                        currentCreateSelectedOU = elm.Element("DistinguishedName").Value;
+                    }
                     break;
                 }
             }
-            if ((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirlookOUList)
+            if ((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirLookOUList)
             {
                 lv.Enabled = false;
                 retrieveCurrentlySelectedOUList();
