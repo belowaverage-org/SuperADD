@@ -68,6 +68,15 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NFluent">
+      <HintPath>bin\x64\NFluent.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>bin\x64\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Registry">
+      <HintPath>bin\x64\Registry.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />

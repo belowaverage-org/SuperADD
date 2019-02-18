@@ -256,13 +256,13 @@
             this.spookyBoi.TabStop = false;
             this.spookyBoi.Click += new System.EventHandler(this.spookyBoi_Click);
             // 
-            // compSearchPage
+            // dirLookTab
             // 
             this.dirLookTab.Controls.Add(this.directorySearchTb);
             this.dirLookTab.Controls.Add(this.dirLookOUList);
             this.dirLookTab.Controls.Add(this.computerLookList);
             this.dirLookTab.Location = new System.Drawing.Point(4, 25);
-            this.dirLookTab.Name = "compSearchPage";
+            this.dirLookTab.Name = "dirLookTab";
             this.dirLookTab.Padding = new System.Windows.Forms.Padding(3);
             this.dirLookTab.Size = new System.Drawing.Size(667, 428);
             this.dirLookTab.TabIndex = 1;
@@ -280,7 +280,7 @@
             this.directorySearchTb.TabIndex = 3;
             this.directorySearchTb.TextChanged += new System.EventHandler(this.directorySearchTb_TextChanged);
             // 
-            // dirlookOUList
+            // dirLookOUList
             // 
             this.dirLookOUList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
@@ -288,7 +288,7 @@
             this.dirLookOUList.IntegralHeight = false;
             this.dirLookOUList.ItemHeight = 16;
             this.dirLookOUList.Location = new System.Drawing.Point(2, 4);
-            this.dirLookOUList.Name = "dirlookOUList";
+            this.dirLookOUList.Name = "dirLookOUList";
             this.dirLookOUList.Size = new System.Drawing.Size(195, 422);
             this.dirLookOUList.TabIndex = 2;
             this.dirLookOUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
@@ -436,6 +436,7 @@
             this.promptUsrTxt.Name = "promptUsrTxt";
             this.promptUsrTxt.Size = new System.Drawing.Size(202, 22);
             this.promptUsrTxt.TabIndex = 1;
+            this.promptUsrTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.prompt_KeyPress);
             // 
             // promptPasTxt
             // 
@@ -444,6 +445,7 @@
             this.promptPasTxt.Size = new System.Drawing.Size(202, 22);
             this.promptPasTxt.TabIndex = 2;
             this.promptPasTxt.UseSystemPasswordChar = true;
+            this.promptPasTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.prompt_KeyPress);
             // 
             // promptDomTxt
             // 
@@ -451,6 +453,7 @@
             this.promptDomTxt.Name = "promptDomTxt";
             this.promptDomTxt.Size = new System.Drawing.Size(202, 22);
             this.promptDomTxt.TabIndex = 3;
+            this.promptDomTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.prompt_KeyPress);
             // 
             // promptShadowPanel
             // 

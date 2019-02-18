@@ -10,6 +10,9 @@ using System.Text;
 using Microsoft.BDD.TaskSequenceModule;
 using Interop.TsProgressUI;
 using System.Runtime.InteropServices;
+using System.Net.NetworkInformation;
+using Registry;
+using Registry.Abstractions;
 
 namespace SuperADD
 {
@@ -69,6 +72,7 @@ namespace SuperADD
             }
             catch(COMException)
             {
+                /*IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
                 desktopMode = true;
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.Sizable;
@@ -76,7 +80,11 @@ namespace SuperADD
                 saveNextBtn.Text = "Save";
                 skipJoinBtn.Hide();
                 promptShadowPanel.BringToFront();
+                promptUsrTxt.Text = Environment.UserName;
+                promptDomTxt.Text = globalProperties.DomainName;
                 promptPanel.BringToFront();
+                promptPasTxt.Focus();*/
+                findOldComputerName();
             }
 
             if (!File.Exists("SuperADD.xml"))
@@ -301,6 +309,13 @@ namespace SuperADD
             msgPic.Enabled = false;
         }
 
+        private void findOldComputerName()
+        {
+            RegistryHiveOnDemand registryHive = new RegistryHiveOnDemand(@"C:\Windows\System32\config\SYSTEM");
+            RegistryKey key = registryHive.GetKey(@"CurrentControlSet\Control\ComputerName\ComputerName");
+            Console.WriteLine(key);
+        }
+
         private async void createComputer()
         {
             if (nameTextBox.Text == "")
@@ -513,6 +528,14 @@ namespace SuperADD
                 {
                     autoRunIndex = -1;
                 }
+            }
+        }
+
+        private void prompt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == '\r')
+            {
+                promptSubmitBtn.PerformClick();
             }
         }
     }
