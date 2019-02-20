@@ -11,8 +11,7 @@ using Microsoft.BDD.TaskSequenceModule;
 using Interop.TsProgressUI;
 using System.Runtime.InteropServices;
 using System.Net.NetworkInformation;
-using Registry;
-using Registry.Abstractions;
+using System.Threading.Tasks;
 
 namespace SuperADD
 {
@@ -303,17 +302,48 @@ namespace SuperADD
 
         private void hideMsg()
         {
-            tabControl.Enabled = true;
-            msgPanel.SendToBack();
-            msgShadow.SendToBack();
-            msgPic.Enabled = false;
+            void hMsg()
+            {
+                tabControl.Enabled = true;
+                msgPanel.SendToBack();
+                msgShadow.SendToBack();
+                msgPic.Enabled = false;
+            }
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate {
+                    hMsg();
+                }));
+            }
+            else
+            {
+                hMsg();
+            }
         }
 
-        private void findOldComputerName()
+        private Task<String> findOldComputerName()
         {
-            RegistryHiveOnDemand registryHive = new RegistryHiveOnDemand(@"C:\Windows\System32\config\SYSTEM");
-            RegistryKey key = registryHive.GetKey(@"CurrentControlSet\Control\ComputerName\ComputerName");
-            Console.WriteLine(key);
+            return Task.Run(() =>
+            {
+                showMsg("Find Computer Name: Searching in Offline Registry...", loadImg);
+                try
+                {
+                    Registry.RegistryHiveOnDemand registryHive = new Registry.RegistryHiveOnDemand(@"C:\Windows\System32\config\SYSTEM");
+                    Registry.Abstractions.RegistryKey key = registryHive.GetKey(@"ControlSet001\Control\ComputerName\ComputerName");
+                    foreach (Registry.Abstractions.KeyValue value in key.Values)
+                    {
+                        if (value.ValueName == "ComputerName")
+                        {
+                            return value.ValueData;
+                        }
+                    }
+                }
+                catch (Exception) {}
+                showMsg("Find Computer Name: Searching in Online Registry...", loadImg);
+                Microsoft.Win32.RegistryKey computerName = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\ControlSet001\Control\ComputerName\ComputerName", false);
+                hideMsg();
+                return (string)computerName.GetValue("ComputerName");
+            });
         }
 
         private async void createComputer()
@@ -537,6 +567,12 @@ namespace SuperADD
             {
                 promptSubmitBtn.PerformClick();
             }
+        }
+
+        private async void findCurrentNameBtn_Click(object sender, EventArgs e)
+        {
+            string oldName = await findOldComputerName();
+            nameTextBox.Text = oldName;
         }
     }
 }

@@ -34,6 +34,7 @@
             this.saveNextBtn = new System.Windows.Forms.Button();
             this.flowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.computerObjectBox = new System.Windows.Forms.GroupBox();
+            this.findCurrentNameBtn = new System.Windows.Forms.Button();
             this.descTextBox = new System.Windows.Forms.TextBox();
             this.descLbl = new System.Windows.Forms.Label();
             this.nameTextBox = new System.Windows.Forms.TextBox();
@@ -141,6 +142,7 @@
             // 
             // computerObjectBox
             // 
+            this.computerObjectBox.Controls.Add(this.findCurrentNameBtn);
             this.computerObjectBox.Controls.Add(this.descTextBox);
             this.computerObjectBox.Controls.Add(this.descLbl);
             this.computerObjectBox.Controls.Add(this.nameTextBox);
@@ -153,6 +155,19 @@
             this.computerObjectBox.TabIndex = 16;
             this.computerObjectBox.TabStop = false;
             this.computerObjectBox.Text = "Computer Object";
+            // 
+            // findCurrentNameBtn
+            // 
+            this.findCurrentNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.findCurrentNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.findCurrentNameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.findCurrentNameBtn.Location = new System.Drawing.Point(189, 28);
+            this.findCurrentNameBtn.Name = "findCurrentNameBtn";
+            this.findCurrentNameBtn.Size = new System.Drawing.Size(101, 20);
+            this.findCurrentNameBtn.TabIndex = 18;
+            this.findCurrentNameBtn.Text = "Find Current Name";
+            this.findCurrentNameBtn.UseVisualStyleBackColor = true;
+            this.findCurrentNameBtn.Click += new System.EventHandler(this.findCurrentNameBtn_Click);
             // 
             // descTextBox
             // 
@@ -541,6 +556,7 @@
         private System.Windows.Forms.TextBox promptPasTxt;
         private System.Windows.Forms.TextBox promptDomTxt;
         private System.Windows.Forms.Panel promptShadowPanel;
+        private System.Windows.Forms.Button findCurrentNameBtn;
     }
 }
 
