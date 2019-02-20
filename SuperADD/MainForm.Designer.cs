@@ -161,11 +161,11 @@
             this.findCurrentNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.findCurrentNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.findCurrentNameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.findCurrentNameBtn.Location = new System.Drawing.Point(189, 28);
+            this.findCurrentNameBtn.Location = new System.Drawing.Point(224, 54);
             this.findCurrentNameBtn.Name = "findCurrentNameBtn";
-            this.findCurrentNameBtn.Size = new System.Drawing.Size(101, 20);
+            this.findCurrentNameBtn.Size = new System.Drawing.Size(66, 23);
             this.findCurrentNameBtn.TabIndex = 18;
-            this.findCurrentNameBtn.Text = "Find Current Name";
+            this.findCurrentNameBtn.Text = "Find Name";
             this.findCurrentNameBtn.UseVisualStyleBackColor = true;
             this.findCurrentNameBtn.Click += new System.EventHandler(this.findCurrentNameBtn_Click);
             // 
@@ -190,7 +190,7 @@
             // 
             this.nameTextBox.Location = new System.Drawing.Point(10, 55);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(280, 22);
+            this.nameTextBox.Size = new System.Drawing.Size(208, 22);
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
             // 

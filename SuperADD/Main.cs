@@ -71,7 +71,7 @@ namespace SuperADD
             }
             catch(COMException)
             {
-                /*IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
+                IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
                 desktopMode = true;
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.Sizable;
@@ -82,8 +82,7 @@ namespace SuperADD
                 promptUsrTxt.Text = Environment.UserName;
                 promptDomTxt.Text = globalProperties.DomainName;
                 promptPanel.BringToFront();
-                promptPasTxt.Focus();*/
-                findOldComputerName();
+                promptPasTxt.Focus();
             }
 
             if (!File.Exists("SuperADD.xml"))
