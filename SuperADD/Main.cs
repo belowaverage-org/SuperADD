@@ -37,6 +37,7 @@ namespace SuperADD
         private int spookyCount = 5;
         private int autoRunIndex = -1;
         private bool autoRunContinue = false;
+        private bool suppressFindNextName = false;
         private string currentCreateSelectedOU = "";
 
         List<char> invalidNameCharacters = new List<char> {
@@ -320,7 +321,7 @@ namespace SuperADD
             }
         }
 
-        private Task<String> findOldComputerName()
+        private Task<String> findCurrentComputerName()
         {
             return Task.Run(() =>
             {
@@ -447,6 +448,56 @@ namespace SuperADD
             }
         }
 
+        private async void findCurrentDescriptionAndOU()
+        {
+            string rawResults = "";
+            try
+            {
+                showMsg("Searching AD for the current computer object...", loadImg);
+                int ouIndex = 0;
+                foreach (XElement ou in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
+                {
+                    bool found = false;
+                    string dn = ou.Element("DistinguishedName").Value;
+                    Dictionary<string, string> postData = new Dictionary<string, string>();
+                    postData.Add("domain", adDomainName);
+                    postData.Add("basedn", dn);
+                    postData.Add("username", adUserName);
+                    postData.Add("password", adPassword);
+                    postData.Add("function", "list");
+                    postData.Add("filter", "objectClass=computer");
+                    rawResults = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
+                    var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
+                    foreach (Dictionary<string, string> computer in results)
+                    {
+                        if (computer["cn"] == nameTextBox.Text)
+                        {
+                            suppressFindNextName = true;
+                            OUList.SelectedIndex = ouIndex;
+                            suppressFindNextName = false;
+                            descTextBox.Text = computer["description"];
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found)
+                    {
+                        break;
+                    }
+                    ouIndex++;
+                }
+                hideMsg();
+            }
+            catch (JsonReaderException)
+            {
+                showMsg(rawResults, warnImg);
+            }
+            catch (Exception e)
+            {
+                showMsg(e.Message, warnImg);
+            }
+        }
+
         private void directorySearchTb_TextChanged(object sender, EventArgs e)
         {
             currentlySelectedOUListUpdated();
@@ -493,7 +544,7 @@ namespace SuperADD
                     break;
                 }
             }
-            if ((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirLookOUList)
+            if (((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirLookOUList) && !suppressFindNextName)
             {
                 lv.Enabled = false;
                 retrieveCurrentlySelectedOUList();
@@ -570,8 +621,8 @@ namespace SuperADD
 
         private async void findCurrentNameBtn_Click(object sender, EventArgs e)
         {
-            string oldName = await findOldComputerName();
-            nameTextBox.Text = oldName;
+            nameTextBox.Text = await findCurrentComputerName();
+            findCurrentDescriptionAndOU();
         }
     }
 }
