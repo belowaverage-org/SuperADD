@@ -119,7 +119,7 @@
             this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.saveNextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveNextBtn.Location = new System.Drawing.Point(541, 386);
+            this.saveNextBtn.Location = new System.Drawing.Point(541, 389);
             this.saveNextBtn.Name = "saveNextBtn";
             this.saveNextBtn.Size = new System.Drawing.Size(121, 34);
             this.saveNextBtn.TabIndex = 9;
@@ -161,9 +161,9 @@
             this.findCurrentNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.findCurrentNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.findCurrentNameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.findCurrentNameBtn.Location = new System.Drawing.Point(224, 54);
+            this.findCurrentNameBtn.Location = new System.Drawing.Point(224, 64);
             this.findCurrentNameBtn.Name = "findCurrentNameBtn";
-            this.findCurrentNameBtn.Size = new System.Drawing.Size(66, 23);
+            this.findCurrentNameBtn.Size = new System.Drawing.Size(66, 21);
             this.findCurrentNameBtn.TabIndex = 18;
             this.findCurrentNameBtn.Text = "Find Name";
             this.findCurrentNameBtn.UseVisualStyleBackColor = true;
@@ -171,7 +171,7 @@
             // 
             // descTextBox
             // 
-            this.descTextBox.Location = new System.Drawing.Point(10, 115);
+            this.descTextBox.Location = new System.Drawing.Point(10, 124);
             this.descTextBox.Name = "descTextBox";
             this.descTextBox.Size = new System.Drawing.Size(280, 22);
             this.descTextBox.TabIndex = 4;
@@ -179,7 +179,7 @@
             // descLbl
             // 
             this.descLbl.AutoSize = true;
-            this.descLbl.Location = new System.Drawing.Point(7, 92);
+            this.descLbl.Location = new System.Drawing.Point(7, 101);
             this.descLbl.Name = "descLbl";
             this.descLbl.Size = new System.Drawing.Size(76, 16);
             this.descLbl.TabIndex = 3;
@@ -188,7 +188,7 @@
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(10, 55);
+            this.nameTextBox.Location = new System.Drawing.Point(10, 64);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(208, 22);
             this.nameTextBox.TabIndex = 1;
@@ -197,7 +197,7 @@
             // nameLbl
             // 
             this.nameLbl.AutoSize = true;
-            this.nameLbl.Location = new System.Drawing.Point(7, 32);
+            this.nameLbl.Location = new System.Drawing.Point(7, 41);
             this.nameLbl.Name = "nameLbl";
             this.nameLbl.Size = new System.Drawing.Size(45, 16);
             this.nameLbl.TabIndex = 2;
@@ -252,7 +252,7 @@
             this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skipJoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.skipJoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skipJoinBtn.Location = new System.Drawing.Point(5, 386);
+            this.skipJoinBtn.Location = new System.Drawing.Point(5, 389);
             this.skipJoinBtn.Name = "skipJoinBtn";
             this.skipJoinBtn.Size = new System.Drawing.Size(121, 34);
             this.skipJoinBtn.TabIndex = 17;
