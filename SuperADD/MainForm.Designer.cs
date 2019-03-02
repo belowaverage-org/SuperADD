@@ -34,6 +34,7 @@
             this.saveNextBtn = new System.Windows.Forms.Button();
             this.flowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.computerObjectBox = new System.Windows.Forms.GroupBox();
+            this.SearchADBtn = new System.Windows.Forms.Button();
             this.findCurrentNameBtn = new System.Windows.Forms.Button();
             this.descTextBox = new System.Windows.Forms.TextBox();
             this.descLbl = new System.Windows.Forms.Label();
@@ -80,11 +81,10 @@
             // 
             this.titleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.titleText.Enabled = false;
-            this.titleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleText.Location = new System.Drawing.Point(587, 1);
             this.titleText.Margin = new System.Windows.Forms.Padding(0);
             this.titleText.Name = "titleText";
-            this.titleText.Size = new System.Drawing.Size(98, 31);
+            this.titleText.Size = new System.Drawing.Size(98, 29);
             this.titleText.TabIndex = 2;
             this.titleText.Text = "SuperADD";
             this.titleText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -95,10 +95,10 @@
             this.OUList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OUList.FormattingEnabled = true;
             this.OUList.IntegralHeight = false;
-            this.OUList.ItemHeight = 16;
-            this.OUList.Location = new System.Drawing.Point(10, 25);
+            this.OUList.ItemHeight = 17;
+            this.OUList.Location = new System.Drawing.Point(10, 28);
             this.OUList.Name = "OUList";
-            this.OUList.Size = new System.Drawing.Size(280, 165);
+            this.OUList.Size = new System.Drawing.Size(280, 162);
             this.OUList.TabIndex = 3;
             this.OUList.SelectedIndexChanged += new System.EventHandler(this.OUList_SelectedIndexChanged);
             // 
@@ -118,8 +118,7 @@
             // 
             this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.saveNextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveNextBtn.Location = new System.Drawing.Point(541, 389);
+            this.saveNextBtn.Location = new System.Drawing.Point(541, 388);
             this.saveNextBtn.Name = "saveNextBtn";
             this.saveNextBtn.Size = new System.Drawing.Size(121, 34);
             this.saveNextBtn.TabIndex = 9;
@@ -142,6 +141,7 @@
             // 
             // computerObjectBox
             // 
+            this.computerObjectBox.Controls.Add(this.SearchADBtn);
             this.computerObjectBox.Controls.Add(this.findCurrentNameBtn);
             this.computerObjectBox.Controls.Add(this.descTextBox);
             this.computerObjectBox.Controls.Add(this.descLbl);
@@ -156,50 +156,62 @@
             this.computerObjectBox.TabStop = false;
             this.computerObjectBox.Text = "Computer Object";
             // 
+            // SearchADBtn
+            // 
+            this.SearchADBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SearchADBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.SearchADBtn.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SearchADBtn.Location = new System.Drawing.Point(233, 57);
+            this.SearchADBtn.Name = "SearchADBtn";
+            this.SearchADBtn.Size = new System.Drawing.Size(57, 25);
+            this.SearchADBtn.TabIndex = 19;
+            this.SearchADBtn.Text = "Lookup";
+            this.SearchADBtn.UseVisualStyleBackColor = true;
+            // 
             // findCurrentNameBtn
             // 
             this.findCurrentNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.findCurrentNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.findCurrentNameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.findCurrentNameBtn.Location = new System.Drawing.Point(224, 64);
+            this.findCurrentNameBtn.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.findCurrentNameBtn.Location = new System.Drawing.Point(10, 162);
             this.findCurrentNameBtn.Name = "findCurrentNameBtn";
-            this.findCurrentNameBtn.Size = new System.Drawing.Size(66, 21);
+            this.findCurrentNameBtn.Size = new System.Drawing.Size(60, 27);
             this.findCurrentNameBtn.TabIndex = 18;
-            this.findCurrentNameBtn.Text = "Find Name";
+            this.findCurrentNameBtn.Text = "Discover";
             this.findCurrentNameBtn.UseVisualStyleBackColor = true;
             this.findCurrentNameBtn.Click += new System.EventHandler(this.findCurrentNameBtn_Click);
             // 
             // descTextBox
             // 
-            this.descTextBox.Location = new System.Drawing.Point(10, 124);
+            this.descTextBox.Location = new System.Drawing.Point(10, 117);
             this.descTextBox.Name = "descTextBox";
-            this.descTextBox.Size = new System.Drawing.Size(280, 22);
+            this.descTextBox.Size = new System.Drawing.Size(280, 25);
             this.descTextBox.TabIndex = 4;
             // 
             // descLbl
             // 
             this.descLbl.AutoSize = true;
-            this.descLbl.Location = new System.Drawing.Point(7, 101);
+            this.descLbl.Location = new System.Drawing.Point(7, 94);
             this.descLbl.Name = "descLbl";
-            this.descLbl.Size = new System.Drawing.Size(76, 16);
+            this.descLbl.Size = new System.Drawing.Size(74, 17);
             this.descLbl.TabIndex = 3;
             this.descLbl.Text = "Description";
             this.descLbl.Click += new System.EventHandler(this.TitleText_Click);
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(10, 64);
+            this.nameTextBox.Location = new System.Drawing.Point(10, 57);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(208, 22);
+            this.nameTextBox.Size = new System.Drawing.Size(217, 25);
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
             // 
             // nameLbl
             // 
             this.nameLbl.AutoSize = true;
-            this.nameLbl.Location = new System.Drawing.Point(7, 41);
+            this.nameLbl.Location = new System.Drawing.Point(7, 34);
             this.nameLbl.Name = "nameLbl";
-            this.nameLbl.Size = new System.Drawing.Size(45, 16);
+            this.nameLbl.Size = new System.Drawing.Size(43, 17);
             this.nameLbl.TabIndex = 2;
             this.nameLbl.Text = "Name";
             // 
@@ -219,7 +231,7 @@
             this.tablePanel.RowCount = 2;
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tablePanel.Size = new System.Drawing.Size(661, 361);
+            this.tablePanel.Size = new System.Drawing.Size(661, 360);
             this.tablePanel.TabIndex = 15;
             // 
             // tabControl
@@ -239,10 +251,10 @@
             this.compNameTab.Controls.Add(this.tablePanel);
             this.compNameTab.Controls.Add(this.saveNextBtn);
             this.compNameTab.Controls.Add(this.spookyBoi);
-            this.compNameTab.Location = new System.Drawing.Point(4, 25);
+            this.compNameTab.Location = new System.Drawing.Point(4, 26);
             this.compNameTab.Name = "compNameTab";
             this.compNameTab.Padding = new System.Windows.Forms.Padding(3, 20, 3, 3);
-            this.compNameTab.Size = new System.Drawing.Size(667, 428);
+            this.compNameTab.Size = new System.Drawing.Size(667, 427);
             this.compNameTab.TabIndex = 0;
             this.compNameTab.Text = "Computer Name";
             this.compNameTab.UseVisualStyleBackColor = true;
@@ -251,8 +263,7 @@
             // 
             this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skipJoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.skipJoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.skipJoinBtn.Location = new System.Drawing.Point(5, 389);
+            this.skipJoinBtn.Location = new System.Drawing.Point(5, 388);
             this.skipJoinBtn.Name = "skipJoinBtn";
             this.skipJoinBtn.Size = new System.Drawing.Size(121, 34);
             this.skipJoinBtn.TabIndex = 17;
@@ -276,10 +287,10 @@
             this.dirLookTab.Controls.Add(this.directorySearchTb);
             this.dirLookTab.Controls.Add(this.dirLookOUList);
             this.dirLookTab.Controls.Add(this.computerLookList);
-            this.dirLookTab.Location = new System.Drawing.Point(4, 25);
+            this.dirLookTab.Location = new System.Drawing.Point(4, 26);
             this.dirLookTab.Name = "dirLookTab";
             this.dirLookTab.Padding = new System.Windows.Forms.Padding(3);
-            this.dirLookTab.Size = new System.Drawing.Size(667, 428);
+            this.dirLookTab.Size = new System.Drawing.Size(667, 427);
             this.dirLookTab.TabIndex = 1;
             this.dirLookTab.Text = "Directory Lookup";
             this.dirLookTab.UseVisualStyleBackColor = true;
@@ -301,7 +312,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dirLookOUList.FormattingEnabled = true;
             this.dirLookOUList.IntegralHeight = false;
-            this.dirLookOUList.ItemHeight = 16;
+            this.dirLookOUList.ItemHeight = 17;
             this.dirLookOUList.Location = new System.Drawing.Point(2, 4);
             this.dirLookOUList.Name = "dirLookOUList";
             this.dirLookOUList.Size = new System.Drawing.Size(195, 422);
@@ -385,7 +396,7 @@
             // msgShadow
             // 
             this.msgShadow.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.msgShadow.BackColor = System.Drawing.Color.Gainsboro;
+            this.msgShadow.BackColor = System.Drawing.Color.DarkGray;
             this.msgShadow.Location = new System.Drawing.Point(175, 161);
             this.msgShadow.Name = "msgShadow";
             this.msgShadow.Size = new System.Drawing.Size(351, 63);
@@ -412,7 +423,7 @@
             this.promptLbl3.AutoSize = true;
             this.promptLbl3.Location = new System.Drawing.Point(41, 77);
             this.promptLbl3.Name = "promptLbl3";
-            this.promptLbl3.Size = new System.Drawing.Size(46, 16);
+            this.promptLbl3.Size = new System.Drawing.Size(43, 17);
             this.promptLbl3.TabIndex = 6;
             this.promptLbl3.Text = "FQDN";
             // 
@@ -421,7 +432,7 @@
             this.promptLbl2.AutoSize = true;
             this.promptLbl2.Location = new System.Drawing.Point(19, 50);
             this.promptLbl2.Name = "promptLbl2";
-            this.promptLbl2.Size = new System.Drawing.Size(68, 16);
+            this.promptLbl2.Size = new System.Drawing.Size(64, 17);
             this.promptLbl2.TabIndex = 5;
             this.promptLbl2.Text = "Password";
             // 
@@ -430,7 +441,7 @@
             this.promptLbl1.AutoSize = true;
             this.promptLbl1.Location = new System.Drawing.Point(10, 21);
             this.promptLbl1.Name = "promptLbl1";
-            this.promptLbl1.Size = new System.Drawing.Size(77, 16);
+            this.promptLbl1.Size = new System.Drawing.Size(74, 17);
             this.promptLbl1.TabIndex = 4;
             this.promptLbl1.Text = "User Name";
             // 
@@ -449,7 +460,7 @@
             // 
             this.promptUsrTxt.Location = new System.Drawing.Point(104, 18);
             this.promptUsrTxt.Name = "promptUsrTxt";
-            this.promptUsrTxt.Size = new System.Drawing.Size(202, 22);
+            this.promptUsrTxt.Size = new System.Drawing.Size(202, 25);
             this.promptUsrTxt.TabIndex = 1;
             this.promptUsrTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.prompt_KeyPress);
             // 
@@ -457,7 +468,7 @@
             // 
             this.promptPasTxt.Location = new System.Drawing.Point(104, 46);
             this.promptPasTxt.Name = "promptPasTxt";
-            this.promptPasTxt.Size = new System.Drawing.Size(202, 22);
+            this.promptPasTxt.Size = new System.Drawing.Size(202, 25);
             this.promptPasTxt.TabIndex = 2;
             this.promptPasTxt.UseSystemPasswordChar = true;
             this.promptPasTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.prompt_KeyPress);
@@ -466,14 +477,14 @@
             // 
             this.promptDomTxt.Location = new System.Drawing.Point(104, 74);
             this.promptDomTxt.Name = "promptDomTxt";
-            this.promptDomTxt.Size = new System.Drawing.Size(202, 22);
+            this.promptDomTxt.Size = new System.Drawing.Size(202, 25);
             this.promptDomTxt.TabIndex = 3;
             this.promptDomTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.prompt_KeyPress);
             // 
             // promptShadowPanel
             // 
             this.promptShadowPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.promptShadowPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.promptShadowPanel.BackColor = System.Drawing.Color.DarkGray;
             this.promptShadowPanel.Location = new System.Drawing.Point(189, 127);
             this.promptShadowPanel.Name = "promptShadowPanel";
             this.promptShadowPanel.Size = new System.Drawing.Size(324, 147);
@@ -490,7 +501,7 @@
             this.Controls.Add(this.promptPanel);
             this.Controls.Add(this.promptShadowPanel);
             this.Controls.Add(this.msgPanel);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(695, 477);
@@ -557,6 +568,7 @@
         private System.Windows.Forms.TextBox promptDomTxt;
         private System.Windows.Forms.Panel promptShadowPanel;
         private System.Windows.Forms.Button findCurrentNameBtn;
+        private System.Windows.Forms.Button SearchADBtn;
     }
 }
 
