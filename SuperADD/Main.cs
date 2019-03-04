@@ -459,6 +459,13 @@ namespace SuperADD
 
         private async void findCurrentDescriptionAndOU()
         {
+            if (adDomainName == "" || adUserName == "" || adPassword == "")
+            {
+                promptShadowPanel.BringToFront();
+                promptPanel.BringToFront();
+                tabControl.Enabled = false;
+                return;
+            }
             string rawResults = "";
             try
             {
