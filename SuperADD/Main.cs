@@ -52,7 +52,7 @@ namespace SuperADD
             {
                 new ProgressUI().CloseProgressDialog();
                 tsEnv = new TSEnvironment();
-                foreach(string key in tsEnv.Variables)
+                foreach (string key in tsEnv.Variables)
                 {
                     if (key == "JOINDOMAIN")
                     {
@@ -70,7 +70,7 @@ namespace SuperADD
                     }
                 }
             }
-            catch(COMException)
+            catch (COMException)
             {
                 IPGlobalProperties globalProperties = IPGlobalProperties.GetIPGlobalProperties();
                 desktopMode = true;
@@ -325,21 +325,30 @@ namespace SuperADD
         {
             return Task.Run(() =>
             {
-                showMsg("Find Computer Name: Searching in Offline Registry...", loadImg);
-                try
+                showMsg("Find Computer Name: Getting list of logical drives...", loadImg);
+                string[] drives = Environment.GetLogicalDrives();
+                showMsg("Find Computer Name: Searching in offline registries...", loadImg);
+                foreach (string drive in drives)
                 {
-                    Registry.RegistryHiveOnDemand registryHive = new Registry.RegistryHiveOnDemand(@"C:\Windows\System32\config\SYSTEM");
-                    Registry.Abstractions.RegistryKey key = registryHive.GetKey(@"ControlSet001\Control\ComputerName\ComputerName");
-                    foreach (Registry.Abstractions.KeyValue value in key.Values)
+                    string rPath = drive + @"Windows\System32\config\SYSTEM";
+                    if (File.Exists(rPath))
                     {
-                        if (value.ValueName == "ComputerName")
+                        try
                         {
-                            return value.ValueData;
+                            Registry.RegistryHiveOnDemand registryHive = new Registry.RegistryHiveOnDemand(rPath);
+                            Registry.Abstractions.RegistryKey key = registryHive.GetKey(@"ControlSet001\Control\ComputerName\ComputerName");
+                            foreach (Registry.Abstractions.KeyValue value in key.Values)
+                            {
+                                if (value.ValueName == "ComputerName")
+                                {
+                                    return value.ValueData;
+                                }
+                            }
                         }
+                        catch (IOException) { }
                     }
                 }
-                catch (Exception) {}
-                showMsg("Find Computer Name: Searching in Online Registry...", loadImg);
+                showMsg("Find Computer Name: Searching in online registry...", loadImg);
                 Microsoft.Win32.RegistryKey computerName = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\ControlSet001\Control\ComputerName\ComputerName", false);
                 hideMsg();
                 return (string)computerName.GetValue("ComputerName");
@@ -358,7 +367,7 @@ namespace SuperADD
                 showMsg("No Organizational Unit is selected.", warnImg);
                 return;
             }
-            if(adDomainName == "" || adUserName == "" || adPassword == "")
+            if (adDomainName == "" || adUserName == "" || adPassword == "")
             {
                 promptShadowPanel.BringToFront();
                 promptPanel.BringToFront();
@@ -374,7 +383,7 @@ namespace SuperADD
             postData.Add("function", "update");
             postData.Add("cn", nameTextBox.Text);
             postData.Add("description", descTextBox.Text);
-            if(computerOverwriteConfirmed)
+            if (computerOverwriteConfirmed)
             {
                 postData.Add("confirm", "");
             }
@@ -395,7 +404,7 @@ namespace SuperADD
                 }
                 else
                 {
-                    if(desktopMode)
+                    if (desktopMode)
                     {
                         hideMsg();
                     }
@@ -441,7 +450,7 @@ namespace SuperADD
                         Application.Exit();
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     showMsg("Error setting TS Variables: " + e.Message, warnImg);
                 }
@@ -470,11 +479,12 @@ namespace SuperADD
                     var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
                     foreach (Dictionary<string, string> computer in results)
                     {
-                        if (computer["cn"] == nameTextBox.Text)
+                        if (computer["cn"].ToLower() == nameTextBox.Text.ToLower())
                         {
                             suppressFindNextName = true;
                             OUList.SelectedIndex = ouIndex;
                             suppressFindNextName = false;
+                            nameTextBox.Text = computer["cn"];
                             descTextBox.Text = computer["description"];
                             found = true;
                             break;
@@ -537,7 +547,7 @@ namespace SuperADD
                 if (elm.Element("Name").Value == (string)lv.SelectedItem)
                 {
                     currentlySelectedOU = elm.Element("DistinguishedName").Value;
-                    if(lv == OUList)
+                    if (lv == OUList)
                     {
                         currentCreateSelectedOU = elm.Element("DistinguishedName").Value;
                     }
@@ -558,15 +568,15 @@ namespace SuperADD
 
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
-            foreach(char character in invalidNameCharacters)
+            foreach (char character in invalidNameCharacters)
             {
                 nameTextBox.Text = nameTextBox.Text.Replace(character, '\0');
             }
-            if(nameTextBox.Text.Length > 15)
+            if (nameTextBox.Text.Length > 15)
             {
                 nameTextBox.Text = nameTextBox.Text.Substring(0, 15);
             }
-            if(autoRunIndex == -2)
+            if (autoRunIndex == -2)
             {
                 saveNextBtn.PerformClick();
             }
@@ -597,7 +607,7 @@ namespace SuperADD
 
         private void Main_Load(object sender, EventArgs e)
         {
-            if(autoRunIndex > -1 && autoRunIndex < OUList.Items.Count)
+            if (autoRunIndex > -1 && autoRunIndex < OUList.Items.Count)
             {
                 OUList.SelectedIndex = autoRunIndex;
                 if (autoRunContinue)
@@ -613,7 +623,7 @@ namespace SuperADD
 
         private void prompt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == '\r')
+            if (e.KeyChar == '\r')
             {
                 promptSubmitBtn.PerformClick();
             }
@@ -622,6 +632,11 @@ namespace SuperADD
         private async void findCurrentNameBtn_Click(object sender, EventArgs e)
         {
             nameTextBox.Text = await findCurrentComputerName();
+            findCurrentDescriptionAndOU();
+        }
+
+        private void SearchADBtn_Click(object sender, EventArgs e)
+        {
             findCurrentDescriptionAndOU();
         }
     }

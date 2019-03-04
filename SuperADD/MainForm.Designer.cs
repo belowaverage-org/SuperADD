@@ -167,6 +167,7 @@
             this.SearchADBtn.TabIndex = 19;
             this.SearchADBtn.Text = "Lookup";
             this.SearchADBtn.UseVisualStyleBackColor = true;
+            this.SearchADBtn.Click += new System.EventHandler(this.SearchADBtn_Click);
             // 
             // findCurrentNameBtn
             // 
