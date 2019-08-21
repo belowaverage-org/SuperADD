@@ -81,6 +81,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -106,6 +107,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuperADDServer.cs" />
     <EmbeddedResource Include="Help.resx">
       <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +121,8 @@
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
+    <None Include="postbuild.ps1" />
+    <None Include="prebuild.ps1" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -133,6 +137,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\SuperADDServer.zip" />
+    <None Include="SuperADDServer\php.ini" />
+    <None Include="SuperADDServer\SuperADDServer.bat" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\spooky.gif" />
@@ -149,10 +156,15 @@
   <ItemGroup>
     <None Include="Resources\winicon.ico" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SuperADDServer\SuperADDServer\documentation.html" />
+    <Content Include="SuperADDServer\SuperADDServer\index.php" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>rem cd $(ProjectDir)
+rem powershell.exe -ExecutionPolicy Bypass -File postbuild.ps1</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.3.3.4\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.4\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -163,7 +175,7 @@
     <Error Condition="!Exists('..\packages\Costura.Fody.3.2.1\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.2.1\build\Costura.Fody.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>cd $(ProjectDir)
+powershell.exe -ExecutionPolicy Bypass -File prebuild.ps1</PreBuildEvent>
   </PropertyGroup>
 </Project>

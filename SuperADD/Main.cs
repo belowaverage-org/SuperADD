@@ -21,11 +21,9 @@ namespace SuperADD
         public static TextBox pubDescTextBox = null;
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
         public static SizeF pubAutoScaleFactor;
-
         private string adDomainName = "";
         private string adUserName = "";
         private string adPassword = "";
-
         private Dictionary<string, string> currentlySelectedOUList = new Dictionary<string, string>();
         private string currentlySelectedOU = "";
         private bool msgDismissable = false;
@@ -48,6 +46,9 @@ namespace SuperADD
         public Main(int autoIndex = -1, bool autoContinue = false)
         {
             InitializeComponent();
+
+            SuperADDServer.Start();
+
             try
             {
                 new ProgressUI().CloseProgressDialog();
@@ -645,6 +646,16 @@ namespace SuperADD
         private void SearchADBtn_Click(object sender, EventArgs e)
         {
             findCurrentDescriptionAndOU();
+        }
+
+        private async void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(SuperADDServer.ServerStarted)
+            {
+                e.Cancel = true;
+                await SuperADDServer.Stop();
+                Close();
+            }
         }
     }
 }

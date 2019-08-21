@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SuperADD API</title>
+		<style>
+			fieldset {
+				display:inline-block;
+				height:200px;
+				width:300px;
+				vertical-align:top;
+			}
+			input:not([type=checkbox]), select {
+				display:block;
+				margin:10px;
+				width:250px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>SuperADD API</h1>
+		<hr>
+		<p>
+			<form action="." method="post" target="send">
+				<fieldset>
+					<legend>General</legend>
+					<input type="text" name="domain" placeholder="domain: (ad.contoso.com)">
+					<input type="text" name="basedn" placeholder="basedn: (DC=ad,DC=contoso,DC=com)">
+					<input type="text" name="username" placeholder="username: (administrator)">
+					<input type="password" name="password" placeholder="password: (pass123)">
+					<select name="function">
+						<option value="list">function: list</option>
+						<option value="update">function: update</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<legend>function: list</legend>
+					<input type="text" name="filter" placeholder="filter: (objectClass=computer)">
+					recurse: <input type="checkbox" name="recurse">
+				</fieldset>
+				<fieldset>
+					<legend>function: update</legend>
+					<input type="text" name="cn" placeholder="cn: (contosopc01)">
+					<input type="text" name="description" placeholder="description: (object description)">
+					confirm: <input type="checkbox" name="confirm">
+				</fieldset>
+				<p>
+					<button>Send</button> | Results:
+				</p>
+			</form>
+		</p>
+		<iframe width="1000" height="300" name="send" src=""></iframe>
+	</body>
+</html>
