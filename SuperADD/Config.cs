@@ -9,12 +9,28 @@ namespace SuperADD
         public static void GenerateConfig()
         {
             new XDocument(new XElement("SuperADD",
-                new XElement("SuperADDServer", "http://superadd.ad.contoso.com"),
                 new XElement("OrganizationalUnits",
                     new XElement("OrganizationalUnit",
+                        new XComment("The description of this OU that will appear in the UI."),
                         new XElement("Name", "Computers"),
+                        new XComment("The search root for name generation / unique verification."),
+                        new XElement("RootDN", "DC=ad,DC=contoso,DC=com"),
+                        new XComment("The OU DN where computer objects will be placed."),
                         new XElement("DistinguishedName", "CN=Computers,DC=ad,DC=contoso,DC=com"),
-                        new XElement("AutoName", "CONTOSOPC####")
+                        new XComment("The name generator pattern."),
+                        new XElement("AutoName", "CONTOSOPC####"),
+                        new XComment("The security groups that will be auto applied. (the DNs must exist below in 'SecurityGroups')"),
+                        new XElement("SecurityGroupsDNs",
+                            new XElement("SecurityGroupDN", "CN=COMP_Wifi,OU=Groups,OU=Computers,DC=ad,DC=contoso,DC=com")
+                        )
+                    )
+                ),
+                new XElement("SecurityGroups",
+                    new XElement("SecurityGroup",
+                        new XComment("The description of this OU that will appear in the UI."),
+                        new XElement("Name", "Computer Wifi Access"),
+                        new XComment("The distinguished name of the security group."),
+                        new XElement("DistinguishedName", "CN=COMP_Wifi,OU=Groups,OU=Computers,DC=ad,DC=contoso,DC=com")
                     )
                 ),
                 new XElement("DescriptionItems",

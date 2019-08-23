@@ -64,6 +64,8 @@
             this.promptPasTxt = new System.Windows.Forms.TextBox();
             this.promptDomTxt = new System.Windows.Forms.TextBox();
             this.promptShadowPanel = new System.Windows.Forms.Panel();
+            this.SGBox = new System.Windows.Forms.GroupBox();
+            this.SGList = new System.Windows.Forms.ListBox();
             this.OUBox.SuspendLayout();
             this.flowPanel.SuspendLayout();
             this.computerObjectBox.SuspendLayout();
@@ -75,13 +77,14 @@
             this.msgPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).BeginInit();
             this.promptPanel.SuspendLayout();
+            this.SGBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // titleText
             // 
             this.titleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.titleText.Enabled = false;
-            this.titleText.Location = new System.Drawing.Point(734, 8);
+            this.titleText.Location = new System.Drawing.Point(1208, 8);
             this.titleText.Margin = new System.Windows.Forms.Padding(0);
             this.titleText.Name = "titleText";
             this.titleText.Size = new System.Drawing.Size(122, 29);
@@ -97,7 +100,7 @@
             this.OUList.IntegralHeight = false;
             this.OUList.ItemHeight = 20;
             this.OUList.Location = new System.Drawing.Point(12, 31);
-            this.OUList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OUList.Margin = new System.Windows.Forms.Padding(4);
             this.OUList.Name = "OUList";
             this.OUList.Size = new System.Drawing.Size(351, 207);
             this.OUList.TabIndex = 3;
@@ -109,7 +112,7 @@
             this.OUBox.Location = new System.Drawing.Point(411, 0);
             this.OUBox.Margin = new System.Windows.Forms.Padding(12, 0, 12, 12);
             this.OUBox.Name = "OUBox";
-            this.OUBox.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.OUBox.Padding = new System.Windows.Forms.Padding(12);
             this.OUBox.Size = new System.Drawing.Size(375, 250);
             this.OUBox.TabIndex = 7;
             this.OUBox.TabStop = false;
@@ -119,8 +122,8 @@
             // 
             this.saveNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.saveNextBtn.Location = new System.Drawing.Point(687, 487);
-            this.saveNextBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveNextBtn.Location = new System.Drawing.Point(1161, 487);
+            this.saveNextBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveNextBtn.Name = "saveNextBtn";
             this.saveNextBtn.Size = new System.Drawing.Size(141, 42);
             this.saveNextBtn.TabIndex = 9;
@@ -135,10 +138,11 @@
             this.flowPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowPanel.Controls.Add(this.computerObjectBox);
             this.flowPanel.Controls.Add(this.OUBox);
-            this.flowPanel.Location = new System.Drawing.Point(14, 0);
+            this.flowPanel.Controls.Add(this.SGBox);
+            this.flowPanel.Location = new System.Drawing.Point(52, 0);
             this.flowPanel.Margin = new System.Windows.Forms.Padding(0);
             this.flowPanel.Name = "flowPanel";
-            this.flowPanel.Size = new System.Drawing.Size(798, 262);
+            this.flowPanel.Size = new System.Drawing.Size(1197, 262);
             this.flowPanel.TabIndex = 13;
             // 
             // computerObjectBox
@@ -152,7 +156,7 @@
             this.computerObjectBox.Location = new System.Drawing.Point(12, 0);
             this.computerObjectBox.Margin = new System.Windows.Forms.Padding(12, 0, 12, 12);
             this.computerObjectBox.Name = "computerObjectBox";
-            this.computerObjectBox.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.computerObjectBox.Padding = new System.Windows.Forms.Padding(12);
             this.computerObjectBox.Size = new System.Drawing.Size(375, 250);
             this.computerObjectBox.TabIndex = 16;
             this.computerObjectBox.TabStop = false;
@@ -164,7 +168,7 @@
             this.SearchADBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.SearchADBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SearchADBtn.Location = new System.Drawing.Point(291, 70);
-            this.SearchADBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SearchADBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SearchADBtn.Name = "SearchADBtn";
             this.SearchADBtn.Size = new System.Drawing.Size(71, 26);
             this.SearchADBtn.TabIndex = 19;
@@ -178,7 +182,7 @@
             this.findCurrentNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.findCurrentNameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.findCurrentNameBtn.Location = new System.Drawing.Point(12, 202);
-            this.findCurrentNameBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.findCurrentNameBtn.Margin = new System.Windows.Forms.Padding(4);
             this.findCurrentNameBtn.Name = "findCurrentNameBtn";
             this.findCurrentNameBtn.Size = new System.Drawing.Size(75, 34);
             this.findCurrentNameBtn.TabIndex = 18;
@@ -189,7 +193,7 @@
             // descTextBox
             // 
             this.descTextBox.Location = new System.Drawing.Point(12, 145);
-            this.descTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.descTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.descTextBox.Name = "descTextBox";
             this.descTextBox.Size = new System.Drawing.Size(349, 26);
             this.descTextBox.TabIndex = 4;
@@ -208,7 +212,7 @@
             // nameTextBox
             // 
             this.nameTextBox.Location = new System.Drawing.Point(12, 70);
-            this.nameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(270, 26);
             this.nameTextBox.TabIndex = 1;
@@ -240,7 +244,7 @@
             this.tablePanel.RowCount = 2;
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tablePanel.Size = new System.Drawing.Size(827, 452);
+            this.tablePanel.Size = new System.Drawing.Size(1301, 452);
             this.tablePanel.TabIndex = 15;
             // 
             // tabControl
@@ -249,10 +253,10 @@
             this.tabControl.Controls.Add(this.dirLookTab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(12, 12);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(845, 572);
+            this.tabControl.Size = new System.Drawing.Size(1319, 572);
             this.tabControl.TabIndex = 16;
             // 
             // compNameTab
@@ -262,10 +266,10 @@
             this.compNameTab.Controls.Add(this.saveNextBtn);
             this.compNameTab.Controls.Add(this.spookyBoi);
             this.compNameTab.Location = new System.Drawing.Point(4, 29);
-            this.compNameTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.compNameTab.Margin = new System.Windows.Forms.Padding(4);
             this.compNameTab.Name = "compNameTab";
             this.compNameTab.Padding = new System.Windows.Forms.Padding(4, 25, 4, 4);
-            this.compNameTab.Size = new System.Drawing.Size(837, 539);
+            this.compNameTab.Size = new System.Drawing.Size(1311, 539);
             this.compNameTab.TabIndex = 0;
             this.compNameTab.Text = "Computer Name";
             this.compNameTab.UseVisualStyleBackColor = true;
@@ -275,7 +279,7 @@
             this.skipJoinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.skipJoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.skipJoinBtn.Location = new System.Drawing.Point(6, 487);
-            this.skipJoinBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.skipJoinBtn.Margin = new System.Windows.Forms.Padding(4);
             this.skipJoinBtn.Name = "skipJoinBtn";
             this.skipJoinBtn.Size = new System.Drawing.Size(141, 42);
             this.skipJoinBtn.TabIndex = 17;
@@ -288,7 +292,7 @@
             this.spookyBoi.Enabled = false;
             this.spookyBoi.Image = global::SuperADD.Properties.Resources.spooky;
             this.spookyBoi.Location = new System.Drawing.Point(8, 9);
-            this.spookyBoi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.spookyBoi.Margin = new System.Windows.Forms.Padding(4);
             this.spookyBoi.Name = "spookyBoi";
             this.spookyBoi.Size = new System.Drawing.Size(250, 250);
             this.spookyBoi.TabIndex = 16;
@@ -301,10 +305,10 @@
             this.dirLookTab.Controls.Add(this.dirLookOUList);
             this.dirLookTab.Controls.Add(this.computerLookList);
             this.dirLookTab.Location = new System.Drawing.Point(4, 29);
-            this.dirLookTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dirLookTab.Margin = new System.Windows.Forms.Padding(4);
             this.dirLookTab.Name = "dirLookTab";
-            this.dirLookTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dirLookTab.Size = new System.Drawing.Size(836, 538);
+            this.dirLookTab.Padding = new System.Windows.Forms.Padding(4);
+            this.dirLookTab.Size = new System.Drawing.Size(837, 539);
             this.dirLookTab.TabIndex = 1;
             this.dirLookTab.Text = "Directory Lookup";
             this.dirLookTab.UseVisualStyleBackColor = true;
@@ -314,7 +318,7 @@
             this.directorySearchTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.directorySearchTb.Location = new System.Drawing.Point(251, 5);
-            this.directorySearchTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.directorySearchTb.Margin = new System.Windows.Forms.Padding(4);
             this.directorySearchTb.Multiline = true;
             this.directorySearchTb.Name = "directorySearchTb";
             this.directorySearchTb.Size = new System.Drawing.Size(579, 30);
@@ -329,7 +333,7 @@
             this.dirLookOUList.IntegralHeight = false;
             this.dirLookOUList.ItemHeight = 20;
             this.dirLookOUList.Location = new System.Drawing.Point(2, 5);
-            this.dirLookOUList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dirLookOUList.Margin = new System.Windows.Forms.Padding(4);
             this.dirLookOUList.Name = "dirLookOUList";
             this.dirLookOUList.Size = new System.Drawing.Size(243, 526);
             this.dirLookOUList.TabIndex = 2;
@@ -347,7 +351,7 @@
             this.computerLookList.FullRowSelect = true;
             this.computerLookList.HideSelection = false;
             this.computerLookList.Location = new System.Drawing.Point(251, 42);
-            this.computerLookList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.computerLookList.Margin = new System.Windows.Forms.Padding(4);
             this.computerLookList.MultiSelect = false;
             this.computerLookList.Name = "computerLookList";
             this.computerLookList.Size = new System.Drawing.Size(579, 489);
@@ -375,8 +379,8 @@
             this.msgPanel.Controls.Add(this.msgLbl);
             this.msgPanel.Controls.Add(this.msgPic);
             this.msgPanel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.msgPanel.Location = new System.Drawing.Point(214, 196);
-            this.msgPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.msgPanel.Location = new System.Drawing.Point(451, 196);
+            this.msgPanel.Margin = new System.Windows.Forms.Padding(4);
             this.msgPanel.Name = "msgPanel";
             this.msgPanel.Size = new System.Drawing.Size(438, 78);
             this.msgPanel.TabIndex = 17;
@@ -405,7 +409,7 @@
             this.msgPic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.msgPic.Enabled = false;
             this.msgPic.Location = new System.Drawing.Point(19, 19);
-            this.msgPic.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.msgPic.Margin = new System.Windows.Forms.Padding(4);
             this.msgPic.Name = "msgPic";
             this.msgPic.Size = new System.Drawing.Size(40, 40);
             this.msgPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -417,8 +421,8 @@
             // 
             this.msgShadow.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.msgShadow.BackColor = System.Drawing.Color.DarkGray;
-            this.msgShadow.Location = new System.Drawing.Point(219, 201);
-            this.msgShadow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.msgShadow.Location = new System.Drawing.Point(456, 201);
+            this.msgShadow.Margin = new System.Windows.Forms.Padding(4);
             this.msgShadow.Name = "msgShadow";
             this.msgShadow.Size = new System.Drawing.Size(439, 79);
             this.msgShadow.TabIndex = 18;
@@ -434,8 +438,8 @@
             this.promptPanel.Controls.Add(this.promptUsrTxt);
             this.promptPanel.Controls.Add(this.promptPasTxt);
             this.promptPanel.Controls.Add(this.promptDomTxt);
-            this.promptPanel.Location = new System.Drawing.Point(231, 152);
-            this.promptPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.promptPanel.Location = new System.Drawing.Point(468, 152);
+            this.promptPanel.Margin = new System.Windows.Forms.Padding(4);
             this.promptPanel.Name = "promptPanel";
             this.promptPanel.Size = new System.Drawing.Size(404, 183);
             this.promptPanel.TabIndex = 19;
@@ -475,7 +479,7 @@
             this.promptSubmitBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.promptSubmitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.promptSubmitBtn.Location = new System.Drawing.Point(289, 138);
-            this.promptSubmitBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.promptSubmitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.promptSubmitBtn.Name = "promptSubmitBtn";
             this.promptSubmitBtn.Size = new System.Drawing.Size(94, 29);
             this.promptSubmitBtn.TabIndex = 4;
@@ -486,7 +490,7 @@
             // promptUsrTxt
             // 
             this.promptUsrTxt.Location = new System.Drawing.Point(130, 22);
-            this.promptUsrTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.promptUsrTxt.Margin = new System.Windows.Forms.Padding(4);
             this.promptUsrTxt.Name = "promptUsrTxt";
             this.promptUsrTxt.Size = new System.Drawing.Size(252, 26);
             this.promptUsrTxt.TabIndex = 1;
@@ -495,7 +499,7 @@
             // promptPasTxt
             // 
             this.promptPasTxt.Location = new System.Drawing.Point(130, 58);
-            this.promptPasTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.promptPasTxt.Margin = new System.Windows.Forms.Padding(4);
             this.promptPasTxt.Name = "promptPasTxt";
             this.promptPasTxt.Size = new System.Drawing.Size(252, 26);
             this.promptPasTxt.TabIndex = 2;
@@ -505,7 +509,7 @@
             // promptDomTxt
             // 
             this.promptDomTxt.Location = new System.Drawing.Point(130, 92);
-            this.promptDomTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.promptDomTxt.Margin = new System.Windows.Forms.Padding(4);
             this.promptDomTxt.Name = "promptDomTxt";
             this.promptDomTxt.Size = new System.Drawing.Size(252, 26);
             this.promptDomTxt.TabIndex = 3;
@@ -515,17 +519,41 @@
             // 
             this.promptShadowPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.promptShadowPanel.BackColor = System.Drawing.Color.DarkGray;
-            this.promptShadowPanel.Location = new System.Drawing.Point(236, 159);
-            this.promptShadowPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.promptShadowPanel.Location = new System.Drawing.Point(473, 159);
+            this.promptShadowPanel.Margin = new System.Windows.Forms.Padding(4);
             this.promptShadowPanel.Name = "promptShadowPanel";
             this.promptShadowPanel.Size = new System.Drawing.Size(405, 184);
             this.promptShadowPanel.TabIndex = 20;
+            // 
+            // SGBox
+            // 
+            this.SGBox.Controls.Add(this.SGList);
+            this.SGBox.Location = new System.Drawing.Point(810, 0);
+            this.SGBox.Margin = new System.Windows.Forms.Padding(12, 0, 12, 12);
+            this.SGBox.Name = "SGBox";
+            this.SGBox.Padding = new System.Windows.Forms.Padding(12);
+            this.SGBox.Size = new System.Drawing.Size(375, 250);
+            this.SGBox.TabIndex = 17;
+            this.SGBox.TabStop = false;
+            this.SGBox.Text = "Security Groups";
+            // 
+            // SGList
+            // 
+            this.SGList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SGList.FormattingEnabled = true;
+            this.SGList.IntegralHeight = false;
+            this.SGList.ItemHeight = 20;
+            this.SGList.Location = new System.Drawing.Point(12, 31);
+            this.SGList.Margin = new System.Windows.Forms.Padding(4);
+            this.SGList.Name = "SGList";
+            this.SGList.Size = new System.Drawing.Size(351, 207);
+            this.SGList.TabIndex = 3;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(869, 596);
+            this.ClientSize = new System.Drawing.Size(1343, 596);
             this.Controls.Add(this.titleText);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.msgShadow);
@@ -537,7 +565,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(869, 596);
             this.Name = "Main";
-            this.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.Padding = new System.Windows.Forms.Padding(12);
             this.ShowIcon = false;
             this.Text = "SuperADD";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -558,6 +586,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.msgPic)).EndInit();
             this.promptPanel.ResumeLayout(false);
             this.promptPanel.PerformLayout();
+            this.SGBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -601,6 +630,8 @@
         private System.Windows.Forms.Panel promptShadowPanel;
         private System.Windows.Forms.Button findCurrentNameBtn;
         private System.Windows.Forms.Button SearchADBtn;
+        private System.Windows.Forms.GroupBox SGBox;
+        private System.Windows.Forms.ListBox SGList;
     }
 }
 

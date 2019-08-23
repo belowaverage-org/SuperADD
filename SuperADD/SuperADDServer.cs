@@ -14,19 +14,17 @@ namespace SuperADD
         public static Task Start()
         {
             return Task.Run(async () => {
-                Process AlreadyRunning = null;
-                foreach(Process proc in Process.GetProcessesByName("php"))
+                if (!File.Exists(@"SuperADDServer\php.exe"))
                 {
-                    if(!File.Exists(@"SuperADDServer\php.exe"))
-                    {
-                        break;
-                    }
+                    await Extract();
+                }
+                foreach (Process proc in Process.GetProcessesByName("php"))
+                {
                     if(proc.MainModule.FileName == new FileInfo(@"SuperADDServer\php.exe").FullName)
                     {
-                        AlreadyRunning.Kill();
+                        proc.Kill();
                     }
                 }
-                await Extract();
                 Server.StartInfo.FileName = "php.exe";
                 Server.StartInfo.WorkingDirectory = "SuperADDServer";
                 Server.StartInfo.Arguments = "-S 127.0.0.1:2234 -t SuperADDServer";
@@ -53,7 +51,6 @@ namespace SuperADD
                     Server.Kill();
                 }
                 await Task.Delay(100);
-                await Cleanup();
                 ServerStarted = false;
             });
         }
@@ -75,16 +72,6 @@ namespace SuperADD
                 if (File.Exists("SuperADDServer.zip"))
                 {
                     File.Delete("SuperADDServer.zip");
-                }
-            });
-        }
-        private static Task Cleanup()
-        {
-            return Task.Run(() =>
-            {
-                if (Directory.Exists("SuperADDServer"))
-                {
-                    Directory.Delete("SuperADDServer", true);
                 }
             });
         }
