@@ -176,6 +176,6 @@ rem powershell.exe -ExecutionPolicy Bypass -File postbuild.ps1</PostBuildEvent>
   </Target>
   <PropertyGroup>
     <PreBuildEvent>cd $(ProjectDir)
-powershell.exe -ExecutionPolicy Bypass -File prebuild.ps1</PreBuildEvent>
+rem powershell.exe -ExecutionPolicy Bypass -File prebuild.ps1</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -37,18 +37,13 @@ namespace SuperADD
         private bool autoRunContinue = false;
         private bool suppressFindNextName = false;
         private string currentCreateSelectedOU = "";
-
         List<char> invalidNameCharacters = new List<char> {
             ' ', '{', '|', '}', '~', '[', '\\', ']', '^', '\'', ':', ';', '<', '=', '>',
             '?', '@', '!', '"', '#', '$', '%', '`', '(', ')', '+', '/', '.', ',', '*', '&'
         };
-
         public Main(int autoIndex = -1, bool autoContinue = false)
         {
             InitializeComponent();
-
-            SuperADDServer.Start();
-
             try
             {
                 new ProgressUI().CloseProgressDialog();
@@ -77,16 +72,11 @@ namespace SuperADD
                 desktopMode = true;
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.Sizable;
-                tabControl.Enabled = false;
                 saveNextBtn.Text = "Save";
                 skipJoinBtn.Hide();
-                promptShadowPanel.BringToFront();
                 promptUsrTxt.Text = Environment.UserName;
                 promptDomTxt.Text = globalProperties.DomainName;
-                promptPanel.BringToFront();
-                promptPasTxt.Focus();
             }
-
             if (!File.Exists("SuperADD.xml"))
             {
                 Config.GenerateConfig();
@@ -100,25 +90,20 @@ namespace SuperADD
                 showMsg("SuperADD.xml: " + e.Message, warnImg);
                 return;
             }
-
             Icon = Properties.Resources.winicon;
-
             autoRunIndex = autoIndex;
             autoRunContinue = autoContinue;
             pubFlowLayout = flowPanel;
             pubDescTextBox = descTextBox;
-
             pubAutoScaleFactor = new SizeF(
                 CurrentAutoScaleDimensions.Width / 96,
                 CurrentAutoScaleDimensions.Height / 96
             );
-
             foreach (XElement ou in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
             {
                 OUList.Items.Add(ou.Element("Name").Value);
                 dirLookOUList.Items.Add(ou.Element("Name").Value);
             }
-
             foreach (XElement descItem in Config.Current.Element("DescriptionItems").Elements("DescriptionItem"))
             {
                 descriptions.Add(descItem.Element("Name").Value, null);
@@ -424,7 +409,6 @@ namespace SuperADD
                 showMsg(e.Message, warnImg);
             }
         }
-
         private void setTSVariables(bool joinDomain = true, bool exitSuperADD = true)
         {
             if (!desktopMode)
@@ -457,7 +441,6 @@ namespace SuperADD
                 }
             }
         }
-
         private async void findCurrentDescriptionAndOU()
         {
             if (adDomainName == "" || adUserName == "" || adPassword == "")
@@ -515,12 +498,10 @@ namespace SuperADD
                 showMsg(e.Message, warnImg);
             }
         }
-
         private void directorySearchTb_TextChanged(object sender, EventArgs e)
         {
             currentlySelectedOUListUpdated();
         }
-
         private void computerLookList_DoubleClick(object sender, EventArgs e)
         {
             OUList.SelectedIndex = dirLookOUList.SelectedIndex;
@@ -529,7 +510,6 @@ namespace SuperADD
             computerOverwriteConfirmed = true;
             tabControl.SelectedTab = compNameTab;
         }
-
         private void msgPanel_Click(object sender, EventArgs e)
         {
             if (msgDismissable)
@@ -537,7 +517,6 @@ namespace SuperADD
                 hideMsg();
             }
         }
-
         private void TitleText_Click(object sender, EventArgs e)
         {
             if (--spookyCount == 0)
@@ -546,7 +525,6 @@ namespace SuperADD
                 spookyBoi.Enabled = true;
             }
         }
-
         private void OUList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lv = (ListBox)sender;
@@ -568,12 +546,10 @@ namespace SuperADD
                 retrieveCurrentlySelectedOUList();
             }
         }
-
         private void saveNextBtn_Click(object sender, EventArgs e)
         {
             createComputer();
         }
-
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
             foreach (char character in invalidNameCharacters)
@@ -590,19 +566,16 @@ namespace SuperADD
             }
             computerOverwriteConfirmed = false;
         }
-
         private void spookyBoi_Click(object sender, EventArgs e)
         {
             spookyBoi.SendToBack();
             spookyBoi.Enabled = false;
             spookyCount = 5;
         }
-
         private void skipJoinBtn_Click(object sender, EventArgs e)
         {
             setTSVariables(false);
         }
-
         private void promptSubmitBtn_Click(object sender, EventArgs e)
         {
             adUserName = promptUsrTxt.Text;
@@ -612,9 +585,18 @@ namespace SuperADD
             promptPanel.SendToBack();
             tabControl.Enabled = true;
         }
-
-        private void Main_Load(object sender, EventArgs e)
+        private async void Main_Load(object sender, EventArgs e)
         {
+            showMsg("Starting LDAP Communication Service...", loadImg, true, false);
+            await SuperADDServer.Start();
+            hideMsg();
+            if(desktopMode)
+            {
+                tabControl.Enabled = false;
+                promptShadowPanel.BringToFront();
+                promptPanel.BringToFront();
+                promptPasTxt.Focus();
+            }
             if (autoRunIndex > -1 && autoRunIndex < OUList.Items.Count)
             {
                 OUList.SelectedIndex = autoRunIndex;
@@ -628,7 +610,6 @@ namespace SuperADD
                 }
             }
         }
-
         private void prompt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
@@ -636,18 +617,15 @@ namespace SuperADD
                 promptSubmitBtn.PerformClick();
             }
         }
-
         private async void findCurrentNameBtn_Click(object sender, EventArgs e)
         {
             nameTextBox.Text = await findCurrentComputerName();
             findCurrentDescriptionAndOU();
         }
-
         private void SearchADBtn_Click(object sender, EventArgs e)
         {
             findCurrentDescriptionAndOU();
         }
-
         private async void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(SuperADDServer.ServerStarted)

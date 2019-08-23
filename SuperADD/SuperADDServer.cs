@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO.Compression;
@@ -13,21 +10,48 @@ namespace SuperADD
     {
         public static bool ServerStarted = false;
         private static Process Server = new Process();
+        private static bool Stopping = false;
         public static Task Start()
         {
             return Task.Run(async () => {
+                Process AlreadyRunning = null;
+                foreach(Process proc in Process.GetProcessesByName("php"))
+                {
+                    if(!File.Exists(@"SuperADDServer\php.exe"))
+                    {
+                        break;
+                    }
+                    if(proc.MainModule.FileName == new FileInfo(@"SuperADDServer\php.exe").FullName)
+                    {
+                        AlreadyRunning.Kill();
+                    }
+                }
                 await Extract();
                 Server.StartInfo.FileName = "php.exe";
                 Server.StartInfo.WorkingDirectory = "SuperADDServer";
                 Server.StartInfo.Arguments = "-S 127.0.0.1:2234 -t SuperADDServer";
+                Server.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                Server.EnableRaisingEvents = true;
                 Server.Start();
+                Server.Exited += Server_Exited;
                 ServerStarted = true;
             });
         }
+        private static void Server_Exited(object sender, EventArgs e)
+        {
+            if(!Stopping)
+            {
+                Start();
+            }
+        }
         public static Task Stop()
         {
+            Stopping = true;
             return Task.Run(async () => {
-                Server.Kill();
+                if(!Server.HasExited)
+                {
+                    Server.Kill();
+                }
                 await Task.Delay(100);
                 await Cleanup();
                 ServerStarted = false;
