@@ -9,12 +9,16 @@ namespace SuperADD
         public static void GenerateConfig()
         {
             new XDocument(new XElement("SuperADD",
+                new XComment("The hostname of the domain for authentication."),
+                new XElement("DomainName", "ad.contoso.com"),
+                new XComment("The hostname of the domain controller to connect to."),
+                new XElement("DomainController", "condc1.ad.contoso.com"),
+                new XComment("The search root for name generation / unique verification."),
+                new XElement("RootDN", "DC=ad,DC=contoso,DC=com"),
                 new XElement("OrganizationalUnits",
                     new XElement("OrganizationalUnit",
                         new XComment("The description of this OU that will appear in the UI."),
                         new XElement("Name", "Computers"),
-                        new XComment("The search root for name generation / unique verification."),
-                        new XElement("RootDN", "DC=ad,DC=contoso,DC=com"),
                         new XComment("The OU DN where computer objects will be placed."),
                         new XElement("DistinguishedName", "CN=Computers,DC=ad,DC=contoso,DC=com"),
                         new XComment("The name generator pattern."),
@@ -53,10 +57,6 @@ namespace SuperADD
         public static void ReadConfig()
         {
             Current = XDocument.Load("SuperADD.xml").Root;
-            if (Current == null || Current.Name.LocalName != "SuperADD")
-            {
-                throw new Exception("SuperADD missing from XML.");
-            }
         }
     }
 }

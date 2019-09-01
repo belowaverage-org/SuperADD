@@ -21,9 +21,9 @@ namespace SuperADD
         public static TextBox pubDescTextBox = null;
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
         public static SizeF pubAutoScaleFactor;
-        private string adDomainName = "";
-        private string adUserName = "";
-        private string adPassword = "";
+        public static string adDomainName = "";
+        public static string adUserName = "";
+        public static string adPassword = "";
         private Dictionary<string, string> currentlySelectedOUList = new Dictionary<string, string>();
         private string currentlySelectedOU = "";
         private bool msgDismissable = false;
@@ -105,6 +105,10 @@ namespace SuperADD
                 OUList.Items.Add(ou.Element("Name").Value);
                 dirLookOUList.Items.Add(ou.Element("Name").Value);
             }
+            foreach (XElement sg in Config.Current.Element("SecurityGroups").Elements("SecurityGroup"))
+            {
+                SGList.Items.Add(sg.Element("Name").Value);
+            }
             foreach (XElement descItem in Config.Current.Element("DescriptionItems").Elements("DescriptionItem"))
             {
                 descriptions.Add(descItem.Element("Name").Value, null);
@@ -159,14 +163,11 @@ namespace SuperADD
             {
                 currentlySelectedOUList.Clear();
                 showMsg("Retrieving a list of computer objects in this Organizational Unit...", loadImg, dismissable: false);
-                Dictionary<string, string> postData = new Dictionary<string, string>();
-                postData.Add("domain", adDomainName);
-                postData.Add("basedn", currentlySelectedOU);
-                postData.Add("username", adUserName);
-                postData.Add("password", adPassword);
-                postData.Add("function", "list");
-                postData.Add("filter", "objectClass=computer");
-                rawResults = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
+                rawResults = await HTTP.Post(new Dictionary<string, string>() {
+                    { "basedn", currentlySelectedOU },
+                    { "function", "list" },
+                    { "filter", "objectClass=computer" }
+                });
                 var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
                 foreach (Dictionary<string, string> computer in results)
                 {
@@ -232,12 +233,9 @@ namespace SuperADD
                     break;
                 }
             }
-
             string[] splits = AutoName.Split('#');
             string prefix = splits[0];
-
             int count = 0;
-
             foreach (KeyValuePair<string, string> comp in currentlySelectedOUList)
             {
                 if (comp.Key.ToLower().StartsWith(prefix.ToLower()))
@@ -362,21 +360,19 @@ namespace SuperADD
                 return;
             }
             showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);
-            Dictionary<string, string> postData = new Dictionary<string, string>();
-            postData.Add("domain", adDomainName);
-            postData.Add("basedn", currentCreateSelectedOU);
-            postData.Add("username", adUserName);
-            postData.Add("password", adPassword);
-            postData.Add("function", "update");
-            postData.Add("cn", nameTextBox.Text);
-            postData.Add("description", descTextBox.Text);
+            Dictionary<string, string> postData = new Dictionary<string, string>() {
+                { "basedn", currentCreateSelectedOU },
+                { "function", "update" },
+                {"cn", nameTextBox.Text },
+                {"description", descTextBox.Text }
+            };
             if (computerOverwriteConfirmed)
             {
                 postData.Add("confirm", "");
             }
             try
             {
-                string error = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
+                string error = await HTTP.Post(postData);
                 if (error != "")
                 {
                     if (error == "confirm")
@@ -460,15 +456,11 @@ namespace SuperADD
                 {
                     bool found = false;
                     string dn = ou.Element("DistinguishedName").Value;
-
-                    Dictionary<string, string> postData = new Dictionary<string, string>();
-                    postData.Add("domain", adDomainName);
-                    postData.Add("basedn", dn);
-                    postData.Add("username", adUserName);
-                    postData.Add("password", adPassword);
-                    postData.Add("function", "list");
-                    postData.Add("filter", "objectClass=computer");
-                    rawResults = await HTTP.Post(Config.Current.Element("SuperADDServer").Value, postData);
+                    rawResults = await HTTP.Post(new Dictionary<string, string>() {
+                        { "basedn", dn },
+                        { "function", "list" },
+                        { "filter", "objectClass=computer" }
+                    });
                     var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
                     foreach (Dictionary<string, string> computer in results)
                     {
