@@ -588,7 +588,7 @@ namespace SuperADD
         }
         private async void Main_Load(object sender, EventArgs e)
         {
-            showMsg("Starting LDAP Communication Service...", loadImg, true, false);
+            showMsg("Starting SuperADD Daemon...", loadImg, true, false);
             await SuperADDDaemon.Start();
             hideMsg();
             if(desktopMode)
@@ -629,6 +629,7 @@ namespace SuperADD
         }
         private async void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
+            showMsg("Stopping SuperADD Daemon...", loadImg, true, false);
             if(SuperADDDaemon.ServerStarted)
             {
                 e.Cancel = true;

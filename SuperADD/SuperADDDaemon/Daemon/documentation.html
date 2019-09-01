@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>SuperADD API</title>
+		<title>SuperADD Daemon</title>
 		<style>
+			* {
+				font-family: monospace;
+			}
 			fieldset {
-				display:inline-block;
-				height:200px;
-				width:300px;
-				vertical-align:top;
+				display: inline-block;
+				height: 380px;
+				width: 500px;
+				vertical-align: top;
 			}
 			input:not([type=checkbox]), select {
-				display:block;
-				margin:10px;
-				width:250px;
+				display: block;
+				margin: 10px;
+				width: 460px;
+			}
+			select {
+				display: inline-block;
+			}
+			.pm {
+				line-height: 60px;
+				vertical-align: top;
 			}
 		</style>
 	</head>
 	<body>
-		<h1>SuperADD API</h1>
+		<h1>SuperADD Daemon</h1>
 		<hr>
 		<p>
 			<form action="." method="post" target="send">
-                <input type="hidden" name="superadd" value="1" />
+				<input type="hidden" name="superadd" value="1" />
 				<fieldset>
 					<legend>General</legend>
-					<input type="text" name="domain" placeholder="domain: (ad.contoso.com)">
+					<input type="text" name="domainname" placeholder="domainname: (FQDN: ad.contoso.com / NETBIOS: contoso)">
+					<input type="text" name="domaincontroller" placeholder="domaincontroller: (co-dc1.ad.contoso.com)">
 					<input type="text" name="basedn" placeholder="basedn: (DC=ad,DC=contoso,DC=com)">
 					<input type="text" name="username" placeholder="username: (administrator)">
 					<input type="password" name="password" placeholder="password: (pass123)">
@@ -36,19 +47,66 @@
 				<fieldset>
 					<legend>function: list</legend>
 					<input type="text" name="filter" placeholder="filter: (objectClass=computer)">
-					recurse: <input type="checkbox" name="recurse">
+					recurse: <input type="checkbox" name="recurse"><br>
+					includegroups: <input type="checkbox" name="includegroups">
 				</fieldset>
 				<fieldset>
 					<legend>function: update</legend>
 					<input type="text" name="cn" placeholder="cn: (contosopc01)">
 					<input type="text" name="description" placeholder="description: (object description)">
+					<input type="text" name="destinationdn" placeholder="destinationdn: (OU=Computers,DC=ad,DC=contoso,DC=com)">
+					<hr>
+					<input type="text" id="ar" placeholder="addgroups[] removegroups[]: (CN=Wifi_AccessOU=Computers,DC=ad,DC=contoso,DC=com)">
+					<button id="addGroup">↕</button> addgroups[]:<br>
+					<span class="pm">+</span>
+					<select name="addgroups[]" size="3" multiple></select>
+					<button id="removeGroup">↕</button> removegroups[]:<br>
+					<span class="pm">-</span>
+					<select name="removegroups[]" size="3" multiple></select>
+					<hr>
 					confirm: <input type="checkbox" name="confirm">
 				</fieldset>
 				<p>
-					<button>Send</button> | Results:
+					<button id="send">Send</button> | Results:
 				</p>
 			</form>
 		</p>
-		<iframe width="1000" height="300" name="send" src=""></iframe>
+		<iframe width="800" height="300" name="send" src=""></iframe>
+		<script>
+			var addRemove = document.getElementById('ar');
+			var addButton = document.getElementById('addGroup');
+			var addButton = document.getElementById('addGroup');
+			var removeButton = document.getElementById('removeGroup');
+			var addGroups = document.getElementsByName('addgroups[]')[0];
+			var removeGroups = document.getElementsByName('removegroups[]')[0];
+			var sendButton = document.getElementById('send');
+			addButton.onclick = function(e) {
+				addRemoveGroups(e, addGroups);
+			};
+			removeButton.onclick = function(e) {
+				addRemoveGroups(e, removeGroups);
+			};
+			sendButton.onclick = function() {
+				for(var count = 0; count < addGroups.options.length; count++) {
+					addGroups.options[count].selected = true;
+				}
+				for(var count = 0; count < removeGroups.options.length; count++) {
+					removeGroups.options[count].selected = true;
+				}
+			};
+            addRemove.onclick = function() {
+                addGroups.selectedIndex = removeGroups.selectedIndex = -1;
+            };
+			function addRemoveGroups(e, groupBox) {
+				e.preventDefault();
+				if(groupBox.options.selectedIndex !== -1) {
+					addRemove.value = groupBox.options[groupBox.options.selectedIndex].value;
+					groupBox.options[groupBox.options.selectedIndex].remove();
+				} else if(addRemove.value !== '') {
+					groupBox.innerHTML += '<option value="' + addRemove.value + '">' + addRemove.value + '</option>';
+					addRemove.value = '';
+				}
+			}
+		</script>
 	</body>
 </html>
