@@ -53,6 +53,7 @@ if( //Verify POST Values are set.
 				ldap_control_paged_result_response($ldap, $result, $cookie);
 			} while($cookie !== null && $cookie != '');
 			echo json_encode($computers); //Convert result array to JSON then output.
+            exit;
 		}
 		if( //Create / modify a computer object.
 			$_POST['function'] == 'update' &&
@@ -73,15 +74,18 @@ if( //Verify POST Values are set.
 					$cn = 'CN='.$cn_escaped;
 					if(!@ldap_rename($ldap, $existing_dn, $cn, $_POST['destinationdn'], true)) { //Move the computer.
 						echo 'Existing computer object found in another OU. Failed to move it to the new OU. ';
+                        exit;
 					}
 				}
 				if(!@ldap_mod_replace($ldap, $new_dn, array( //Modify the computer.
 					'description' => $_POST['description']
 				))) {
 					echo 'Failed to modify the existing computer object.';
+                    exit;
 				}
 			} elseif($existing_dn !== null) { //If computer exists, but no confirm, send error code.
 				echo 'confirm';
+                exit;
 			} else {
 				$attributes = array( //Create the computer.
 					'cn' => $cn_escaped,
@@ -95,18 +99,24 @@ if( //Verify POST Values are set.
 				}
 				if(!@ldap_add($ldap, 'CN='.$cn_escaped.','.$_POST['destinationdn'], $attributes)) { //Create the computer.
 					echo 'Failed to create a new computer object in this OU.';
-				}					
+                    exit;
+				}
 			}
+            if(isset($_POST['addgroups']) && !empty($_POST['addgroups'])) {
+                //todo
+            }
 		}
 	} else {
 		echo 'Could not connect to LDAP server.';
+        exit;
 	}
-	ldap_close($ldap);
 } else {
 	if(isset($_POST['superadd'])) { //Are we talking to SuperADD? Or the web interface?
 		echo "Incorrect parameters.";
+        exit;
 	} else {
 		echo file_get_contents('documentation.html');
+        exit;
 	}
 }
 ?>
