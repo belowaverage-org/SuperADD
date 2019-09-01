@@ -44,6 +44,7 @@ namespace SuperADD
         public Main(int autoIndex = -1, bool autoContinue = false)
         {
             InitializeComponent();
+            titleText.Text = "SuperADD  |  v" + Application.ProductVersion.ToString();
             try
             {
                 new ProgressUI().CloseProgressDialog();

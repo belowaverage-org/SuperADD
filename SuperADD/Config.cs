@@ -53,9 +53,9 @@ namespace SuperADD
         public static void ReadConfig()
         {
             Current = XDocument.Load("SuperADD.xml").Root;
-            if (Current.Element("SuperADDServer") == null)
+            if (Current == null || Current.Name.LocalName != "SuperADD")
             {
-                throw new Exception("SuperADDServer missing from XML.");
+                throw new Exception("SuperADD missing from XML.");
             }
         }
     }
