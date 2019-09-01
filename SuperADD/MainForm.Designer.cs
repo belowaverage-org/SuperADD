@@ -158,7 +158,7 @@
             this.computerObjectBox.Size = new System.Drawing.Size(300, 200);
             this.computerObjectBox.TabIndex = 16;
             this.computerObjectBox.TabStop = false;
-            this.computerObjectBox.Text = "Computer Object";
+            this.computerObjectBox.Text = "Computer Details";
             // 
             // SearchADBtn
             // 
@@ -240,6 +240,7 @@
             this.SGList.ItemHeight = 16;
             this.SGList.Location = new System.Drawing.Point(10, 25);
             this.SGList.Name = "SGList";
+            this.SGList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.SGList.Size = new System.Drawing.Size(280, 165);
             this.SGList.TabIndex = 3;
             // 

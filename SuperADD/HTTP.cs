@@ -11,7 +11,9 @@ namespace SuperADD
         {
             formData.Add("username", Main.adUserName);
             formData.Add("password", Main.adPassword);
-            formData.Add("domain", Main.adDomainName);
+            formData.Add("domainname", Main.adDomainName);
+            formData.Add("domaincontroller", Config.Current.Element("DomainController").Value);
+            formData.Add("superadd", "1");
             FormUrlEncodedContent encodedFormData = new FormUrlEncodedContent(formData);
             HttpResponseMessage httpMessage = await client.PostAsync("http://127.0.0.1:2234/", encodedFormData);
             return await httpMessage.Content.ReadAsStringAsync();

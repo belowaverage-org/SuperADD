@@ -377,7 +377,14 @@ namespace SuperADD
                 {
                     if (error == "confirm")
                     {
-                        showMsg("This computer object already exists!\nPress \"Save\" again to confirm.", warnImg, disableForm: false);
+                        if(desktopMode)
+                        {
+                            showMsg("This computer object already exists!\nPress \"Save\" again to confirm.", warnImg, disableForm: false);
+                        }
+                        else
+                        {
+                            showMsg("This computer object already exists!\nPress \"Join Domain\" again to confirm.", warnImg, disableForm: false);
+                        }
                         computerOverwriteConfirmed = true;
                     }
                     else
@@ -582,7 +589,7 @@ namespace SuperADD
         private async void Main_Load(object sender, EventArgs e)
         {
             showMsg("Starting LDAP Communication Service...", loadImg, true, false);
-            await SuperADDServer.Start();
+            await SuperADDDaemon.Start();
             hideMsg();
             if(desktopMode)
             {
@@ -622,10 +629,10 @@ namespace SuperADD
         }
         private async void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(SuperADDServer.ServerStarted)
+            if(SuperADDDaemon.ServerStarted)
             {
                 e.Cancel = true;
-                await SuperADDServer.Stop();
+                await SuperADDDaemon.Stop();
                 Close();
             }
         }

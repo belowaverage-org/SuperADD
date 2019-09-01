@@ -93,9 +93,9 @@ namespace SuperADD.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] SuperADDServer {
+        internal static byte[] SuperADDDaemon {
             get {
-                object obj = ResourceManager.GetObject("SuperADDServer", resourceCulture);
+                object obj = ResourceManager.GetObject("SuperADDDaemon", resourceCulture);
                 return ((byte[])(obj));
             }
         }
