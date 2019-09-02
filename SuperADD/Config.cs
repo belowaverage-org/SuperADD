@@ -1,5 +1,4 @@
 ﻿using System.Xml.Linq;
-using System;
 
 namespace SuperADD
 {
@@ -31,7 +30,7 @@ namespace SuperADD
                 ),
                 new XElement("SecurityGroups",
                     new XElement("SecurityGroup",
-                        new XComment("The description of this OU that will appear in the UI."),
+                        new XComment("The description of this Security Group that will appear in the UI."),
                         new XElement("Name", "Computer Wifi Access"),
                         new XComment("The distinguished name of the security group."),
                         new XElement("DistinguishedName", "CN=COMP_Wifi,OU=Groups,OU=Computers,DC=ad,DC=contoso,DC=com")

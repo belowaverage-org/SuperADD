@@ -170,8 +170,8 @@ rem powershell.exe -ExecutionPolicy Bypass -File postbuild.ps1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>cd $(ProjectDir)
-powershell.exe -ExecutionPolicy Bypass -File prebuild.ps1
-rmdir /S /Q $(OutDir)SuperADDDaemon</PreBuildEvent>
+rem powershell.exe -ExecutionPolicy Bypass -File prebuild.ps1
+rem rmdir /S /Q $(OutDir)SuperADDDaemon</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

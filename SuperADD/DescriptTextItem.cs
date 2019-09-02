@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SuperADD
@@ -26,13 +22,11 @@ namespace SuperADD
             Main.pubFlowLayout.Controls.Add(groupBox);
             groupBox.Scale(Main.pubAutoScaleFactor);
         }
-
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
             Main.descriptions[groupBox.Text] = textBox.Text;
             Main.updateDescription();
         }
-
         public GroupBox groupBox = new GroupBox();
         public TextBox textBox = new TextBox();
     }

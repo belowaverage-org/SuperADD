@@ -56,8 +56,9 @@ namespace SuperADD
             }
             else
             {
-                Application.Run(new Main());
+                Application.Run(MainForm);
             }
         }
+        public static Main MainForm = new Main();
     }
 }

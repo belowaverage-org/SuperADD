@@ -21,9 +21,9 @@ namespace SuperADD
         public static TextBox pubDescTextBox = null;
         public static Dictionary<string, string> descriptions = new Dictionary<string, string>();
         public static SizeF pubAutoScaleFactor;
-        public static string adDomainName = "";
-        public static string adUserName = "";
-        public static string adPassword = "";
+        public string adDomainName = "";
+        public string adUserName = "";
+        public string adPassword = "";
         private Dictionary<string, string> currentlySelectedOUList = new Dictionary<string, string>();
         private string currentlySelectedOU = "";
         private bool msgDismissable = false;
@@ -126,7 +126,6 @@ namespace SuperADD
                 }
             }
         }
-
         public static void updateDescription()
         {
             string description = "";
@@ -147,7 +146,6 @@ namespace SuperADD
             }
             pubDescTextBox.Text = description;
         }
-
         private async void retrieveCurrentlySelectedOUList()
         {
             string rawResults = "";
@@ -181,7 +179,7 @@ namespace SuperADD
             }
             catch (JsonReaderException)
             {
-                showMsg("API Response Invalid: " + rawResults, warnImg);
+                showMsg("Daemon: " + rawResults, warnImg);
             }
             catch (Exception e)
             {
@@ -189,7 +187,6 @@ namespace SuperADD
             }
             currentlySelectedOUListUpdated();
         }
-
         private void currentlySelectedOUListUpdated()
         {
             if (tabControl.SelectedTab == dirLookTab)
@@ -214,7 +211,6 @@ namespace SuperADD
                 OUList.Enabled = true;
             }
         }
-
         private void findNextComputerName()
         {
             string AutoName = "";
@@ -253,7 +249,6 @@ namespace SuperADD
             }
             nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0");
         }
-
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
         {
             void sMsg()
@@ -284,7 +279,6 @@ namespace SuperADD
                 sMsg();
             }
         }
-
         private void hideMsg()
         {
             void hMsg()
@@ -305,7 +299,6 @@ namespace SuperADD
                 hMsg();
             }
         }
-
         private Task<String> findCurrentComputerName()
         {
             return Task.Run(() =>
@@ -339,7 +332,6 @@ namespace SuperADD
                 return (string)computerName.GetValue("ComputerName");
             });
         }
-
         private async void createComputer()
         {
             if (nameTextBox.Text == "")
@@ -389,7 +381,7 @@ namespace SuperADD
                     }
                     else
                     {
-                        showMsg("API Error: " + error, warnImg);
+                        showMsg("Daemon: " + error, warnImg);
                     }
                 }
                 else
@@ -579,6 +571,17 @@ namespace SuperADD
         }
         private void promptSubmitBtn_Click(object sender, EventArgs e)
         {
+            hidePassPrompt();
+        }
+        public void showPassPrompt()
+        {
+            tabControl.Enabled = false;
+            promptShadowPanel.BringToFront();
+            promptPanel.BringToFront();
+            promptPasTxt.Focus();
+        }
+        public void hidePassPrompt()
+        {
             adUserName = promptUsrTxt.Text;
             adPassword = promptPasTxt.Text;
             adDomainName = promptDomTxt.Text;
@@ -593,10 +596,7 @@ namespace SuperADD
             hideMsg();
             if(desktopMode)
             {
-                tabControl.Enabled = false;
-                promptShadowPanel.BringToFront();
-                promptPanel.BringToFront();
-                promptPasTxt.Focus();
+                showPassPrompt();
             }
             if (autoRunIndex > -1 && autoRunIndex < OUList.Items.Count)
             {

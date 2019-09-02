@@ -14,7 +14,7 @@ if( //Verify POST Values are set.
 	$ldap = ldap_connect($_POST['domaincontroller']); //LDAP Connect.
 	ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0); //LDAP Set options for root searching.
 	ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-	if(ldap_bind($ldap, $_POST['username'].'@'.$_POST['domainname'], $_POST['password'])) { //Check if LDAP is connected.
+	if(@ldap_bind($ldap, $_POST['username'].'@'.$_POST['domainname'], $_POST['password'])) { //Check if LDAP is connected.
 		if($_POST['function'] == 'list' && isset($_POST['filter']) && !empty($_POST['filter'])) { //List a specified OU.
 			$computers = array();
 			$cookie = '';
@@ -64,8 +64,8 @@ if( //Verify POST Values are set.
 			$cn_escaped = ldap_escape($_POST['cn'], null, LDAP_ESCAPE_DN); //Filter API input.
 			$filter_escaped = ldap_escape($_POST['cn'], null, LDAP_ESCAPE_FILTER);
 			$new_dn = 'CN='.$cn_escaped.','.$_POST['destinationdn']; //Get full DN.
-			$existing = ldap_search($ldap, $_POST['basedn'], 'sAMAccountName='.strtoupper($filter_escaped).'$'); //Search for existing computers that have the same sAMAccountName.
-			$existing_dn = @ldap_get_dn($ldap, ldap_first_entry($ldap, $existing)); //If one is found, get the DN.
+			$existing = ldap_first_entry($ldap, ldap_search($ldap, $_POST['basedn'], 'sAMAccountName='.strtoupper($filter_escaped).'$')); //Search for existing computers that have the same sAMAccountName.
+			$existing_dn = @ldap_get_dn($ldap, $existing); //If one is found, get the DN.
 			if(empty($_POST['description'])) { //If description is empty, change it to a blank array for LDAP call purposes.
 				$_POST['description'] = array();
 			}
@@ -97,17 +97,40 @@ if( //Verify POST Values are set.
 				if(empty($_POST['description'])) {
 					unset($attributes['description']);
 				}
-				if(!@ldap_add($ldap, 'CN='.$cn_escaped.','.$_POST['destinationdn'], $attributes)) { //Create the computer.
+				if(!@ldap_add($ldap, $new_dn, $attributes)) { //Create the computer.
 					echo 'Failed to create a new computer object in this OU.';
                     exit;
 				}
 			}
-            if(isset($_POST['addgroups']) && !empty($_POST['addgroups'])) {
-                //todo
+            if(isset($_POST['addgroups']) && !empty($_POST['addgroups'])) { //If instructed to add computer to groups.
+                foreach($_POST['addgroups'] as $group_dn) {
+					$values = ldap_get_values($ldap, $existing, 'memberOf');
+					if(!in_array($group_dn, $values)) { //If not already in group.
+						if(!@ldap_mod_add($ldap, $group_dn, array( //Add computer to group.
+							'member' => $new_dn
+						))) {
+							echo 'Failed to add computer to group.';
+							exit;
+						}
+					}
+				}
+            }
+			if(isset($_POST['removegroups']) && !empty($_POST['removegroups'])) { //If instructed to remove computer from groups.
+                foreach($_POST['removegroups'] as $group_dn) {
+					$values = ldap_get_values($ldap, $existing, 'memberOf');
+					if(in_array($group_dn, $values)) { //If in group.
+						if(!@ldap_mod_del($ldap, $group_dn, array( //Add computer to group.
+							'member' => $new_dn
+						))) {
+							echo 'Failed to remove computer from group.';
+							exit;
+						}
+					}
+				}
             }
 		}
 	} else {
-		echo 'Could not connect to LDAP server.';
+		echo 'authenticate';
         exit;
 	}
 } else {
