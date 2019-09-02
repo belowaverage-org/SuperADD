@@ -12,8 +12,6 @@ namespace SuperADD
         [STAThread]
         static void Main(string[] args)
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
             if(args.Length > 0)
             {
                 foreach(string arg in args)
