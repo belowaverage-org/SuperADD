@@ -25,6 +25,7 @@ namespace SuperADD
                         new XComment("+: Increment with a lefthand padding (Fill Mode). E.g: ++++ = 0001"),
                         new XComment("*: Random Alpha Numeric Lowercase. E.g: **** = j3g2"),
                         new XComment("$: Random Alpha Numeric Uppercase. E.g: $$$$ = J3G2"),
+                        new XComment("$: Random Alpha Numeric Both Case. E.g: $$$$ = J3G2"),
                         new XComment("%: Random Numeric. E.g: %%%% = 5473"),
                         new XComment("&: Random Alpha Lowecase. E.g: &&&& = jwkx"),
                         new XComment("?: Random Alpha Uppercase. E.g: ???? = JWKX"),

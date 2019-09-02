@@ -337,6 +337,20 @@ namespace SuperADD
                     showMsg(e.Message, warnImg);
                 }
             }
+            else
+            {
+                string name = AutoName;
+                foreach(char character in AutoName)
+                {
+                    if (character == '*')
+                    {
+                        //character = 
+                    }
+                }
+
+
+                nameTextBox.Text = "";
+            }
         }
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
         {
