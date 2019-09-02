@@ -66,6 +66,7 @@
             this.promptPasTxt = new System.Windows.Forms.TextBox();
             this.promptDomTxt = new System.Windows.Forms.TextBox();
             this.promptShadowPanel = new System.Windows.Forms.Panel();
+            this.btnHidden = new System.Windows.Forms.Panel();
             this.OUBox.SuspendLayout();
             this.flowPanel.SuspendLayout();
             this.computerObjectBox.SuspendLayout();
@@ -520,11 +521,21 @@
             this.promptShadowPanel.Size = new System.Drawing.Size(324, 147);
             this.promptShadowPanel.TabIndex = 20;
             // 
+            // btnHidden
+            // 
+            this.btnHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHidden.Location = new System.Drawing.Point(852, 7);
+            this.btnHidden.Name = "btnHidden";
+            this.btnHidden.Size = new System.Drawing.Size(65, 19);
+            this.btnHidden.TabIndex = 21;
+            this.btnHidden.DoubleClick += new System.EventHandler(this.BtnHidden_DoubleClick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1086, 615);
+            this.Controls.Add(this.btnHidden);
             this.Controls.Add(this.titleText);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.msgShadow);
@@ -603,6 +614,7 @@
         private System.Windows.Forms.Button SearchADBtn;
         private System.Windows.Forms.GroupBox SGBox;
         private System.Windows.Forms.ListBox SGList;
+        private System.Windows.Forms.Panel btnHidden;
     }
 }
 

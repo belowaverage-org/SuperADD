@@ -577,10 +577,14 @@ namespace SuperADD
                     break;
                 }
             }
-            if (((lv == OUList && tabControl.SelectedTab == compNameTab) || lv == dirLookOUList) && !suppressFindNextName)
+            if ((lv == dirLookOUList) && !suppressFindNextName)
             {
                 lv.Enabled = false;
                 retrieveCurrentlySelectedOUList();
+            }
+            if(lv == OUList && tabControl.SelectedTab == compNameTab)
+            {
+                findNextComputerName();
             }
         }
         private void saveNextBtn_Click(object sender, EventArgs e)
@@ -658,6 +662,10 @@ namespace SuperADD
                 await SuperADDDaemon.Stop();
                 Close();
             }
+        }
+        private void BtnHidden_DoubleClick(object sender, EventArgs e)
+        {
+            new Help(1).ShowDialog();
         }
     }
 }
