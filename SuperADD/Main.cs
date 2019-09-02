@@ -184,9 +184,7 @@ namespace SuperADD
             string rawResults = "";
             if (adDomainName == "" || adUserName == "" || adPassword == "")
             {
-                promptShadowPanel.BringToFront();
-                promptPanel.BringToFront();
-                tabControl.Enabled = false;
+                showPassPrompt();
                 currentlySelectedOUListUpdated();
                 return;
             }
@@ -238,13 +236,8 @@ namespace SuperADD
                 computerLookList.EndUpdate();
                 dirLookOUList.Enabled = true;
             }
-            else if (tabControl.SelectedTab == compNameTab)
-            {
-                findNextComputerName();
-                OUList.Enabled = true;
-            }
         }
-        private void findNextComputerName()
+        private async void findNextComputerName()
         {
             string AutoName = "";
             foreach (XElement element in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
@@ -265,22 +258,48 @@ namespace SuperADD
             string[] splits = AutoName.Split('#');
             string prefix = splits[0];
             int count = 0;
-            foreach (KeyValuePair<string, string> comp in currentlySelectedOUList)
+            if (adDomainName == "" || adUserName == "" || adPassword == "")
             {
-                if (comp.Key.ToLower().StartsWith(prefix.ToLower()))
+                showPassPrompt();
+                return;
+            }
+            string rawResults = "";
+            try
+            {
+                showMsg("Searching AD for next available name...", loadImg);
+                rawResults = await HTTP.Post(new Dictionary<string, string>() {
+                    { "basedn", Config.Current.Element("BaseDN").Value },
+                    { "function", "list" },
+                    { "recurse", "" },
+                    { "filter", "(&(sAMAccountName=" + prefix + "*$)(objectClass=computer))" }
+                });
+                var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
+                foreach (Dictionary<string, string> comp in results)
                 {
-                    int number = 0;
-                    string suffix = comp.Key.ToLower().Replace(prefix.ToLower(), "");
-                    if (int.TryParse(suffix, out number))
+                    if (comp["cn"].ToLower().StartsWith(prefix.ToLower()))
                     {
-                        if (number >= count)
+                        int number = 0;
+                        string suffix = comp["cn"].ToLower().Replace(prefix.ToLower(), "");
+                        if (int.TryParse(suffix, out number))
                         {
-                            count = number + 1;
+                            if (number >= count)
+                            {
+                                count = number + 1;
+                            }
                         }
                     }
                 }
+                nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0");
+                hideMsg();
             }
-            nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0");
+            catch (JsonReaderException)
+            {
+                showMsg(rawResults, warnImg);
+            }
+            catch (Exception e)
+            {
+                showMsg(e.Message, warnImg);
+            }
         }
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
         {
@@ -379,12 +398,11 @@ namespace SuperADD
             }
             if (adDomainName == "" || adUserName == "" || adPassword == "")
             {
-                promptShadowPanel.BringToFront();
-                promptPanel.BringToFront();
-                tabControl.Enabled = false;
+                showPassPrompt();
                 return;
             }
             showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);
+
             Dictionary<string, string> postData = new Dictionary<string, string>() {
                 { "basedn", Config.Current.Element("BaseDN").Value },
                 { "function", "update" },
@@ -392,6 +410,18 @@ namespace SuperADD
                 { "description", descTextBox.Text },
                 { "destinationdn", currentCreateSelectedOU }
             };
+            int index = 0;
+            foreach (XElement SG in Config.Current.Element("SecurityGroups").Elements())
+            {
+                if (SGList.SelectedItems.Contains(SG.Element("Name").Value))
+                {
+                    postData.Add("addgroups[" + (index++) + "]", SG.Element("DistinguishedName").Value);
+                }
+                else
+                {
+                    postData.Add("removegroups[" + (index++) + "]", SG.Element("DistinguishedName").Value);
+                }
+            }
             if (computerOverwriteConfirmed)
             {
                 postData.Add("confirm", "");
@@ -471,13 +501,11 @@ namespace SuperADD
                 }
             }
         }
-        private async void findCurrentDescriptionAndOU()
+        private async void getCurrentComputerDetails()
         {
             if (adDomainName == "" || adUserName == "" || adPassword == "")
             {
-                promptShadowPanel.BringToFront();
-                promptPanel.BringToFront();
-                tabControl.Enabled = false;
+                showPassPrompt();
                 return;
             }
             string rawResults = "";
@@ -582,7 +610,7 @@ namespace SuperADD
                 lv.Enabled = false;
                 retrieveCurrentlySelectedOUList();
             }
-            if(lv == OUList && tabControl.SelectedTab == compNameTab)
+            if((lv == OUList && tabControl.SelectedTab == compNameTab) && !suppressFindNextName)
             {
                 findNextComputerName();
             }
@@ -647,11 +675,11 @@ namespace SuperADD
         private async void findCurrentNameBtn_Click(object sender, EventArgs e)
         {
             nameTextBox.Text = await findCurrentComputerName();
-            findCurrentDescriptionAndOU();
+            getCurrentComputerDetails();
         }
         private void SearchADBtn_Click(object sender, EventArgs e)
         {
-            findCurrentDescriptionAndOU();
+            getCurrentComputerDetails();
         }
         private async void Main_FormClosing(object sender, FormClosingEventArgs e)
         {

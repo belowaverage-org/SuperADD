@@ -102,10 +102,11 @@ if( //Verify POST Values are set.
                     exit;
 				}
 			}
+			$computer = ldap_first_entry($ldap, ldap_search($ldap, $_POST['basedn'], 'distinguishedName='.$new_dn));
             if(isset($_POST['addgroups']) && !empty($_POST['addgroups'])) { //If instructed to add computer to groups.
                 foreach($_POST['addgroups'] as $group_dn) {
-					$values = ldap_get_values($ldap, $existing, 'memberOf');
-					if(!in_array($group_dn, $values)) { //If not already in group.
+					$values = @ldap_get_values($ldap, $computer, 'memberOf');
+					if($values == false || !in_array($group_dn, $values)) { //If not already in group.
 						if(!@ldap_mod_add($ldap, $group_dn, array( //Add computer to group.
 							'member' => $new_dn
 						))) {
@@ -117,9 +118,9 @@ if( //Verify POST Values are set.
             }
 			if(isset($_POST['removegroups']) && !empty($_POST['removegroups'])) { //If instructed to remove computer from groups.
                 foreach($_POST['removegroups'] as $group_dn) {
-					$values = ldap_get_values($ldap, $existing, 'memberOf');
-					if(in_array($group_dn, $values)) { //If in group.
-						if(!@ldap_mod_del($ldap, $group_dn, array( //Add computer to group.
+					$values = @ldap_get_values($ldap, $computer, 'memberOf');
+					if($values !== false && in_array($group_dn, $values)) { //If in group.
+						if(!@ldap_mod_del($ldap, $group_dn, array( //Remove computer from group.
 							'member' => $new_dn
 						))) {
 							echo 'Failed to remove computer from group.';
