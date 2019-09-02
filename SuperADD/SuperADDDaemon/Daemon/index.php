@@ -44,9 +44,9 @@ if( //Verify POST Values are set.
 										}
 									}
 								}
-								array_push($computers, array('cn' => $v['cn'][0], 'description' => $desc, 'groups' => $groups)); //Add computer object to final output.
+								array_push($computers, array('dn' => $v['dn'], 'cn' => $v['cn'][0], 'description' => $desc, 'groups' => $groups)); //Add computer object to final output.
 							} else {
-								array_push($computers, array('cn' => $v['cn'][0], 'description' => $desc)); //Add computer object to final output.
+								array_push($computers, array('dn' => $v['dn'], 'cn' => $v['cn'][0], 'description' => $desc)); //Add computer object to final output.
 							}
 						}
 					}
