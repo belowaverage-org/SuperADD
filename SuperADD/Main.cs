@@ -255,50 +255,87 @@ namespace SuperADD
                     break;
                 }
             }
-            string[] splits = AutoName.Split('#');
-            string prefix = splits[0];
-            int count = 0;
-            if (adDomainName == "" || adUserName == "" || adPassword == "")
+            if (AutoName.Contains("#") || AutoName.Contains("+"))
             {
-                showPassPrompt();
-                return;
-            }
-            string rawResults = "";
-            try
-            {
-                showMsg("Searching AD for next available name...", loadImg);
-                rawResults = await HTTP.Post(new Dictionary<string, string>() {
-                    { "basedn", Config.Current.Element("BaseDN").Value },
-                    { "function", "list" },
-                    { "recurse", "" },
-                    { "filter", "(&(sAMAccountName=" + prefix + "*$)(objectClass=computer))" }
-                });
-                var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
-                foreach (Dictionary<string, string> comp in results)
+                string[] splits;
+                bool appendMode = false;
+                if(AutoName.Contains("+"))
                 {
-                    if (comp["cn"].ToLower().StartsWith(prefix.ToLower()))
+                    splits = AutoName.Split('+');
+                }
+                else
+                {
+                    appendMode = true;
+                    splits = AutoName.Split('#');
+                }                
+                string prefix = splits[0];
+                string suffix = splits[splits.Length - 1];
+                int count = 0;
+                if (adDomainName == "" || adUserName == "" || adPassword == "")
+                {
+                    showPassPrompt();
+                    return;
+                }
+                string rawResults = "";
+                try
+                {
+                    showMsg("Searching AD for next available name...", loadImg);
+                    rawResults = await HTTP.Post(new Dictionary<string, string>() {
+                        { "basedn", Config.Current.Element("BaseDN").Value },
+                        { "function", "list" },
+                        { "recurse", "" },
+                        { "filter", "(&(sAMAccountName=" + prefix + "*" + suffix + "$)(objectClass=computer))" }
+                    });
+                    var results = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(rawResults);
+                    List<string> computers = new List<string>();
+                    foreach (Dictionary<string, string> comp in results)
                     {
-                        int number = 0;
-                        string suffix = comp["cn"].ToLower().Replace(prefix.ToLower(), "");
-                        if (int.TryParse(suffix, out number))
+                        computers.Add(comp["cn"].ToLower());
+                    }
+                    if (appendMode)
+                    {
+                        foreach (string comp in computers)
                         {
-                            if (number >= count)
+                            if (comp.StartsWith(prefix.ToLower()))
                             {
-                                count = number + 1;
+                                int number = 0;
+                                string sNumber = comp;
+                                if (prefix.Length != 0)
+                                {
+                                    sNumber = sNumber.Replace(prefix.ToLower(), "");
+                                }
+                                if (suffix.Length != 0)
+                                {
+                                    sNumber = sNumber.Replace(suffix.ToLower(), "");
+                                }
+                                if (int.TryParse(sNumber, out number))
+                                {
+                                    if (number >= count)
+                                    {
+                                        count = number + 1;
+                                    }
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        while(computers.Contains(prefix.ToLower() + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0") + suffix.ToLower()))
+                        {
+                            count++;
+                        }
+                    }
+                    nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0") + suffix;
+                    hideMsg();
                 }
-                nameTextBox.Text = prefix + count.ToString().PadLeft(splits.Length - 1).Replace(" ", "0");
-                hideMsg();
-            }
-            catch (JsonReaderException)
-            {
-                showMsg(rawResults, warnImg);
-            }
-            catch (Exception e)
-            {
-                showMsg(e.Message, warnImg);
+                catch (JsonReaderException)
+                {
+                    showMsg(rawResults, warnImg);
+                }
+                catch (Exception e)
+                {
+                    showMsg(e.Message, warnImg);
+                }
             }
         }
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
