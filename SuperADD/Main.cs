@@ -340,16 +340,40 @@ namespace SuperADD
             else
             {
                 string name = AutoName;
+                int index = 0;
                 foreach(char character in AutoName)
                 {
                     if (character == '*')
                     {
-                        //character = 
+                        name = name.Remove(index, 1).Insert(index, RandChars.AlphaNumLower().ToString());
                     }
+                    if (character == '$')
+                    {
+                        name = name.Remove(index, 1).Insert(index, RandChars.AlphaNumUpper().ToString());
+                    }
+                    if (character == '@')
+                    {
+                        name = name.Remove(index, 1).Insert(index, RandChars.AlphaNumAny().ToString());
+                    }
+                    if (character == '%')
+                    {
+                        name = name.Remove(index, 1).Insert(index, RandChars.Number().ToString());
+                    }
+                    if (character == '!')
+                    {
+                        name = name.Remove(index, 1).Insert(index, RandChars.AlphaLower().ToString());
+                    }
+                    if (character == '?')
+                    {
+                        name = name.Remove(index, 1).Insert(index, RandChars.AlphaUpper().ToString());
+                    }
+                    if (character == '~')
+                    {
+                        name = name.Remove(index, 1).Insert(index, RandChars.AlphaAny().ToString());
+                    }
+                    index++;
                 }
-
-
-                nameTextBox.Text = "";
+                nameTextBox.Text = name;
             }
         }
         private void showMsg(string message, Image image, bool disableForm = true, bool dismissable = true)
