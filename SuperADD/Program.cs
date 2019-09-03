@@ -31,7 +31,8 @@ namespace SuperADD
                         {
                             index = int.Parse(arg.Replace("/autorunindex:", ""));
                         }
-                        Application.Run(new Main(index, true));
+                        MainForm = new Main(index, true);
+                        Application.Run(MainForm);
                     }
                     if (arg.StartsWith("-autoselectindex:") || arg.StartsWith("/autoselectindex:"))
                     {
@@ -44,7 +45,8 @@ namespace SuperADD
                         {
                             index = int.Parse(arg.Replace("/autoselectindex:", ""));
                         }
-                        Application.Run(new Main(index, false));
+                        MainForm = new Main(index, false);
+                        Application.Run(MainForm);
                     }
                     if (arg.StartsWith("-dump") || arg.StartsWith("/dump"))
                     {
@@ -54,9 +56,10 @@ namespace SuperADD
             }
             else
             {
+                MainForm = new Main();
                 Application.Run(MainForm);
             }
         }
-        public static Main MainForm = new Main();
+        public static Main MainForm;
     }
 }

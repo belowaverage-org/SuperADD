@@ -809,7 +809,7 @@ namespace SuperADD
             }
             if (autoRunIndex == -2)
             {
-                saveNextBtn.PerformClick();
+                createComputer();
             }
             computerOverwriteConfirmed = false;
         }
