@@ -744,11 +744,13 @@ namespace SuperADD
                 showMsg("OrganizationalUnits element is missing from SuperADD.xml", warnImg);
                 return;
             }
+            XElement SecurityGroupsDNs = null;
             foreach (XElement elm in OUs.Elements("OrganizationalUnit"))
             {
                 XElement Name = elm.Element("Name");
                 if (Name != null && Name.Value == (string)lv.SelectedItem )
                 {
+                    SecurityGroupsDNs = elm.Element("SecurityGroupsDNs");
                     XElement DN = elm.Element("DistinguishedName");
                     if (DN == null) continue;
                     currentlySelectedOU = DN.Value;
@@ -767,6 +769,27 @@ namespace SuperADD
             if((lv == OUList && tabControl.SelectedTab == compNameTab) && !suppressFindNextName)
             {
                 findNextComputerName();
+                autoSelectSecurityGroups(SecurityGroupsDNs);
+            }
+        }
+        private void autoSelectSecurityGroups(XElement SecurityGroupsDNs)
+        {
+            SGList.ClearSelected();
+            if (SecurityGroupsDNs == null) return;
+            foreach(XElement SGDNs in SecurityGroupsDNs.Elements("SecurityGroupDN"))
+            {
+                XElement SGs = Config.Current.Element("SecurityGroups");
+                if (SGs == null) continue;
+                foreach(XElement SG in SGs.Elements("SecurityGroup"))
+                {
+                    XElement Name = SG.Element("Name");
+                    XElement DN = SG.Element("DistinguishedName");
+                    if (Name == null || DN == null) continue;
+                    if (DN.Value == SGDNs.Value)
+                    {
+                        SGList.SelectedItems.Add(Name.Value);
+                    }
+                }
             }
         }
         private void saveNextBtn_Click(object sender, EventArgs e)
