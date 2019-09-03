@@ -153,10 +153,11 @@ namespace SuperADD
                 XElement Name = descItem.Element("Name");
                 XElement Type = descItem.Element("Type");
                 XElement ListItems = descItem.Element("ListItems");
-                if (Name == null || Type == null || ListItems == null) continue;
+                if (Name == null || Type == null) continue;
                 descriptions.Add(Name.Value, null);
                 if (Type.Value == "List")
                 {
+                    if (ListItems == null) continue;
                     DescriptListItem listUnit = new DescriptListItem(Name.Value);
                     foreach (XElement listItem in ListItems.Elements("ListItem"))
                     {
