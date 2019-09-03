@@ -109,29 +109,63 @@ namespace SuperADD
                 CurrentAutoScaleDimensions.Width / 96,
                 CurrentAutoScaleDimensions.Height / 96
             );
-            foreach (XElement ou in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
+            XElement OUs = Config.Current.Element("OrganizationalUnits");
+            if(OUs ==  null)
             {
-                OUList.Items.Add(ou.Element("Name").Value);
-                dirLookOUList.Items.Add(ou.Element("Name").Value);
+                showMsg("OrganizationalUnits element missing from SuperADD.xml", warnImg);
+                return;
             }
-            foreach (XElement sg in Config.Current.Element("SecurityGroups").Elements("SecurityGroup"))
+            foreach (XElement ou in OUs.Elements("OrganizationalUnit"))
             {
-                SGList.Items.Add(sg.Element("Name").Value);
+                XElement Name = ou.Element("Name");
+                if (Name == null || ou.Element("DistinguishedName") == null) continue;
+                OUList.Items.Add(Name.Value);
+                dirLookOUList.Items.Add(Name.Value);
             }
-            foreach (XElement descItem in Config.Current.Element("DescriptionItems").Elements("DescriptionItem"))
+            XElement SGs = Config.Current.Element("SecurityGroups");
+            if (SGs == null)
             {
-                descriptions.Add(descItem.Element("Name").Value, null);
-                if (descItem.Element("Type").Value == "List")
+                SGBox.Dispose();
+            }
+            else
+            {
+                bool empty = true;
+                foreach (XElement sg in SGs.Elements("SecurityGroup"))
                 {
-                    DescriptListItem listUnit = new DescriptListItem(descItem.Element("Name").Value);
-                    foreach (XElement listItem in descItem.Element("ListItems").Elements("ListItem"))
+                    XElement Name = sg.Element("Name");
+                    if (Name == null || sg.Element("DistinguishedName") == null) continue;
+                    SGList.Items.Add(sg.Element("Name").Value);
+                    empty = false;
+                }
+                if(empty)
+                {
+                    SGBox.Dispose();
+                }
+            }
+            XElement DIs = Config.Current.Element("DescriptionItems");
+            if (DIs == null)
+            {
+                showMsg("DescriptionItems element missing from SuperADD.xml", warnImg);
+                return;
+            }
+            foreach (XElement descItem in DIs.Elements("DescriptionItem"))
+            {
+                XElement Name = descItem.Element("Name");
+                XElement Type = descItem.Element("Type");
+                XElement ListItems = descItem.Element("ListItems");
+                if (Name == null || Type == null || ListItems == null) continue;
+                descriptions.Add(Name.Value, null);
+                if (Type.Value == "List")
+                {
+                    DescriptListItem listUnit = new DescriptListItem(Name.Value);
+                    foreach (XElement listItem in ListItems.Elements("ListItem"))
                     {
                         listUnit.listBox.Items.Add(listItem.Value);
                     }
                 }
-                else if (descItem.Element("Type").Value == "Text")
+                else if (Type.Value == "Text")
                 {
-                    DescriptTextItem listUnit = new DescriptTextItem(descItem.Element("Name").Value);
+                    DescriptTextItem listUnit = new DescriptTextItem(Name.Value);
                 }
             }
             initialized = true;
@@ -240,9 +274,17 @@ namespace SuperADD
         private async void findNextComputerName()
         {
             string AutoName = "";
-            foreach (XElement element in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
+            XElement OUs = Config.Current.Element("OrganizationalUnits");
+            if(OUs == null)
             {
-                if (element.Element("Name").Value == OUList.Text)
+                showMsg("OrganizationalUnits element missing from SuperADD.xml", warnImg);
+                return;
+            }
+            foreach (XElement element in OUs.Elements("OrganizationalUnit"))
+            {
+                XElement Name = element.Element("Name");
+                if (Name == null) continue;
+                if (Name.Value == OUList.Text)
                 {
                     if (element.Element("AutoName") != null && element.Element("AutoName").Value != "")
                     {
@@ -279,9 +321,15 @@ namespace SuperADD
                 string rawResults = "";
                 try
                 {
+                    XElement BaseDN = Config.Current.Element("BaseDN");
+                    if(BaseDN == null)
+                    {
+                        showMsg("BaseDN element missing from SuperADD.xml", warnImg);
+                        return;
+                    }
                     showMsg("Searching AD for next available name...", loadImg);
                     rawResults = await HTTP.Post(new Dictionary<string, string>() {
-                        { "basedn", Config.Current.Element("BaseDN").Value },
+                        { "basedn", BaseDN.Value },
                         { "function", "list" },
                         { "recurse", "" },
                         { "filter", "(&(sAMAccountName=" + prefix + "*" + suffix + "$)(objectClass=computer))" }
@@ -476,25 +524,34 @@ namespace SuperADD
                 showPassPrompt();
                 return;
             }
+            XElement BaseDN = Config.Current.Element("BaseDN");
+            XElement SecurityGroups = Config.Current.Element("SecurityGroups");
+            if (BaseDN == null || SecurityGroups == null)
+            {
+                showMsg("BaseDN or SecurityGroups elements is missing from SuperADD.xml", warnImg);
+                return;
+            }
             showMsg("Adding computer to Active Directory...", loadImg, dismissable: false);
-
             Dictionary<string, string> postData = new Dictionary<string, string>() {
-                { "basedn", Config.Current.Element("BaseDN").Value },
+                { "basedn", BaseDN.Value },
                 { "function", "update" },
                 { "cn", nameTextBox.Text },
                 { "description", descTextBox.Text },
                 { "destinationdn", currentCreateSelectedOU }
             };
             int index = 0;
-            foreach (XElement SG in Config.Current.Element("SecurityGroups").Elements())
+            foreach (XElement SG in SecurityGroups.Elements("SecurityGroup"))
             {
-                if (SGList.SelectedItems.Contains(SG.Element("Name").Value))
+                XElement SGName = SG.Element("Name");
+                XElement SGDN = SG.Element("DistinguishedName");
+                if (SGName == null || SGDN == null) continue;
+                if (SGList.SelectedItems.Contains(SGName.Value))
                 {
-                    postData.Add("addgroups[" + (index++) + "]", SG.Element("DistinguishedName").Value);
+                    postData.Add("addgroups[" + (index++) + "]", SGDN.Value);
                 }
                 else
                 {
-                    postData.Add("removegroups[" + (index++) + "]", SG.Element("DistinguishedName").Value);
+                    postData.Add("removegroups[" + (index++) + "]", SGDN.Value);
                 }
             }
             if (computerOverwriteConfirmed)
@@ -586,9 +643,17 @@ namespace SuperADD
             string rawResults = "";
             try
             {
+                XElement BaseDN = Config.Current.Element("BaseDN");
+                XElement OUs = Config.Current.Element("OrganizationalUnits");
+                XElement SGs = Config.Current.Element("SecurityGroups");
+                if (BaseDN == null || OUs == null)
+                {
+                    showMsg("BaseDN or OrganizationalUnits element is missing from SuperADD.xml", warnImg);
+                    return;
+                }
                 showMsg("Searching AD for the current computer object...", loadImg);
                 rawResults = await HTTP.Post(new Dictionary<string, string>() {
-                    { "basedn", Config.Current.Element("BaseDN").Value },
+                    { "basedn", BaseDN.Value },
                     { "function", "list" },
                     { "recurse", "" },
                     { "includegroups", "" },
@@ -601,12 +666,15 @@ namespace SuperADD
                     string cn = (string)result["cn"];
                     nameTextBox.Text = cn;
                     descTextBox.Text = (string)result["description"];
-                    foreach (XElement OU in Config.Current.Element("OrganizationalUnits").Elements())
+                    foreach (XElement OU in OUs.Elements("OrganizationalUnit"))
                     {
-                        if (OU.Element("DistinguishedName").Value == ((string)result["dn"]).Replace("CN=" + cn + ",", ""))
+                        XElement DN = OU.Element("DistinguishedName");
+                        XElement Name = OU.Element("Name");
+                        if (DN == null || Name == null) continue;
+                        if (DN.Value == ((string)result["dn"]).Replace("CN=" + cn + ",", ""))
                         {
                             suppressFindNextName = true;
-                            OUList.SelectedItem = OU.Element("Name").Value;
+                            OUList.SelectedItem = Name.Value;
                             suppressFindNextName = false;
                             break;
                         }
@@ -614,9 +682,11 @@ namespace SuperADD
                     SGList.ClearSelected();
                     foreach (string computerGroup in (JArray)results[0]["groups"])
                     {
-                        foreach(XElement definedGroup in Config.Current.Element("SecurityGroups").Elements())
+                        if (SGs == null) continue;
+                        foreach(XElement definedGroup in SGs.Elements("SecurityGroup"))
                         {
-                            if(definedGroup.Element("DistinguishedName").Value == computerGroup)
+                            XElement DN = definedGroup.Element("DistinguishedName");
+                            if (DN != null && DN.Value == computerGroup)
                             {
                                 SGList.SelectedItems.Add(definedGroup.Element("Name").Value);
                                 break;
@@ -668,14 +738,23 @@ namespace SuperADD
         private void OUList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lv = (ListBox)sender;
-            foreach (XElement elm in Config.Current.Element("OrganizationalUnits").Elements("OrganizationalUnit"))
+            XElement OUs = Config.Current.Element("OrganizationalUnits");
+            if(OUs == null)
             {
-                if (elm.Element("Name").Value == (string)lv.SelectedItem)
+                showMsg("OrganizationalUnits element is missing from SuperADD.xml", warnImg);
+                return;
+            }
+            foreach (XElement elm in OUs.Elements("OrganizationalUnit"))
+            {
+                XElement Name = elm.Element("Name");
+                if (Name != null && Name.Value == (string)lv.SelectedItem )
                 {
-                    currentlySelectedOU = elm.Element("DistinguishedName").Value;
+                    XElement DN = elm.Element("DistinguishedName");
+                    if (DN == null) continue;
+                    currentlySelectedOU = DN.Value;
                     if (lv == OUList)
                     {
-                        currentCreateSelectedOU = elm.Element("DistinguishedName").Value;
+                        currentCreateSelectedOU = DN.Value;
                     }
                     break;
                 }
