@@ -26,8 +26,6 @@ Param(
 )
 
 if($Base64) {
-    $DomainName = [System.Convert]::FromBase64String($DomainName)
-    $ComputerName = [System.Convert]::FromBase64String($ComputerName)
     $UserName = [System.Convert]::FromBase64String($UserName)
     $Password = [System.Convert]::FromBase64String($Password)
 }
