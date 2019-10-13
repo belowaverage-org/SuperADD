@@ -26,8 +26,8 @@ Param(
 )
 
 if($Base64) {
-    $UserName = [System.Convert]::FromBase64String($UserName)
-    $Password = [System.Convert]::FromBase64String($Password)
+    $UserName = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($UserName))
+    $Password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($Password))
 }
 
 $Credential = New-Object pscredential -ArgumentList ([pscustomobject]@{
