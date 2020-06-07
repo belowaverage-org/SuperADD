@@ -100,7 +100,7 @@ namespace SuperADD
                     promptDomTxt.Text = IPGlobalProperties.GetIPGlobalProperties().DomainName;
                 }
             }
-            Icon = Properties.Resources.winicon;
+            Icon = Properties.Resources.superadd;
             autoRunIndex = autoIndex;
             autoRunContinue = autoContinue;
             pubFlowLayout = flowPanel;

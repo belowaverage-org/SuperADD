@@ -579,8 +579,6 @@
         private System.Windows.Forms.GroupBox OUBox;
         private System.Windows.Forms.Button saveNextBtn;
         private System.Windows.Forms.FlowLayoutPanel flowPanel;
-        private System.Windows.Forms.GroupBox descListItem;
-        private System.Windows.Forms.ListBox listBoxList;
         private System.Windows.Forms.TableLayoutPanel tablePanel;
         private System.Windows.Forms.GroupBox computerObjectBox;
         private System.Windows.Forms.TextBox nameTextBox;

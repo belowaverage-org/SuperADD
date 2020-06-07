@@ -44,7 +44,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\superadd.ico</ApplicationIcon>
+    <ApplicationIcon>..\SuperADDAssets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -132,7 +132,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="postbuild.ps1" />
@@ -162,12 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\loading.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\superadd.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\winicon.ico" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
