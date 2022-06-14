@@ -23,10 +23,19 @@ Param(
 $UserName = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($UserName))
 $Password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($Password))
 
-$script = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("
-Write-Host `"Waiting 30s for Lite Touch to finish...`"
+foreach ($char in "``", "$", "`"") {
+    $Password = $Password.Replace($char, "``$($char)")
+}
 
-Sleep -Seconds 30
+$Script = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("
+
+Write-Host `"Waiting for Lite Touch to finish...`"
+
+`$BDDRunning = `$true
+while (`$BDDRunning) {
+    Start-Sleep -Milliseconds 500
+    `$BDDRunning = (Get-Process -Name BDDRun -ErrorAction SilentlyContinue).Count -gt 0
+}
 
 Write-Host `"Clearing Connections...`"
 
@@ -53,9 +62,12 @@ if([System.Environment]::MachineName.ToLower() -eq `"$ComputerName`".ToLower()) 
     Add-Computer -Domain `"$DomainName`" -Credential `$Credential -NewName `"$ComputerName`"
 }
 
+Start-Sleep -Seconds 5
+
 Write-Host `"Done.`"
 
 Restart-Computer
+
 "))
 
-Start-Process -FilePath "powershell.exe" -ArgumentList "-encodedCommand", $script
+Start-Process -FilePath "powershell.exe" -ArgumentList "-encodedCommand", $Script
